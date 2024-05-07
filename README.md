@@ -1,4 +1,7 @@
 # MyInvois SDK for PHP
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/klsheng/myinvois-php-sdk.svg?style=flat-square)](https://packagist.org/packages/klsheng/myinvois-php-sdk)
+[![Total Downloads](https://img.shields.io/packagist/dt/klsheng/myinvois-php-sdk.svg?style=flat-square)](https://packagist.org/packages/klsheng/myinvois-php-sdk)
+[![License](https://poser.pugx.org/klsheng/myinvois-php-sdk/license?format=flat-square)](https://packagist.org/packages/klsheng/myinvois-php-sdk)
 
 An object-oriented PHP library to create custom UBL v2.1 format supported by MyInvois System.
 
