@@ -67,7 +67,11 @@ class TaxTotal implements ISerializable, IValidator
     public function validate()
     {
         if ($this->taxAmount === null) {
-            throw new InvalidArgumentException('Missing taxtotal taxamount');
+            throw new InvalidArgumentException('Missing TaxTotal taxAmount');
+        }
+
+        if (empty($this->taxSubTotals)) {
+            throw new InvalidArgumentException('Missing TaxTotal taxSubTotals');
         }
     }
 

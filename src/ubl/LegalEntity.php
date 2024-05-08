@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\UblAttributes;
 
@@ -66,6 +67,9 @@ class LegalEntity implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->registrationName)) {
+            throw new InvalidArgumentException('Missing registrationName');
+        }
     }
 
     /**

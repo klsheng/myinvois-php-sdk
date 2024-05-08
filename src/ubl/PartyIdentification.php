@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\UblAttributes;
 
@@ -47,6 +48,17 @@ class PartyIdentification implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->id)) {
+            throw new InvalidArgumentException('Missing PartyIdentification id');
+        }
+
+        if (empty($this->idAttributes)) {
+            throw new InvalidArgumentException('Missing PartyIdentification id attributes');
+        }
+
+        if (!array_key_exists(UblAttributes::SCHEME_ID, $this->idAttributes)) {
+            throw new InvalidArgumentException('Missing ' . UblAttributes::SCHEME_ID . ' attribute in PartyIdentification id');
+        }
     }
 
     /**

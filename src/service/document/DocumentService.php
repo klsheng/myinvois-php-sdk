@@ -2,6 +2,7 @@
 namespace klsheng\myinvois\service\document;
 
 use Exception;
+use DateTime;
 use klsheng\myinvois\MyInvoisClient;
 use klsheng\myinvois\service\BaseService;
 
@@ -103,21 +104,21 @@ class DocumentService extends BaseService
     /**
      * This API allows taxpayer's systems to search the documents sent or received which are available on the MyInvois System using various filters. This API will only return documents that are issued within the last 30 days.
      * 
-     * @param int       $pageNo                 Optional: number of the page to retrieve. Typically this parameter value is derived from initial parameter less call when caller learns total amount of page of certain size
-     * @param int       $pageSize               Optional: number of the documents to retrieve per page. Page size cannot exceed system configured maximum page size for this API
-     * @param DateTime  $submissionDateFrom     Optional: The start date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateTo’ is provided
-     * @param DateTime  $submissionDateTo       Optional: The end date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateFrom’ is provided
-     * @param DateTime  $issueDateFrom          Optional: The start date and time when the document was issued. Mandatory when ‘issueDateTo’ is provided
-     * @param DateTime  $issueDateTo            Optional: The end date and time when the document was issued. Mandatory when ‘issueDateFrom’ is provided
-     * @param string    $direction              Optional: direction of the document. Possible values: (Sent, Received)
-     * @param string    $status                 Optional: status of the document. Possible values: (Valid, Invalid, Cancelled, Submitted)
-     * @param string    $documentType           Optional: Document type code.
-     * @param string    $receiverId             Optional: Document recipient identifier. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (Business registration number, National ID(IC), Passport Number, Army ID)
-     * @param string    $receiverIdType         Optional: Document recipient identifier type. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the receiverId is provided
-     * @param string    $receiverTin            Optional: Document recipient TIN. Only can be used when ‘Direction’ filter is set to Sent.
-     * @param string    $issuerId               Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received. Possible values: (Business registration number, National ID(IC), Passport Number, Army ID)
-     * @param string    $issuerIdType           Optional: Document issuer identifier type. Only can be used when ‘Direction’ filter is set to Received. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the issuerId is provided
-     * @param string    $issuerTin              Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received.
+     * @param int               $pageNo                 Optional: number of the page to retrieve. Typically this parameter value is derived from initial parameter less call when caller learns total amount of page of certain size
+     * @param int               $pageSize               Optional: number of the documents to retrieve per page. Page size cannot exceed system configured maximum page size for this API
+     * @param DateTime|string   $submissionDateFrom     Optional: The start date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateTo’ is provided
+     * @param DateTime|string   $submissionDateTo       Optional: The end date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateFrom’ is provided
+     * @param DateTime|string   $issueDateFrom          Optional: The start date and time when the document was issued. Mandatory when ‘issueDateTo’ is provided
+     * @param DateTime|string   $issueDateTo            Optional: The end date and time when the document was issued. Mandatory when ‘issueDateFrom’ is provided
+     * @param string            $direction              Optional: direction of the document. Possible values: (Sent, Received)
+     * @param string            $status                 Optional: status of the document. Possible values: (Valid, Invalid, Cancelled, Submitted)
+     * @param string            $documentType           Optional: Document type code.
+     * @param string            $receiverId             Optional: Document recipient identifier. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (Business registration number, National ID(IC), Passport Number, Army ID)
+     * @param string            $receiverIdType         Optional: Document recipient identifier type. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the receiverId is provided
+     * @param string            $receiverTin            Optional: Document recipient TIN. Only can be used when ‘Direction’ filter is set to Sent.
+     * @param string            $issuerId               Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received. Possible values: (Business registration number, National ID(IC), Passport Number, Army ID)
+     * @param string            $issuerIdType           Optional: Document issuer identifier type. Only can be used when ‘Direction’ filter is set to Received. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the issuerId is provided
+     * @param string            $issuerTin              Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received.
      * 
      * @return array
      */
@@ -126,13 +127,18 @@ class DocumentService extends BaseService
         $status = null, $documentType = null, $receiverId = null, $receiverIdType = null, $receiverTin = null,
         $issuerId = null, $issuerIdType = null, $issuerTin = null)
     {
+        $submissionDateFromString = ($submissionDateFrom instanceof DateTime) ? $submissionDateFrom->format('Y-m-d\TH:i:s\Z') : $submissionDateFrom;
+        $submissionDateToString = ($submissionDateTo instanceof DateTime) ? $submissionDateTo->format('Y-m-d\TH:i:s\Z') : $submissionDateTo;
+        $issueDateFromString = ($issueDateFrom instanceof DateTime) ? $issueDateFrom->format('Y-m-d\TH:i:s\Z') : $issueDateFrom;
+        $issueDateToString = ($issueDateTo instanceof DateTime) ? $issueDateTo->format('Y-m-d\TH:i:s\Z') : $issueDateTo;
+
         $params = [
             'pageNo' => $pageNo,
             'pageSize' => $pageSize,
-            'submissionDateFrom' => $submissionDateFrom,
-            'submissionDateTo' => $submissionDateTo,
-            'issueDateFrom' => $issueDateFrom,
-            'issueDateTo' => $issueDateTo,
+            'submissionDateFrom' => $submissionDateFromString,
+            'submissionDateTo' => $submissionDateToString,
+            'issueDateFrom' => $issueDateFromString,
+            'issueDateTo' => $issueDateToString,
             'direction' => $direction,
             'status' => $status,
             'documentType' => $documentType,
@@ -154,20 +160,20 @@ class DocumentService extends BaseService
     /**
      * This API allows taxpayer's systems to search the documents sent or received which are available on the MyInvois System using various filters.
      * 
-     * @param string    $id                     Optional: Unique ID of the document to retrieve.
-     * @param DateTime  $submissionDateFrom     Optional: The start date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateTo’ is provided or issueDate filters are not used
-     * @param DateTime  $submissionDateTo       Optional: The end date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateFrom’ is provided or issueDate filters are not used
-     * @param string    $continuationToken      Optional: Token provided to navigate to the next page. Must be omitted or use an empty string when requesting the first page.
-     * @param int       $pageSize               Optional: number of the documents to retrieve per page. Page size cannot exceed system configured maximum page size for this API. Default is 100
-     * @param DateTime  $issueDateFrom          Optional: The start date and time when the document was issued. Mandatory when ‘issueDateTo’ is provided or submissionDate filters are not used
-     * @param DateTime  $issueDateTo            Optional: The end date and time when the document was issued. Mandatory when ‘issueDateFrom’ is provided or submissionDate filters are not used
-     * @param string    $direction              Optional: direction of the document. Possible values: (Sent, Received). When not provided sent and received documents are retrieved.
-     * @param string    $status                 Optional: status of the document. Possible values: (Valid, Invalid, Cancelled, Submitted)
-     * @param string    $documentType           Optional: Unique name of the document type. Possible values: 01 [Invoice], 02 [Credit Note], 03 [Debit Note], 04 [Refund Note], 11 [Self-billed Invoice], 12 [Self-billed Credit Note], 13 [Self-billed Debit Note], 14 [Self-billed Refund Note]
-     * @param string    $receiverId             Optional: Document recipient identifier. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (Business registration number, Passport Number, National ID)
-     * @param string    $receiverIdType         Optional: Document recipient identifier type. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the receiverId is provided
-     * @param string    $receiverTin            Optional: Document recipient TIN. Only can be used when ‘Direction’ filter is set to Sent.
-     * @param string    $issuerTin              Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received.
+     * @param string            $id                     Optional: Unique ID of the document to retrieve.
+     * @param DateTime|string   $submissionDateFrom     Optional: The start date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateTo’ is provided or issueDate filters are not used
+     * @param DateTime|string   $submissionDateTo       Optional: The end date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateFrom’ is provided or issueDate filters are not used
+     * @param string            $continuationToken      Optional: Token provided to navigate to the next page. Must be omitted or use an empty string when requesting the first page.
+     * @param int               $pageSize               Optional: number of the documents to retrieve per page. Page size cannot exceed system configured maximum page size for this API. Default is 100
+     * @param DateTime|string   $issueDateFrom          Optional: The start date and time when the document was issued. Mandatory when ‘issueDateTo’ is provided or submissionDate filters are not used
+     * @param DateTime|string   $issueDateTo            Optional: The end date and time when the document was issued. Mandatory when ‘issueDateFrom’ is provided or submissionDate filters are not used
+     * @param string            $direction              Optional: direction of the document. Possible values: (Sent, Received). When not provided sent and received documents are retrieved.
+     * @param string            $status                 Optional: status of the document. Possible values: (Valid, Invalid, Cancelled, Submitted)
+     * @param string            $documentType           Optional: Unique name of the document type. Possible values: 01 [Invoice], 02 [Credit Note], 03 [Debit Note], 04 [Refund Note], 11 [Self-billed Invoice], 12 [Self-billed Credit Note], 13 [Self-billed Debit Note], 14 [Self-billed Refund Note]
+     * @param string            $receiverId             Optional: Document recipient identifier. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (Business registration number, Passport Number, National ID)
+     * @param string            $receiverIdType         Optional: Document recipient identifier type. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the receiverId is provided
+     * @param string            $receiverTin            Optional: Document recipient TIN. Only can be used when ‘Direction’ filter is set to Sent.
+     * @param string            $issuerTin              Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received.
      * 
      * @return array
      */
@@ -176,14 +182,20 @@ class DocumentService extends BaseService
         $status = null, $documentType = null, $receiverId = null, $receiverIdType = null, $receiverTin = null,
         $issuerTin = null)
     {
+        $submissionDateFromString = ($submissionDateFrom instanceof DateTime) ? $submissionDateFrom->format('Y-m-d\TH:i:s\Z') : $submissionDateFrom;
+        $submissionDateToString = ($submissionDateTo instanceof DateTime) ? $submissionDateTo->format('Y-m-d\TH:i:s\Z') : $submissionDateTo;
+        $issueDateFromString = ($issueDateFrom instanceof DateTime) ? $issueDateFrom->format('Y-m-d\TH:i:s\Z') : $issueDateFrom;
+        $issueDateToString = ($issueDateTo instanceof DateTime) ? $issueDateTo->format('Y-m-d\TH:i:s\Z') : $issueDateTo;
+
+
         $params = [
             'uuid' => $id,
-            'submissionDateFrom' => $submissionDateFrom,
-            'submissionDateTo' => $submissionDateTo,
+            'submissionDateFrom' => $submissionDateFromString,
+            'submissionDateTo' => $submissionDateToString,
             'continuationToken' => $continuationToken,
             'pageSize' => $pageSize,
-            'issueDateFrom' => $issueDateFrom,
-            'issueDateTo' => $issueDateTo,
+            'issueDateFrom' => $issueDateFromString,
+            'issueDateTo' => $issueDateToString,
             'direction' => $direction,
             'status' => $status,
             'documentType' => $documentType,

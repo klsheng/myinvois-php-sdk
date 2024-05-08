@@ -4,8 +4,8 @@ namespace klsheng\myinvois\ubl;
 
 class CreditNoteLine extends InvoiceLine
 {
-    public $xmlTagName = 'CreditNoteLine';
-    protected $quantityLabel = 'CreditedQuantity';
+    public $xmlTagName = 'InvoiceLine'; //'CreditNoteLine'; // MyInvois System re-use back same tag name
+    protected $quantityLabel = 'InvoicedQuantity'; //'CreditedQuantity'; // MyInvois System re-use back same tag name
 
     /**
      * @return float

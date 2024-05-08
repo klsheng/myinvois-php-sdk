@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\CurrencyCodes;
 use klsheng\myinvois\ubl\constant\UblAttributes;
@@ -256,6 +257,17 @@ class LegalMonetaryTotal implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->taxExclusiveAmount === null) {
+            throw new InvalidArgumentException('Missing LegalMonetaryTotal taxExclusiveAmount');
+        }
+
+        if ($this->taxInclusiveAmount === null) {
+            throw new InvalidArgumentException('Missing LegalMonetaryTotal taxInclusiveAmount');
+        }
+
+        if ($this->payableAmount === null) {
+            throw new InvalidArgumentException('Missing LegalMonetaryTotal payableAmount');
+        }
     }
 
     /**

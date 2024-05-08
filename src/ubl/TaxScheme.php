@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\UblAttributes;
 
@@ -104,6 +105,9 @@ class TaxScheme implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->id)) {
+            throw new InvalidArgumentException('Missing TaxScheme id');
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\CurrencyCodes;
 use klsheng\myinvois\ubl\constant\UnitCodes;
@@ -289,6 +290,33 @@ class InvoiceLine implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->item === null) {
+            throw new InvalidArgumentException('Missing InvoiceLine item');
+        }
+
+        if ($this->price === null) {
+            throw new InvalidArgumentException('Missing InvoiceLine price');
+        }
+
+        if ($this->taxTotal === null) {
+            throw new InvalidArgumentException('Missing InvoiceLine taxTotal');
+        }
+
+        if ($this->itemPriceExtension === null) {
+            throw new InvalidArgumentException('Missing InvoiceLine itemPriceExtension');
+        }
+
+        if ($this->lineExtensionAmount === null) {
+            throw new InvalidArgumentException('Missing InvoiceLine lineExtensionAmount');
+        }
+
+        if (empty($this->lineExtensionAmountAttributes)) {
+            throw new InvalidArgumentException('Missing InvoiceLine lineExtensionAmount attributes');
+        }
+
+        if (!array_key_exists(UblAttributes::CURRENCY_ID, $this->lineExtensionAmountAttributes)) {
+            throw new InvalidArgumentException('Missing ' . UblAttributes::CURRENCY_ID . ' attribute in InvoiceLine lineExtensionAmount');
+        }
     }
 
     /**

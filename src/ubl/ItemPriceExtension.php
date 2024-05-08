@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\CurrencyCodes;
 use klsheng\myinvois\ubl\constant\UblAttributes;
@@ -46,6 +47,17 @@ class ItemPriceExtension implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->amount === null) {
+            throw new InvalidArgumentException('Missing ItemPriceExtension amount');
+        }
+
+        if (empty($this->amountAttributes)) {
+            throw new InvalidArgumentException('Missing ItemPriceExtension amount attributes');
+        }
+
+        if (!array_key_exists(UblAttributes::CURRENCY_ID, $this->amountAttributes)) {
+            throw new InvalidArgumentException('Missing ' . UblAttributes::CURRENCY_ID . ' attribute in ItemPriceExtension amount');
+        }
     }
 
     /**

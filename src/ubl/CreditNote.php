@@ -6,7 +6,7 @@ use klsheng\myinvois\ubl\constant\InvoiceTypeCodes;
 
 class CreditNote extends Invoice
 {
-    public $xmlTagName = 'CreditNote';
+    public $xmlTagName = 'Invoice'; //'CreditNote'; // MyInvois System re-use back same tag name
     protected $invoiceTypeCode = InvoiceTypeCodes::CREDIT_NOTE;
 
     /**

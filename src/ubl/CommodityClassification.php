@@ -44,8 +44,8 @@ class CommodityClassification implements ISerializable, IValidator
      */
     public function validate()
     {
-        if ($this->itemClassificationCode === null) {
-            throw new InvalidArgumentException('Missing itemClassificationCode');
+        if (empty($this->itemClassificationCode)) {
+            throw new InvalidArgumentException('Missing CommodityClassification itemClassificationCode');
         }
     }
 

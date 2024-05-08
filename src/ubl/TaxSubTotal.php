@@ -115,16 +115,12 @@ class TaxSubTotal implements ISerializable, IValidator
      */
     public function validate()
     {
-        if ($this->taxableAmount === null) {
-            throw new InvalidArgumentException('Missing taxsubtotal taxableAmount');
-        }
-
         if ($this->taxAmount === null) {
-            throw new InvalidArgumentException('Missing taxsubtotal taxamount');
+            throw new InvalidArgumentException('Missing TaxSubTotal taxamount');
         }
 
         if ($this->taxCategory === null) {
-            throw new InvalidArgumentException('Missing taxsubtotal taxcategory');
+            throw new InvalidArgumentException('Missing TaxSubTotal taxcategory');
         }
     }
 

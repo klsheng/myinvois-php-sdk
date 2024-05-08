@@ -6,7 +6,7 @@ use klsheng\myinvois\ubl\constant\InvoiceTypeCodes;
 
 class DebitNote extends Invoice
 {
-    public $xmlTagName = 'DebitNote';
+    public $xmlTagName = 'Invoice'; //'DebitNote'; // MyInvois System re-use back same tag name
     protected $invoiceTypeCode = InvoiceTypeCodes::DEBIT_NOTE;
 
     /**

@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
 class Contact implements ISerializable, IValidator
@@ -90,6 +91,9 @@ class Contact implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->telephone)) {
+            throw new InvalidArgumentException('Missing telephone');
+        }
     }
 
     /**

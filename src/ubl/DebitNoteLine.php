@@ -4,8 +4,8 @@ namespace klsheng\myinvois\ubl;
 
 class DebitNoteLine extends InvoiceLine
 {
-    public $xmlTagName = 'DebitNoteLine';
-    protected $quantityLabel = 'DebitedQuantity';
+    public $xmlTagName = 'InvoiceLine'; //'DebitNoteLine'; // MyInvois System re-use back same tag name
+    protected $quantityLabel = 'InvoicedQuantity'; //'DebitedQuantity'; // MyInvois System re-use back same tag name
 
     /**
      * @return float

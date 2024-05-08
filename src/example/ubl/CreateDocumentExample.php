@@ -35,6 +35,11 @@ use klsheng\myinvois\ubl\PaymentMeans;
 use klsheng\myinvois\ubl\PaymentTerms;
 use klsheng\myinvois\ubl\BillingReference;
 use klsheng\myinvois\ubl\PrepaidPayment;
+use klsheng\myinvois\ubl\UBLExtensions;
+use klsheng\myinvois\ubl\UBLExtensionItem;
+use klsheng\myinvois\ubl\UBLDocumentSignatures;
+use klsheng\myinvois\ubl\SignatureInformation;
+use klsheng\myinvois\ubl\Signature;
 use klsheng\myinvois\ubl\builder\XmlDocumentBuilder;
 use klsheng\myinvois\ubl\builder\JsonDocumentBuilder;
 use klsheng\myinvois\ubl\constant\MSICCodes;
@@ -63,6 +68,7 @@ class CreateDocumentExample
         $document->setId('INV20240418105410');
         $document->setIssueDateTime(new \DateTime('2017-11-26 15:30:00Z'));
 
+        $document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
         $document = $this->setPrepaidPayment($document);
         $document = $this->setSupplier($document);
@@ -76,6 +82,30 @@ class CreateDocumentExample
         $document = $this->setPaymentTerms($document);
         $document = $this->setAllowanceCharges($document);
         $document = $this->setTaxTotal($document);
+
+        return $document;
+    }
+
+    private function setUBLExtension($document)
+    {
+        $signature = new Signature();
+        $signature->setSignatureValue('VkiVEIkPTISrrwdFouXWEHirxST2mCbLuXmgO0T+4UXHq9Sir+/9gnEZU7Aa2PCB
+        Q/3X0RIkX/sQwGMNdQ5jUJWc0BoGOszhc0CYHxDiayqlQ4fZGz+nhVdoUog4o7Tx
+        dk+vu/LS/7iz6asudXp2Zh8tT4LnOINsj+//DdRd6yM=');
+
+        $information = new SignatureInformation();
+        $information->setSignature($signature, ['Id' => 'addedSig']);
+
+        $sign = new UBLDocumentSignatures();
+        $sign->setSignatureInformation($information);
+
+        $ublExtensionItem = new UBLExtensionItem();
+        $ublExtensionItem->setContent($sign);
+
+        $ublExtensions = new UBLExtensions();
+        $ublExtensions->addUBLExtensionItem($ublExtensionItem);
+        
+        $document->setUBLExtensions($ublExtensions);
 
         return $document;
     }

@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\UblAttributes;
 
@@ -211,6 +212,16 @@ class Party implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->postalAddress === null) {
+            throw new InvalidArgumentException('Missing Party postalAddress');
+        }
+
+        if ($this->legalEntity === null) {
+            throw new InvalidArgumentException('Missing Party legalEntity');
+        }
+
+        // TODO
+        // IndustryClassificationCode -> For AccountingSupplierParty 
     }
 
     /**

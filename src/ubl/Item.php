@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
 class Item implements ISerializable, IValidator
@@ -167,6 +168,13 @@ class Item implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->description)) {
+            throw new InvalidArgumentException('Missing description');
+        }
+
+        if (empty($this->commodityClassifications)) {
+            throw new InvalidArgumentException('Missing commodityClassifications');
+        }
     }
 
     /**

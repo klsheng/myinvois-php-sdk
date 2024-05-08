@@ -37,6 +37,7 @@ class Invoice implements ISerializable, IValidator
     private $orderReference;
     private $billingReference;
     private $prepaidPayment;
+    private $ublExtensions;
 
     /**
      * @return mixed
@@ -273,20 +274,11 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
-     * @return AdditionalDocumentReference
-     * @deprecated Deprecated since v1.16 - Replace implementation with setAdditionalDocumentReference or addAdditionalDocumentReference to add/set a single AdditionalDocumentReference
-     */
-    public function getAdditionalDocumentReference()
-    {
-        return $this->additionalDocumentReferences[0] ?? null;
-    }
-
-    /**
      * @return array<AdditionalDocumentReference>
      */
     public function getAdditionalDocumentReferences()
     {
-        return $this->additionalDocumentReferences ?? [];
+        return $this->additionalDocumentReferences;
     }
 
     /**
@@ -300,12 +292,12 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
-     * @param AdditionalDocumentReference $additionalDocumentReference
+     * @param AdditionalDocumentReference[] $additionalDocumentReferences
      * @return Invoice
      */
-    public function setAdditionalDocumentReferences(array $additionalDocumentReference)
+    public function setAdditionalDocumentReferences($additionalDocumentReferences)
     {
-        $this->additionalDocumentReferences = $additionalDocumentReference;
+        $this->additionalDocumentReferences = $additionalDocumentReferences;
         return $this;
     }
 
@@ -446,13 +438,31 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
+     * @return UBLExtensions
+     */
+    public function getUBLExtensions()
+    {
+        return $this->ublExtensions;
+    }
+
+    /**
+     * @param UBLExtensions $ublExtensions
+     * @return Invoice
+     */
+    public function setUBLExtensions(UBLExtensions $ublExtensions)
+    {
+        $this->ublExtensions = $ublExtensions;
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
      */
     public function validate()
     {
-        if ($this->id === null) {
+        if (empty($this->id)) {
             throw new InvalidArgumentException('Missing invoice id');
         }
 
@@ -460,8 +470,16 @@ class Invoice implements ISerializable, IValidator
             throw new InvalidArgumentException('Invalid invoice issueDateTime');
         }
 
-        if ($this->invoiceTypeCode === null) {
+        if (empty($this->invoiceTypeCode)) {
             throw new InvalidArgumentException('Missing invoice invoiceTypeCode');
+        }
+
+        if (empty($this->invoiceTypeCodeAttributes)) {
+            throw new InvalidArgumentException('Missing invoice invoiceTypeCode attributes');
+        }
+
+        if (!array_key_exists(UblAttributes::LIST_VERSION_ID, $this->invoiceTypeCodeAttributes)) {
+            throw new InvalidArgumentException('Missing ' . UblAttributes::LIST_VERSION_ID . ' attribute in invoice invoiceTypeCode');
         }
 
         if ($this->accountingSupplierParty === null) {
@@ -472,12 +490,16 @@ class Invoice implements ISerializable, IValidator
             throw new InvalidArgumentException('Missing invoice accountingCustomerParty');
         }
 
-        if ($this->invoiceLines === null) {
+        if (empty($this->invoiceLines)) {
             throw new InvalidArgumentException('Missing invoice lines');
         }
 
         if ($this->legalMonetaryTotal === null) {
-            throw new InvalidArgumentException('Missing invoice LegalMonetaryTotal');
+            throw new InvalidArgumentException('Missing invoice legalMonetaryTotal');
+        }
+
+        if (empty($this->documentCurrencyCode)) {
+            throw new InvalidArgumentException('Missing invoice documentCurrencyCode');
         }
     }
 
@@ -490,6 +512,12 @@ class Invoice implements ISerializable, IValidator
     public function xmlSerialize(Writer $writer): void
     {
         $this->validate();
+
+        if ($this->ublExtensions !== null) {
+            $writer->write([
+                XmlSchema::EXT . 'UBLExtensions' => $this->ublExtensions
+            ]);
+        }
 
         $writer->write([
             XmlSchema::CBC . 'ID' => $this->id
@@ -623,6 +651,10 @@ class Invoice implements ISerializable, IValidator
         $this->validate();
 
         $arrays = [];
+
+        if ($this->ublExtensions !== null) {
+            $arrays['UBLExtensions'][] = $this->ublExtensions;
+        }
 
         $arrays['ID'][] = [
             '_' => $this->id,

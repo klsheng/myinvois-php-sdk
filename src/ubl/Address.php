@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
 class Address implements ISerializable, IValidator
@@ -187,6 +188,21 @@ class Address implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->addressLines)) {
+            throw new InvalidArgumentException('Missing addressLines');
+        }
+
+        if (empty($this->cityName)) {
+            throw new InvalidArgumentException('Missing cityName');
+        }
+
+        if (empty($this->countrySubentityCode)) {
+            throw new InvalidArgumentException('Missing countrySubentityCode');
+        }
+
+        if (empty($this->country)) {
+            throw new InvalidArgumentException('Missing country');
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace klsheng\myinvois\ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use klsheng\myinvois\ubl\constant\CurrencyCodes;
 use klsheng\myinvois\ubl\constant\UnitCodes;
@@ -94,6 +95,9 @@ class Price implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->priceAmount === null) {
+            throw new InvalidArgumentException('Missing Price priceAmount');
+        }
     }
 
     /**

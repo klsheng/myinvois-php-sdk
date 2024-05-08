@@ -17,7 +17,9 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [x] Get Notifications
 - [ ] Validate Taxpayer's TIN
 - [x] Submit Documents (Invoice)
-- [ ] Submit Documents (CreditNote, DebitNote, RefundNote, Self-Billed Invoice, Self-Billed Credit Note, Self-Billed Debit Note, Self-Billed Refund Note)
+- [x] Submit Documents (CreditNote)
+- [x] Submit Documents (DebitNote)
+- [ ] Submit Documents (RefundNote, Self-Billed Invoice, Self-Billed Credit Note, Self-Billed Debit Note, Self-Billed Refund Note)
 - [x] Cancel Document
 - [x] Reject Document
 - [x] Get Recent Documents
@@ -26,6 +28,7 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [x] Get Document Details
 - [x] Search Documents
 - [ ] Digital Signature
+- [ ] Mandatory Field Verification
 
 ## [How to obtain Client ID and Client Secret for Sandbox?](https://sdk.myinvois.hasil.gov.my/faq/#how-to-obtain-client-id-and-client-secret-for-sandbox)
 
@@ -70,14 +73,62 @@ You may refer example to create UBL v2.1 document supported by MyInvois System a
 
 Sample usage:
 
+#### Initialization
 ```php
-
 use klsheng\myinvois\MyInvoisClient;
+
+$client = new MyInvoisClient('client_id', 'client_secret');
+
+$client->login();
+// OR
+$client->setAccessToken('access_token');
+```
+
+#### Get All Document Types
+```php
+$response = $client->getAllDocumentTypes();
+```
+
+#### Get Document Type
+```php
+$response = $client->getDocumentType($id);
+```
+
+#### Get Document Type Version
+```php
+$response = $client->getDocumentTypeVersion($id, $versionId);
+```
+
+#### Get Notifications
+```php
+$response = $client->getNotifications();
+// OR
+$dateFrom = new \DateTime('2015-02-13T14:20:10Z'); 
+$dateTo = '2015-02-13T14:20:10Z';
+$type = '2';
+$language = 'en';
+$status = 'delivered';
+$channel = 'email';
+$pageNo = 3;
+$pageSize = 20;
+
+$response = $client->getNotifications($dateFrom, $dateTo, $type, $language, $status, $channel, $pageNo, $pageSize);
+```
+
+#### Validate Taxpayer's TIN
+```php
+$tin = 'C25845632020';
+$idType = 'NRIC';
+$idValue = '770625015324';
+
+$response = $client->validateTaxPayerTin($tin, $idType, $idValue);
+```
+
+#### Submit JSON document
+```php
 use klsheng\myinvois\helper\MyInvoisHelper;
 use klsheng\myinvois\example\ubl\CreateDocumentExample;
 
-$client = new MyInvoisClient('client_id', 'client_secret');
-$client->login();
 
 $example = new CreateDocumentExample();
 $invoice = $example->createJsonDocument();
@@ -87,6 +138,76 @@ $document = MyInvoisHelper::getSubmitDocument('json', 'INV20240418105410', $invo
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);
-return $response;
+```
 
+#### Cancel Document
+```php
+$reason = 'Customer refund';
+$response = $client->cancelDocument($id, $reason);
+```
+
+#### Reject Document
+```php
+$reason = 'Customer reject';
+$response = $client->rejectDocument($id, $reason);
+```
+
+#### Get Recent Documents
+```php
+$response = $client->getRecentDocuments();
+// OR
+$pageNo = 3;
+$pageSize = 20;
+$submissionDateFrom = '2022-11-25T01:59:10Z';
+$submissionDateTo = new \DateTime('2022-12-22T23:59:59Z');
+$issueDateFrom = null;
+$issueDateTo = null;
+$direction = 'Sent';
+$status = 'Valid';
+$documentType = '01';
+$receiverId = 'A12345678';
+$receiverIdType = 'PASSPORT';
+$receiverTin = 'C2584563200';
+$issuerId = null;
+$issuerIdType = null;
+$issuerTin = null;
+
+$response = $client->getRecentDocuments($pageNo, $pageSize, $submissionDateFrom, $submissionDateTo, $issueDateFrom, $issueDateTo, $direction, $status, $documentType, $receiverId, $receiverIdType, $receiverTin, $issuerId, $issuerIdType, $issuerTin);
+```
+
+#### Get Submission
+```php
+$response = $client->getSubmission($tid);
+```
+
+#### Get Document
+```php
+$response = $client->getDocument($id);
+```
+
+#### Get Document Details
+```php
+$response = $client->getDocumentDetail($id);
+```
+
+#### Search Documents
+```php
+$response = $client->searchDocuments();
+// OR
+$id = 'F9D425P6DS7D8IU';
+$submissionDateFrom = null;
+$submissionDateTo = null;
+$continuationToken = 'Y4RWK9617T0TJNRBF4CSVGQG10';
+$pageSize = 100;
+$issueDateFrom = null;
+$issueDateTo = null;
+$direction = 'Sent';
+$status = 'Valid';
+$documentType = '01';
+$receiverId = null;
+$receiverIdType = null;
+$receiverTin = null;
+$issuerTin = null;
+
+$response = $client->searchDocuments($id, $submissionDateFrom, $submissionDateTo, $continuationToken, $pageSize, $issueDateFrom, $issueDateTo, $direction, $status, $documentType, $receiverId, $receiverIdType, $receiverTin, $issuerTin);
 ```

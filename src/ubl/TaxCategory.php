@@ -143,8 +143,12 @@ class TaxCategory implements ISerializable, IValidator
      */
     public function validate()
     {
-        if ($this->getId() === null) {
-            throw new InvalidArgumentException('Missing taxcategory id');
+        if (empty($this->id)) {
+            throw new InvalidArgumentException('Missing TaxCategory id');
+        }
+
+        if ($this->taxScheme === null) {
+            throw new InvalidArgumentException('Missing TaxCategory taxScheme');
         }
     }
 
