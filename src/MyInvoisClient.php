@@ -225,6 +225,7 @@ class MyInvoisClient
             case 'login':
             case 'setAccessToken':
             case 'getAccessToken':
+            case 'setOnbehalfof':
                 return call_user_func_array([$this->getIdentityService(), $name], $args);
             case 'getAllDocumentTypes':
             case 'getDocumentType':

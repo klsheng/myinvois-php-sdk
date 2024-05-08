@@ -32,9 +32,15 @@ class IdentityService extends BaseService
      */
     public function setAccessToken($token)
     {
-        return $this->getClient()->setOption('headers', [
+        $headers = $this->getClient()->getOption('headers');
+        if(!$headers) {
+            $headers = [];
+        }
+        $headers = array_merge($headers, [
             'Authorization' => 'Bearer ' . $token,
         ]);
+
+        return $this->getClient()->setOption('headers', $headers);
     }
 
     /**
@@ -54,18 +60,39 @@ class IdentityService extends BaseService
     }
 
     /**
+     * This should be the Tax Identification Number (TIN) of the taxpayer the intermediary is presenting
+     *
+     * @param string $onbehalfof
+     *
+     * @return array
+     */
+    public function setOnbehalfof($onbehalfof)
+    {
+        $headers = $this->getClient()->getOption('headers');
+        if(!$headers) {
+            $headers = [];
+        }
+        $headers = array_merge($headers, [
+            'onbehalfof' => $onbehalfof,
+        ]);
+
+        return $this->getClient()->setOption('headers', $headers);
+    }
+
+    /**
      * This API is used to authenticate the ERP system associated with a specific taxpayer calling and issue access token which allows ERP system to access those protected APIs.
      * 
-     * @param bool      $intermediary   Optional: Used to differential between taxpayer or intermediary system
-     * @param string    $grantType      Optional: OAuth grant type
-     * @param string    $scope          Optional: OAuth scope
+     * @param string|null   $onbehalfof     Optional: Used by intermediary system to set (TIN) of the taxpayer the intermediary is presenting
+     * @param string        $grantType      Optional: OAuth grant type
+     * @param string        $scope          Optional: OAuth scope
      * 
      * @return array
      */
-    public function login($intermediary = false,  $grantType = 'client_credentials', $scope = 'InvoicingAPI')
+    public function login($onbehalfof = null,  $grantType = 'client_credentials', $scope = 'InvoicingAPI')
     {
-        // TODO
-        // Switch intermediary URL in the future after supported by MyInvois API gateway
+        if(!empty($onbehalfof)) {
+            $this->setOnbehalfof($onbehalfof);
+        }
 
         $body = [
             'form_params' => [

@@ -10,12 +10,12 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 ## TODO
 
 - [x] Login as Taxpayer System
-- [ ] Login as Intermediary System
+- [x] Login as Intermediary System
 - [x] Get All Document Types
 - [x] Get Document Type
 - [x] Get Document Type Version
 - [x] Get Notifications
-- [ ] Validate Taxpayer's TIN
+- [x] Validate Taxpayer's TIN
 - [x] Submit Documents (Invoice)
 - [x] Submit Documents (CreditNote)
 - [x] Submit Documents (DebitNote)
@@ -73,15 +73,29 @@ You may refer example to create UBL v2.1 document supported by MyInvois System a
 
 Sample usage:
 
-#### Initialization
+#### Login as Taxpayer System
 ```php
 use klsheng\myinvois\MyInvoisClient;
 
-$client = new MyInvoisClient('client_id', 'client_secret');
+$prodMode = false;
+$client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
 
 $client->login();
 // OR
 $client->setAccessToken('access_token');
+```
+
+#### Login as Intermediary System
+```php
+use klsheng\myinvois\MyInvoisClient;
+
+$prodMode = false;
+$client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
+
+$client->login($onbehalfof);
+// OR
+$client->setAccessToken('access_token');
+$client->setOnbehalfof($onbehalfof);
 ```
 
 #### Get All Document Types
