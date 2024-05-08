@@ -335,7 +335,7 @@ class CreateDocumentExample
 
         $item = new Item();
         $item->setDescription('Laptop Peripherals');
-        //$item->setCountry($country);
+        //$item->setCountry($country); // Removed by MyInvois
 
         $commodityClassification = new CommodityClassification();
         $commodityClassification->setItemClassificationCode('12344321', 'PTC');

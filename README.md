@@ -7,6 +7,8 @@ An object-oriented PHP library to create custom UBL v2.1 format supported by MyI
 
 This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice) package. However, MyInvois System doesn't fully support UBL v2.1 format, so UBL package re-create based on original author to support MyInvois System.
 
+Please take note that MyInvois System is still under development and not yet finalize. If the SDK doesn't work at some point, feel free to inform me and I will re-check with MyInvois System.
+
 ## TODO
 
 - [x] Login as Taxpayer System
@@ -49,7 +51,7 @@ The preferred way to install this extension is through [composer](http://getcomp
 To install, either run
 
 ```zsh
-$ composer require klsheng/myinvois-php-sdk
+$ composer require klsheng/myinvois-php-sdk "*"
 ```
 or add
 ```zsh
@@ -148,7 +150,7 @@ $example = new CreateDocumentExample();
 $invoice = $example->createJsonDocument();
 
 $documents = [];
-$document = MyInvoisHelper::getSubmitDocument('json', 'INV20240418105410', $invoice);
+$document = MyInvoisHelper::getSubmitDocument('INV20240418105410', $invoice);
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);
@@ -164,7 +166,7 @@ $example = new CreateDocumentExample();
 $invoice = $example->createXmlDocument();
 
 $documents = [];
-$document = MyInvoisHelper::getSubmitDocument('xml', 'INV20240418105410', $invoice);
+$document = MyInvoisHelper::getSubmitDocument('INV20240418105410', $invoice);
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);
