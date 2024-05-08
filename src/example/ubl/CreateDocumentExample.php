@@ -68,7 +68,7 @@ class CreateDocumentExample
         $document->setId('INV20240418105410');
         $document->setIssueDateTime(new \DateTime('2017-11-26 15:30:00Z'));
 
-        $document = $this->setUBLExtension($document);
+        //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
         $document = $this->setPrepaidPayment($document);
         $document = $this->setSupplier($document);
@@ -335,7 +335,7 @@ class CreateDocumentExample
 
         $item = new Item();
         $item->setDescription('Laptop Peripherals');
-        $item->setCountry($country);
+        //$item->setCountry($country);
 
         $commodityClassification = new CommodityClassification();
         $commodityClassification->setItemClassificationCode('12344321', 'PTC');
