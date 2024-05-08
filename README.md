@@ -140,6 +140,22 @@ $documents[] = $document;
 $response = $client->submitDocument($documents);
 ```
 
+#### Submit XML document
+```php
+use klsheng\myinvois\helper\MyInvoisHelper;
+use klsheng\myinvois\example\ubl\CreateDocumentExample;
+
+
+$example = new CreateDocumentExample();
+$invoice = $example->createXmlDocument();
+
+$documents = [];
+$document = MyInvoisHelper::getSubmitDocument('xml', 'INV20240418105410', $invoice);
+$documents[] = $document;
+
+$response = $client->submitDocument($documents);
+```
+
 #### Cancel Document
 ```php
 $reason = 'Customer refund';
