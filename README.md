@@ -77,24 +77,30 @@ Sample usage:
 
 #### Login as Taxpayer System
 ```php
-use klsheng\myinvois\MyInvoisClient;
+use Klsheng\Myinvois\MyInvoisClient;
 
 $prodMode = false;
 $client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
 
 $client->login();
+$access_token = $client->getAccessToken();
+// Store $access_token somewhere to re-use it again within 1hour
+
 // OR
 $client->setAccessToken('access_token');
 ```
 
 #### Login as Intermediary System
 ```php
-use klsheng\myinvois\MyInvoisClient;
+use Klsheng\Myinvois\MyInvoisClient;
 
 $prodMode = false;
 $client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
 
 $client->login($onbehalfof);
+$access_token = $client->getAccessToken();
+// Store $access_token somewhere to re-use it again within 1hour
+
 // OR
 $client->setAccessToken('access_token');
 $client->setOnbehalfof($onbehalfof);
@@ -142,8 +148,8 @@ $response = $client->validateTaxPayerTin($tin, $idType, $idValue);
 
 #### Submit JSON document
 ```php
-use klsheng\myinvois\helper\MyInvoisHelper;
-use klsheng\myinvois\example\ubl\CreateDocumentExample;
+use Klsheng\Myinvois\Helper\MyInvoisHelper;
+use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
 
 $example = new CreateDocumentExample();
@@ -158,8 +164,8 @@ $response = $client->submitDocument($documents);
 
 #### Submit XML document
 ```php
-use klsheng\myinvois\helper\MyInvoisHelper;
-use klsheng\myinvois\example\ubl\CreateDocumentExample;
+use Klsheng\Myinvois\Helper\MyInvoisHelper;
+use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
 
 $example = new CreateDocumentExample();

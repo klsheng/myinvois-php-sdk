@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "klsheng\\myinvois\\": "src/"
+            "Klsheng\\Myinvois\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "klsheng\\myinvois\\tests\\": "tests/"
+            "Klsheng\\Myinvois\\Tests\\": "tests/"
         }
     },
     "config": {
