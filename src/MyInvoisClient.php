@@ -4,6 +4,7 @@ namespace Klsheng\Myinvois;
 
 use Exception;
 use BadMethodCallException;
+use Psr\Http\Client\ClientInterface;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\BadResponseException;
 use Guzzle\Http\Message\Response;
@@ -38,11 +39,11 @@ class MyInvoisClient
     private $prodMode;
 
     /**
-     * GuzzleClient object
+     * ClientInterface object
      *
-     * @var GuzzleClient
+     * @var ClientInterface
      */
-    private $guzzleClient;
+    private $httpClient;
 
     /**
      * Options options control various aspects of a request including, headers, query string parameters, timeout settings, the body of a request
@@ -99,14 +100,14 @@ class MyInvoisClient
      * @param string            $clientId
      * @param string            $clientSecret
      * @param string            $clientSecret
-     * @param GuzzleClient|null $guzzle
+     * @param ClientInterface|null $httpClient
      */
-    public function __construct($clientId, $clientSecret, $prodMode = false, GuzzleClient $guzzleClient = null)
+    public function __construct($clientId, $clientSecret, $prodMode = false, ClientInterface $httpClient = null)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->prodMode = $prodMode;
-        $this->setHttpClient($guzzleClient ?: new GuzzleClient());
+        $this->setHttpClient($httpClient ?: new GuzzleClient());
     }
 
     /**
@@ -146,13 +147,13 @@ class MyInvoisClient
     }
 
     /**
-     * @param GuzzleClient $client
+     * @param ClientInterface $client
      *
      * @return void
      */
-    public function setHttpClient(GuzzleClient $client)
+    public function setHttpClient(ClientInterface $client)
     {
-        $this->guzzleClient = $client;
+        $this->httpClient = $client;
     }
 
     /**
@@ -160,7 +161,7 @@ class MyInvoisClient
      */
     public function getHttpClient()
     {
-        return $this->guzzleClient;
+        return $this->httpClient;
     }
 
     /**
@@ -335,7 +336,7 @@ class MyInvoisClient
     }
 
     /**
-     * Make a request through Guzzle.
+     * Make a request through ClientInterface.
      *
      * @param $method
      * @param $url

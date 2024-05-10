@@ -3,7 +3,6 @@
 namespace Klsheng\Myinvois\Service;
 
 use Exception;
-use GuzzleHttp\Exception\BadResponseException;
 use Klsheng\Myinvois\MyInvoisClient;
 
 abstract class BaseService
