@@ -59,6 +59,10 @@ class SignatureInformation implements ISerializable, IValidator
             'http://www.w3.org/2000/09/xmldsig#' => 'ds',
         ]);
 
+        $this->signatureAttributes = array_merge([
+            'xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
+        ], $this->signatureAttributes);
+
         if ($this->signature !== null) {
             $writer->write([
                 'name' => XmlSchema::DS . 'Signature',
@@ -81,7 +85,7 @@ class SignatureInformation implements ISerializable, IValidator
 
         if ($this->signature !== null) {
             $arrays['Signature'][] = $this->signature;
-            $arrays['Signature'][] = $this->signatureAttributes;
+            //$arrays['Signature'][] = $this->signatureAttributes; // From reference, it doesn't seem to have attributes for JSON
         }
 
         return $arrays;

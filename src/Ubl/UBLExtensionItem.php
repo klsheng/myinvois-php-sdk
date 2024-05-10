@@ -19,7 +19,7 @@ class UBLExtensionItem implements ISerializable, IValidator
 
     /**
      * @param string $uri
-     * @return UBLExtension
+     * @return UBLExtensionItem
      */
     public function setURI($uri)
     {
@@ -37,7 +37,7 @@ class UBLExtensionItem implements ISerializable, IValidator
 
     /**
      * @param mixed $content
-     * @return UBLExtension
+     * @return UBLExtensionItem
      */
     public function setContent($content)
     {

@@ -55,6 +55,11 @@ class UBLDocumentSignatures implements ISerializable, IValidator
                 'value' => [
                     XmlSchema::SAC . 'SignatureInformation' => $this->signatureInformation,
                 ],
+                'attributes' => [
+                    'xmlns:sig' => 'urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2',
+                    'xmlns:sac' => 'urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2',
+                    'xmlns:sbc' => 'urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2',
+                ],
             ]);
         }
     }

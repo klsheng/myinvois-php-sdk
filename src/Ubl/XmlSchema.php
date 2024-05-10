@@ -13,4 +13,5 @@ class XmlSchema
     const SBC = '{urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2}';
 
     const DS = '{http://www.w3.org/2000/09/xmldsig#}';
+    const XADES = '{http://uri.etsi.org/01903/v1.3.2#}';
 }

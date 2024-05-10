@@ -8,6 +8,9 @@ use Sabre\Xml\Writer;
 class Signature implements ISerializable, IValidator
 {
     private $signatureValue;
+    private $signInfo;
+    private $keyInfo;
+    private $object;
 
     /**
      * @return string
@@ -28,6 +31,60 @@ class Signature implements ISerializable, IValidator
     }
 
     /**
+     * @return SignInfo
+     */
+    public function getSignInfo()
+    {
+        return $this->signInfo;
+    }
+
+    /**
+     * @param SignInfo $signInfo
+     * @return Signature
+     */
+    public function setSignInfo(SignInfo $signInfo)
+    {
+        $this->signInfo = $signInfo;
+        return $this;
+    }
+
+    /**
+     * @return SignInfo
+     */
+    public function getKeyInfo()
+    {
+        return $this->keyInfo;
+    }
+
+    /**
+     * @param KeyInfo $keyInfo
+     * @return Signature
+     */
+    public function setKeyInfo(KeyInfo $keyInfo)
+    {
+        $this->keyInfo = $keyInfo;
+        return $this;
+    }
+
+    /**
+     * @return SignatureObject
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * @param SignatureObject $object
+     * @return Signature
+     */
+    public function setObject(SignatureObject $object)
+    {
+        $this->object = $object;
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
@@ -36,6 +93,18 @@ class Signature implements ISerializable, IValidator
     {
         if(empty($this->signatureValue)) {
             throw new InvalidArgumentException('Missing Signature signatureValue');
+        }
+
+        if($this->signInfo === null) {
+            throw new InvalidArgumentException('Missing Signature signInfo');
+        }
+
+        if($this->keyInfo === null) {
+            throw new InvalidArgumentException('Missing Signature keyInfo');
+        }
+
+        if($this->object === null) {
+            throw new InvalidArgumentException('Missing Signature object');
         }
     }
 
@@ -55,6 +124,27 @@ class Signature implements ISerializable, IValidator
                 'value' => $this->signatureValue,
             ]);
         }
+
+        if ($this->signInfo !== null) {
+            $writer->write([
+                'name' => XmlSchema::DS . 'SignedInfo',
+                'value' => $this->signInfo,
+            ]);
+        }
+
+        if ($this->keyInfo !== null) {
+            $writer->write([
+                'name' => XmlSchema::DS . 'KeyInfo',
+                'value' => $this->keyInfo,
+            ]);
+        }
+
+        if ($this->object !== null) {
+            $writer->write([
+                'name' => XmlSchema::DS . 'Object',
+                'value' => $this->object,
+            ]);
+        }
     }
 
     /**
@@ -72,6 +162,18 @@ class Signature implements ISerializable, IValidator
             $arrays['SignatureValue'][] = [
                 '_' => $this->signatureValue,
             ];
+        }
+
+        if ($this->signInfo !== null) {
+            $arrays['SignedInfo'][] = $this->signInfo;
+        }
+
+        if ($this->keyInfo !== null) {
+            $arrays['KeyInfo'][] = $this->keyInfo;
+        }
+
+        if ($this->object !== null) {
+            $arrays['Object'][] = $this->object;
         }
 
         return $arrays;
