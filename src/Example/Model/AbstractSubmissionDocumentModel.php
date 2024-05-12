@@ -4,8 +4,7 @@ namespace Klsheng\Myinvois\Example\Model;
 
 use Klsheng\Myinvois\Model\AbstractModel;
 
-class DocumentStatusModel extends AbstractModel
+abstract class AbstractSubmissionDocumentModel extends AbstractModel
 {
-    public $uuid;
-    public $status;
+    public $submissionUid;
 }

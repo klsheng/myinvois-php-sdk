@@ -2,9 +2,9 @@
 
 namespace Klsheng\Myinvois\Example\Model;
 
-use Klsheng\Myinvois\Model\BaseModel;
+use Klsheng\Myinvois\Model\AbstractModel;
 
-class AccessTokenModel extends BaseModel
+class AccessTokenModel extends AbstractModel
 {
     public $access_token;
     public $expires_in;

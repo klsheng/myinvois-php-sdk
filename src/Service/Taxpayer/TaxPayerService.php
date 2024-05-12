@@ -3,9 +3,9 @@ namespace Klsheng\Myinvois\Service\Taxpayer;
 
 use Exception;
 use Klsheng\Myinvois\MyInvoisClient;
-use Klsheng\Myinvois\Service\BaseService;
+use Klsheng\Myinvois\Service\AbstractService;
 
-class TaxPayerService extends BaseService
+class TaxPayerService extends AbstractService
 {
     public const SANDBOX_API_BASE_URL = 'https://preprod-api.myinvois.hasil.gov.my/api/v1.0/taxpayer';
     public const PROD_API_BASE_URL = 'https://api.myinvois.hasil.gov.my/api/v1.0/taxpayer';

@@ -35,20 +35,20 @@ use Klsheng\Myinvois\Ubl\PaymentMeans;
 use Klsheng\Myinvois\Ubl\PaymentTerms;
 use Klsheng\Myinvois\Ubl\BillingReference;
 use Klsheng\Myinvois\Ubl\PrepaidPayment;
-use Klsheng\Myinvois\Ubl\UBLExtensions;
-use Klsheng\Myinvois\Ubl\UBLExtensionItem;
-use Klsheng\Myinvois\Ubl\UBLDocumentSignatures;
-use Klsheng\Myinvois\Ubl\SignatureInformation;
-use Klsheng\Myinvois\Ubl\Signature;
-use Klsheng\Myinvois\Ubl\SignInfo;
-use Klsheng\Myinvois\Ubl\SignInfoReference;
-use Klsheng\Myinvois\Ubl\SignInfoTransform;
-use Klsheng\Myinvois\Ubl\KeyInfo;
-use Klsheng\Myinvois\Ubl\KeyInfoX509Data;
-use Klsheng\Myinvois\Ubl\SignatureObject;
-use Klsheng\Myinvois\Ubl\QualifyingProperties;
-use Klsheng\Myinvois\Ubl\SignedProperties;
-use Klsheng\Myinvois\Ubl\SignedSignatureProperties;
+use Klsheng\Myinvois\Ubl\Extension\UBLExtensions;
+use Klsheng\Myinvois\Ubl\Extension\UBLExtensionItem;
+use Klsheng\Myinvois\Ubl\Extension\UBLDocumentSignatures;
+use Klsheng\Myinvois\Ubl\Extension\SignatureInformation;
+use Klsheng\Myinvois\Ubl\Extension\Signature;
+use Klsheng\Myinvois\Ubl\Extension\SignInfo;
+use Klsheng\Myinvois\Ubl\Extension\SignInfoReference;
+use Klsheng\Myinvois\Ubl\Extension\SignInfoTransform;
+use Klsheng\Myinvois\Ubl\Extension\KeyInfo;
+use Klsheng\Myinvois\Ubl\Extension\KeyInfoX509Data;
+use Klsheng\Myinvois\Ubl\Extension\SignatureObject;
+use Klsheng\Myinvois\Ubl\Extension\QualifyingProperties;
+use Klsheng\Myinvois\Ubl\Extension\SignedProperties;
+use Klsheng\Myinvois\Ubl\Extension\SignedSignatureProperties;
 use Klsheng\Myinvois\Ubl\Builder\XmlDocumentBuilder;
 use Klsheng\Myinvois\Ubl\Builder\JsonDocumentBuilder;
 use Klsheng\Myinvois\Ubl\Constant\MSICCodes;
@@ -75,7 +75,7 @@ class CreateDocumentExample
     {
         $document = new Invoice();
         $document->setId('INV20240418105410');
-        $document->setIssueDateTime(new \DateTime('2017-11-26 15:30:00Z'));
+        $document->setIssueDateTime(new \DateTime('2024-05-10 15:30:00Z'));
 
         //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
@@ -398,7 +398,7 @@ class CreateDocumentExample
         $item->addCommodityClassification($commodityClassification);
 
         $commodityClassification = new CommodityClassification();
-        $commodityClassification->setItemClassificationCode('12344321', 'CLASS');
+        $commodityClassification->setItemClassificationCode('011', 'CLASS');
         $item->addCommodityClassification($commodityClassification);
 
         $price = new Price();

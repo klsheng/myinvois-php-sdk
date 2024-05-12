@@ -1,10 +1,13 @@
 <?php
 
-namespace Klsheng\Myinvois\Ubl;
+namespace Klsheng\Myinvois\Ubl\Extension;
 
 use DateTime;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
+use Klsheng\Myinvois\Ubl\ISerializable;
+use Klsheng\Myinvois\Ubl\IValidator;
+use Klsheng\Myinvois\Ubl\XmlSchema;
 
 class SignedSignatureProperties implements ISerializable, IValidator
 {

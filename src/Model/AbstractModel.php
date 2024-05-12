@@ -5,7 +5,7 @@ namespace Klsheng\Myinvois\Model;
 use ReflectionClass;
 use ReflectionProperty;
 
-abstract class BaseModel
+abstract class AbstractModel
 {
     /**
      * Returns the list of attribute names.

@@ -4,9 +4,9 @@ namespace Klsheng\Myinvois\Service\Notification;
 use Exception;
 use DateTime;
 use Klsheng\Myinvois\MyInvoisClient;
-use Klsheng\Myinvois\Service\BaseService;
+use Klsheng\Myinvois\Service\AbstractService;
 
-class NotificationService extends BaseService
+class NotificationService extends AbstractService
 {
     public const SANDBOX_API_BASE_URL = 'https://preprod-api.myinvois.hasil.gov.my/api/v1.0/notifications';
     public const PROD_API_BASE_URL = 'https://api.myinvois.hasil.gov.my/api/v1.0/notifications';

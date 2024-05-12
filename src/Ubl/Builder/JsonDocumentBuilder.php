@@ -3,6 +3,7 @@
 namespace Klsheng\Myinvois\Ubl\Builder;
 
 use Klsheng\Myinvois\Ubl\Invoice;
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
 class JsonDocumentBuilder implements IDocumentBuilder
 {
@@ -14,9 +15,9 @@ class JsonDocumentBuilder implements IDocumentBuilder
     {
         return json_encode([
             '_D' => 'urn:oasis:names:specification:ubl:schema:xsd:' . $invoice->xmlTagName . '-2',
-            '_A' => 'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2',
-            '_B' => 'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2',
-            '_E' => 'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2',
+            '_A' => UblSpecifications::CAC,
+            '_B' => UblSpecifications::CBC,
+            '_E' => UblSpecifications::EXT,
             $invoice->xmlTagName => [
                 $invoice
             ],

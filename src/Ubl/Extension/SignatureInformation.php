@@ -1,14 +1,56 @@
 <?php
 
-namespace Klsheng\Myinvois\Ubl;
+namespace Klsheng\Myinvois\Ubl\Extension;
 
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
+use Klsheng\Myinvois\Ubl\ISerializable;
+use Klsheng\Myinvois\Ubl\IValidator;
+use Klsheng\Myinvois\Ubl\XmlSchema;
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
 class SignatureInformation implements ISerializable, IValidator
 {
+    private $id = 'urn:oasis:names:specification:ubl:signature:1';
+    private $referencedSignatureId = UblSpecifications::SIGNATURE_ID;
     private $signature;
     private $signatureAttributes = [];
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     * @return SignatureInformation
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReferencedSignatureId()
+    {
+        return $this->referencedSignatureId;
+    }
+
+    /**
+     * @param string $referencedSignatureId
+     * @return SignatureInformation
+     */
+    public function setReferencedSignatureId($referencedSignatureId)
+    {
+        $this->referencedSignatureId = $referencedSignatureId;
+        return $this;
+    }
 
     /**
      * @return Signature
@@ -59,6 +101,14 @@ class SignatureInformation implements ISerializable, IValidator
             'http://www.w3.org/2000/09/xmldsig#' => 'ds',
         ]);
 
+        if($this->id !== null) {
+            $writer->write([ XmlSchema::CBC . 'ID' => $this->id]);
+        }
+
+        if($this->referencedSignatureId !== null) {
+            $writer->write([ XmlSchema::SBC . 'ReferencedSignatureID' => $this->referencedSignatureId]);
+        }
+
         $this->signatureAttributes = array_merge([
             'xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
         ], $this->signatureAttributes);
@@ -82,6 +132,18 @@ class SignatureInformation implements ISerializable, IValidator
         $this->validate();
 
         $arrays = [];
+
+        if($this->id !== null) {
+            $arrays['ID'][] = [
+                '_' => $this->id,
+            ];
+        }
+
+        if($this->referencedSignatureId !== null) {
+            $arrays['ReferencedSignatureID'][] = [
+                '_' => $this->referencedSignatureId,
+            ];
+        }
 
         if ($this->signature !== null) {
             $arrays['Signature'][] = $this->signature;

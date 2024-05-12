@@ -3,9 +3,9 @@ namespace Klsheng\Myinvois\Service\Identity;
 
 use Exception;
 use Klsheng\Myinvois\MyInvoisClient;
-use Klsheng\Myinvois\Service\BaseService;
+use Klsheng\Myinvois\Service\AbstractService;
 
-class IdentityService extends BaseService
+class IdentityService extends AbstractService
 {
     public const SANDBOX_IDENTITY_BASE_URL = 'https://preprod-api.myinvois.hasil.gov.my/connect/token';
     public const PROD_IDENTITY_BASE_URL = ''; // TBD

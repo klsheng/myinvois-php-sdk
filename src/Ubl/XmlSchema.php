@@ -2,15 +2,17 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
+
 class XmlSchema
 {
-    const CBC = '{urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2}';
-    const CAC = '{urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2}';
-    const EXT = '{urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2}';
+    const CBC = '{' . UblSpecifications::CBC . '}';
+    const CAC = '{' . UblSpecifications::CAC . '}';
+    const EXT = '{' . UblSpecifications::EXT . '}';
 
-    const SIG = '{urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2}';
-    const SAC = '{urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2}';
-    const SBC = '{urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2}';
+    const SIG = '{' . UblSpecifications::SIG . '}';
+    const SAC = '{' . UblSpecifications::SAC . '}';
+    const SBC = '{' . UblSpecifications::SBC . '}';
 
     const DS = '{http://www.w3.org/2000/09/xmldsig#}';
     const XADES = '{http://uri.etsi.org/01903/v1.3.2#}';

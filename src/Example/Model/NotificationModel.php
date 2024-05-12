@@ -2,9 +2,9 @@
 
 namespace Klsheng\Myinvois\Example\Model;
 
-use Klsheng\Myinvois\Model\BaseModel;
+use Klsheng\Myinvois\Model\AbstractModel;
 
-class NotificationModel extends BaseModel
+class NotificationModel extends AbstractModel
 {
     public $notificationId;
     public $receivedDateTime;

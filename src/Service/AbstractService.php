@@ -5,7 +5,7 @@ namespace Klsheng\Myinvois\Service;
 use Exception;
 use Klsheng\Myinvois\MyInvoisClient;
 
-abstract class BaseService
+abstract class AbstractService
 {
     /**
      * Base URL
@@ -22,7 +22,7 @@ abstract class BaseService
     private $client;
 
     /**
-     * BaseService constructor.
+     * AbstractService constructor.
      *
      * @param MyInvoisClient    $client
      * @param string            $baseUrl

@@ -4,6 +4,7 @@ namespace Klsheng\Myinvois\Ubl\Builder;
 
 use Sabre\Xml\Service;
 use Klsheng\Myinvois\Ubl\Invoice;
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
 class XmlDocumentBuilder implements IDocumentBuilder
 {
@@ -17,9 +18,9 @@ class XmlDocumentBuilder implements IDocumentBuilder
 
         $xmlService->namespaceMap = [
             'urn:oasis:names:specification:ubl:schema:xsd:' . $invoice->xmlTagName . '-2' => '',
-            'urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2' => 'cbc',
-            'urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2' => 'cac',
-            'urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2' => 'ext'
+            UblSpecifications::CBC => 'cbc',
+            UblSpecifications::CAC => 'cac',
+            UblSpecifications::EXT => 'ext'
         ];
 
         return $xmlService->write($invoice->xmlTagName, [

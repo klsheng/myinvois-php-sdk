@@ -2,9 +2,9 @@
 
 namespace Klsheng\Myinvois\Example\Model;
 
-use Klsheng\Myinvois\Model\BaseModel;
+use Klsheng\Myinvois\Model\AbstractModel;
 
-class ValidationResultModel extends BaseModel
+class ValidationResultModel extends AbstractModel
 {
     public $status;
     public $validationSteps = [];

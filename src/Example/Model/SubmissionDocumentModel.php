@@ -2,7 +2,7 @@
 
 namespace Klsheng\Myinvois\Example\Model;
 
-class SubmissionDocumentModel extends BaseSubmissionDocumentModel
+class SubmissionDocumentModel extends AbstractSubmissionDocumentModel
 {
     public $documentCount;
     public $dateTimeReceived;

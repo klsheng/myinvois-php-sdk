@@ -2,9 +2,9 @@
 
 namespace Klsheng\Myinvois\Example\Model;
 
-use Klsheng\Myinvois\Model\BaseModel;
+use Klsheng\Myinvois\Model\AbstractModel;
 
-class DocumentTypeVersionModel extends BaseModel
+class DocumentTypeVersionModel extends AbstractModel
 {
     public $id;
     public $invoiceTypeCode;

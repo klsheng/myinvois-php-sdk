@@ -1,12 +1,17 @@
 <?php
 
-namespace Klsheng\Myinvois\Ubl;
+namespace Klsheng\Myinvois\Ubl\Extension;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
+use Klsheng\Myinvois\Ubl\ISerializable;
+use Klsheng\Myinvois\Ubl\IValidator;
+use Klsheng\Myinvois\Ubl\XmlSchema;
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
 class UBLExtensionItem implements ISerializable, IValidator
 {
-    private $uri = 'urn:oasis:names:specification:ubl:dsig:enveloped:xades';
+    private $uri = UblSpecifications::SIGNATURE_METHOD;
     private $content;
 
     /**
@@ -68,9 +73,9 @@ class UBLExtensionItem implements ISerializable, IValidator
         $this->validate();
 
         $writer->namespaceMap = array_merge($writer->namespaceMap, [
-            'urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2' => 'sig',
-            'urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2' => 'sac',
-            'urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2' => 'sbc'
+            UblSpecifications::SIG => 'sig',
+            UblSpecifications::SAC => 'sac',
+            UblSpecifications::SBC => 'sbc',
         ]);
 
         if ($this->uri !== null) {

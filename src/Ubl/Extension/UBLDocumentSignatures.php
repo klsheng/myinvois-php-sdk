@@ -1,9 +1,13 @@
 <?php
 
-namespace Klsheng\Myinvois\Ubl;
+namespace Klsheng\Myinvois\Ubl\Extension;
 
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
+use Klsheng\Myinvois\Ubl\ISerializable;
+use Klsheng\Myinvois\Ubl\IValidator;
+use Klsheng\Myinvois\Ubl\XmlSchema;
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
 class UBLDocumentSignatures implements ISerializable, IValidator
 {
@@ -56,9 +60,9 @@ class UBLDocumentSignatures implements ISerializable, IValidator
                     XmlSchema::SAC . 'SignatureInformation' => $this->signatureInformation,
                 ],
                 'attributes' => [
-                    'xmlns:sig' => 'urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2',
-                    'xmlns:sac' => 'urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2',
-                    'xmlns:sbc' => 'urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2',
+                    'xmlns:sig' => UblSpecifications::SIG,
+                    'xmlns:sac' => UblSpecifications::SAC,
+                    'xmlns:sbc' => UblSpecifications::SBC,
                 ],
             ]);
         }

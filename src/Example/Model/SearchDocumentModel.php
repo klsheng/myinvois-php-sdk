@@ -2,7 +2,7 @@
 
 namespace Klsheng\Myinvois\Example\Model;
 
-class SearchDocumentModel extends BaseDocumentModel
+class SearchDocumentModel extends AbstractDocumentModel
 {
     public $longId;
     public $submissionUUID;

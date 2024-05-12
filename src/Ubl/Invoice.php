@@ -8,6 +8,8 @@ use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
+use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
+use Klsheng\Myinvois\Ubl\Extension\UBLExtensions;
 
 class Invoice implements ISerializable, IValidator
 {
@@ -38,6 +40,8 @@ class Invoice implements ISerializable, IValidator
     private $billingReference;
     private $prepaidPayment;
     private $ublExtensions;
+    private $signatureId = UblSpecifications::SIGNATURE_ID;
+    private $signatureMethod = UblSpecifications::SIGNATURE_METHOD;
 
     /**
      * @return mixed
@@ -447,11 +451,19 @@ class Invoice implements ISerializable, IValidator
 
     /**
      * @param UBLExtensions $ublExtensions
+     * @param string $signatureId Optional
+     * @param string $signatureMethod Optional
      * @return Invoice
      */
-    public function setUBLExtensions(UBLExtensions $ublExtensions)
+    public function setUBLExtensions(UBLExtensions $ublExtensions, $signatureId = null, $signatureMethod = null)
     {
         $this->ublExtensions = $ublExtensions;
+        if (isset($signatureId)) {
+            $this->signatureId = $signatureId;
+        }
+        if (isset($signatureMethod)) {
+            $this->signatureMethod = $signatureMethod;
+        }
         return $this;
     }
 
@@ -516,6 +528,14 @@ class Invoice implements ISerializable, IValidator
         if ($this->ublExtensions !== null) {
             $writer->write([
                 XmlSchema::EXT . 'UBLExtensions' => $this->ublExtensions
+            ]);
+
+            $writer->write([
+                'name' => XmlSchema::CAC . 'Signature',
+                'value' => [
+                    XmlSchema::CBC . 'ID' => $this->signatureId,
+                    XmlSchema::CBC . 'SignatureMethod' => $this->signatureMethod,
+                ]
             ]);
         }
 
