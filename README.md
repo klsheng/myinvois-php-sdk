@@ -67,6 +67,7 @@ This package require the following extensions in order to work properly:
 - [`json`](https://www.php.net/manual/en/book.json.php)
 - [`guzzlehttp/guzzle`](https://github.com/guzzle/guzzle)
 - [`sabre/xml`](https://github.com/sabre-io/xml)
+- [`psr/http-client`](https://github.com/php-fig/http-client)
 
 If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
 
