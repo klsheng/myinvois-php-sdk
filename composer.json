@@ -22,7 +22,8 @@
         "guzzlehttp/guzzle": "~7.0|~6.0|~5.0|~4.0",
         "ext-curl": "*",
         "ext-json": "*",
-        "sabre/xml": "^4.0"
+        "sabre/xml": "^4.0",
+        "psr/http-client": "^1.0 || ^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~8|~9"
