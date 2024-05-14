@@ -8,7 +8,7 @@ use Klsheng\Myinvois\Service\AbstractService;
 class IdentityService extends AbstractService
 {
     public const SANDBOX_IDENTITY_BASE_URL = 'https://preprod-api.myinvois.hasil.gov.my/connect/token';
-    public const PROD_IDENTITY_BASE_URL = ''; // TBD
+    public const PROD_IDENTITY_BASE_URL = 'https://api.myinvois.hasil.gov.my/connect/token';
 
     /**
      * IdentityService constructor.

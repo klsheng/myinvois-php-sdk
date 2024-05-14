@@ -41,7 +41,7 @@ class TaxPayerService extends AbstractService
         ];
         $query = '?' . http_build_query($params);
 
-        $url = $this->getBaseUrl() . '/' . $tin . $query;
+        $url = $this->getBaseUrl() . '/validate/' . $tin . $query;
 
         $response = $this->getClient()->request('GET', $url);
         return $response;
