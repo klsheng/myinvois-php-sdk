@@ -73,7 +73,7 @@ class Invoice implements ISerializable, IValidator
      * @param DateTime $issueDateTime
      * @return Invoice
      */
-    public function setIssueDateTime($issueDateTime)
+    public function setIssueDateTime(DateTime $issueDateTime)
     {
         $this->issueDateTime = $issueDateTime;
         return $this;

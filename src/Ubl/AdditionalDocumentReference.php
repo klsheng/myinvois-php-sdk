@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
 class AdditionalDocumentReference implements ISerializable, IValidator
@@ -90,6 +91,9 @@ class AdditionalDocumentReference implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->id)) {
+            throw new InvalidArgumentException('Missing AdditionalDocumentReference id');
+        }
     }
 
     /**

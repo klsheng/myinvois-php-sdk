@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
 class PayeeFinancialAccount implements ISerializable, IValidator
@@ -72,6 +73,9 @@ class PayeeFinancialAccount implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->id)) {
+            throw new InvalidArgumentException('Missing PayeeFinancialAccount id');
+        }
     }
 
     /**

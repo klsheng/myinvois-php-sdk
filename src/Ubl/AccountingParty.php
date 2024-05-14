@@ -104,7 +104,7 @@ class AccountingParty implements ISerializable, IValidator
     public function validate()
     {
         if ($this->party === null) {
-            throw new InvalidArgumentException('Missing party');
+            throw new InvalidArgumentException('Missing AccountingParty party');
         }
     }
 

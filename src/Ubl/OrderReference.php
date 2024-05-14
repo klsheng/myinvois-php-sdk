@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use DateTime;
 use Sabre\Xml\Writer;
 
@@ -72,6 +73,9 @@ class OrderReference implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->id)) {
+            throw new InvalidArgumentException('Missing OrderReference id');
+        }
     }
 
     /**

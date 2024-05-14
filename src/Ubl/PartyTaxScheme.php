@@ -2,9 +2,8 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
-use Sabre\Xml\Writer;
-
 use InvalidArgumentException;
+use Sabre\Xml\Writer;
 
 class PartyTaxScheme implements ISerializable, IValidator
 {

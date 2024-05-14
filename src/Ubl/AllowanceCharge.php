@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
@@ -103,6 +104,9 @@ class AllowanceCharge implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->chargeIndicator === null) {
+            throw new InvalidArgumentException('Missing AllowanceCharge chargeIndicator');
+        }
     }
 
     /**
@@ -131,13 +135,15 @@ class AllowanceCharge implements ISerializable, IValidator
             ]);
         }
 
-        $writer->write([
-            [
-                'name' => XmlSchema::CBC . 'Amount',
-                'value' => number_format($this->amount, 2, '.', ''),
-                'attributes' => $this->amountAttributes,
-            ],
-        ]);
+        if($this->amount !== null) {
+            $writer->write([
+                [
+                    'name' => XmlSchema::CBC . 'Amount',
+                    'value' => number_format($this->amount, 2, '.', ''),
+                    'attributes' => $this->amountAttributes,
+                ],
+            ]);
+        }
     }
 
     /**
@@ -167,12 +173,14 @@ class AllowanceCharge implements ISerializable, IValidator
             ];
         }
 
-        $items = [
-            '_' => (float)number_format($this->amount, 2, '.', ''),
-        ];
+        if($this->amount !== null) {
+            $items = [
+                '_' => (float)number_format($this->amount, 2, '.', ''),
+            ];
 
-        $items = array_merge($items, $this->amountAttributes);
-        $arrays['Amount'][] = $items;
+            $items = array_merge($items, $this->amountAttributes);
+            $arrays['Amount'][] = $items;
+        }
 
         return $arrays;
     }

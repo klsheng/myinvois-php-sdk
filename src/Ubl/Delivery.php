@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use DateTime;
 use Sabre\Xml\Writer;
 
@@ -91,6 +92,9 @@ class Delivery implements ISerializable, IValidator
      */
     public function validate()
     {
+        if ($this->deliveryParty === null) {
+            throw new InvalidArgumentException('Missing Delivery deliveryParty');
+        }
     }
 
     /**

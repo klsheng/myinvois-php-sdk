@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use DateTime;
 use Sabre\Xml\Writer;
 
@@ -129,6 +130,9 @@ class PaymentMeans implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->paymentMeansCode)) {
+            throw new InvalidArgumentException('Missing PaymentMeans paymentMeansCode');
+        }
     }
 
     /**

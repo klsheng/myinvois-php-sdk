@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
@@ -47,6 +48,9 @@ class Country implements ISerializable, IValidator
      */
     public function validate()
     {
+        if (empty($this->identificationCode)) {
+            throw new InvalidArgumentException('Missing Country identificationCode');
+        }
     }
 
     /**
