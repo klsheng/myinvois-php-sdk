@@ -2,24 +2,24 @@
 
 namespace Klsheng\Myinvois\Ubl\Builder;
 
-use Klsheng\Myinvois\Ubl\Invoice;
 use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
-class JsonDocumentBuilder implements IDocumentBuilder
+class JsonDocumentBuilder extends AbstractDocumentBuilder
 {
     /**
-     * @param Invoice $invoice Invoice is base model of all documents
-     * @return string
+     * {@inheritdoc}
      */
-    public function getDocument(Invoice $invoice)
+    public function build()
     {
+        $document = $this->getDocument();
+
         return json_encode([
-            '_D' => 'urn:oasis:names:specification:ubl:schema:xsd:' . $invoice->xmlTagName . '-2',
+            '_D' => 'urn:oasis:names:specification:ubl:schema:xsd:' . $document->xmlTagName . '-2',
             '_A' => UblSpecifications::CAC,
             '_B' => UblSpecifications::CBC,
             '_E' => UblSpecifications::EXT,
-            $invoice->xmlTagName => [
-                $invoice
+            $document->xmlTagName => [
+                $document
             ],
         ]);
     }

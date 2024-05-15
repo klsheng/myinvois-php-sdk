@@ -121,17 +121,17 @@ class Signature implements ISerializable, IValidator
     {
         $this->validate();
 
-        if ($this->signatureValue !== null) {
-            $writer->write([
-                'name' => XmlSchema::DS . 'SignatureValue',
-                'value' => $this->signatureValue,
-            ]);
-        }
-
         if ($this->signInfo !== null) {
             $writer->write([
                 'name' => XmlSchema::DS . 'SignedInfo',
                 'value' => $this->signInfo,
+            ]);
+        }
+
+        if ($this->signatureValue !== null) {
+            $writer->write([
+                'name' => XmlSchema::DS . 'SignatureValue',
+                'value' => $this->signatureValue,
             ]);
         }
 

@@ -68,6 +68,7 @@ This package require the following extensions in order to work properly:
 - [`guzzlehttp/guzzle`](https://github.com/guzzle/guzzle)
 - [`sabre/xml`](https://github.com/sabre-io/xml)
 - [`psr/http-client`](https://github.com/php-fig/http-client)
+- [`openssl`](https://www.php.net/manual/en/book.openssl.php)
 
 If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
 
@@ -152,12 +153,12 @@ $response = $client->validateTaxPayerTin($tin, $idType, $idValue);
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
-
+$id = 'INV20240418105410';
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument();
+$invoice = $example->createJsonDocument($id);
 
 $documents = [];
-$document = MyInvoisHelper::getSubmitDocument('INV20240418105410', $invoice);
+$document = MyInvoisHelper::getSubmitDocument($id, $invoice);
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);
@@ -168,12 +169,12 @@ $response = $client->submitDocument($documents);
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
-
+$id = 'INV20240418105410';
 $example = new CreateDocumentExample();
-$invoice = $example->createXmlDocument();
+$invoice = $example->createXmlDocument($id);
 
 $documents = [];
-$document = MyInvoisHelper::getSubmitDocument('INV20240418105410', $invoice);
+$document = MyInvoisHelper::getSubmitDocument($id, $invoice);
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);

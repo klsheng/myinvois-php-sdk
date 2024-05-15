@@ -33,6 +33,24 @@ class SignedSignatureProperties implements ISerializable, IValidator
     }
 
     /**
+     * @return SigningCertificate
+     */
+    public function getSigningCertificate()
+    {
+        return $this->signingCertificate;
+    }
+
+    /**
+     * @param SigningCertificate $signingCertificate
+     * @return SignedSignatureProperties
+     */
+    public function setSigningCertificate(SigningCertificate $signingCertificate)
+    {
+        $this->signingCertificate = $signingCertificate;
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
@@ -41,6 +59,10 @@ class SignedSignatureProperties implements ISerializable, IValidator
     {
         if (!$this->signingTime instanceof DateTime) {
             throw new InvalidArgumentException('Invalid SignedSignatureProperties signingTime');
+        }
+
+        if ($this->signingCertificate === null) {
+            throw new InvalidArgumentException('Invalid SignedSignatureProperties signingCertificate');
         }
     }
 
@@ -56,6 +78,10 @@ class SignedSignatureProperties implements ISerializable, IValidator
 
         $writer->write([
             XmlSchema::XADES . 'SigningTime' => $this->signingTime->format('Y-m-d\TH:i:s\Z'),
+        ]);
+
+        $writer->write([
+            XmlSchema::XADES . 'SigningCertificate' => $this->signingCertificate,
         ]);
     }
 
@@ -73,6 +99,8 @@ class SignedSignatureProperties implements ISerializable, IValidator
         $arrays['SigningTime'][] = [
             '_' => $this->signingTime->format('Y-m-d\TH:i:s\Z'),
         ];
+
+        $arrays['SigningCertificate'][] = $this->signingCertificate;
 
         return $arrays;
     }

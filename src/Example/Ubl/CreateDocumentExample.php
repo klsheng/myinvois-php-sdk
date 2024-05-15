@@ -55,27 +55,39 @@ use Klsheng\Myinvois\Ubl\Constant\MSICCodes;
 
 class CreateDocumentExample
 {
-    public function createXmlDocument()
+    public function createXmlDocument($id, $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null)
     {
-        $document = $this->createDocument();
+        $document = $this->createDocument($id);
 
         $builder = new XmlDocumentBuilder();
-        return $builder->getDocument($document);
+        $builder->setDocument($document);
+
+        if($includeSignature) {
+            $builder->createSignature($certFilePath, $certPrivateKeyFilePath);
+        }
+
+        return $builder->build();
     }
 
-    public function createJsonDocument()
+    public function createJsonDocument($id, $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null)
     {
-        $document = $this->createDocument();
+        $document = $this->createDocument($id);
 
         $builder = new JsonDocumentBuilder();
-        return $builder->getDocument($document);
+        $builder->setDocument($document);
+
+        if($includeSignature) {
+            $builder->createSignature($certFilePath, $certPrivateKeyFilePath);
+        }
+
+        return $builder->build();
     }
 
-    private function createDocument()
+    private function createDocument($id)
     {
         $document = new Invoice();
-        $document->setId('INV20240418105410');
-        $document->setIssueDateTime(new \DateTime('2024-05-10 15:30:00Z'));
+        $document->setId($id);
+        $document->setIssueDateTime(new \DateTime('2024-05-14 00:00:00Z'));
 
         //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
@@ -150,7 +162,7 @@ class CreateDocumentExample
         $signature->setObject($signatureObject);
 
         $information = new SignatureInformation();
-        $information->setSignature($signature, ['Id' => 'addedSig']);
+        $information->setSignature($signature, ['Id' => 'signature']);
 
         $sign = new UBLDocumentSignatures();
         $sign->setSignatureInformation($information);
