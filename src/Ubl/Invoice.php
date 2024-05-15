@@ -43,9 +43,7 @@ class Invoice implements ISerializable, IValidator
     private $ublExtensions;
     private $signatureId = UblSpecifications::SIGNATURE_ID;
     private $signatureMethod = UblSpecifications::SIGNATURE_METHOD;
-
-    // TODO
-    // TaxExchangeRate
+    private $taxExchangeRate;
 
     /**
      * @return mixed
@@ -498,6 +496,24 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
+     * @return float
+     */
+    public function getTaxExchangeRate()
+    {
+        return $this->taxExchangeRate;
+    }
+
+    /**
+     * @param float $taxExchangeRate
+     * @return Invoice
+     */
+    public function setTaxExchangeRate($taxExchangeRate)
+    {
+        $this->taxExchangeRate = $taxExchangeRate;
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
@@ -596,6 +612,17 @@ class Invoice implements ISerializable, IValidator
         if ($this->taxCurrencyCode !== null) {
             $writer->write([
                 XmlSchema::CBC . 'TaxCurrencyCode' => $this->taxCurrencyCode
+            ]);
+        }
+
+        if($this->taxExchangeRate !== null) {
+            $writer->write([
+                [
+                    'name' => XmlSchema::CAC . 'TaxExchangeRate',
+                    'value' => [
+                        XmlSchema::CBC . 'CalculationRate' => number_format($this->taxExchangeRate, 1, '.', ''),
+                    ]
+                ],
             ]);
         }
 
@@ -741,6 +768,16 @@ class Invoice implements ISerializable, IValidator
         if ($this->taxCurrencyCode !== null) {
             $arrays['TaxCurrencyCode'][] = [
                 '_' => $this->taxCurrencyCode,
+            ];
+        }
+
+        if($this->taxExchangeRate !== null) {
+            $arrays['TaxExchangeRate'][] = [
+                'CalculationRate' => [
+                    [
+                        '_' => number_format($this->taxExchangeRate, 1, '.', '')
+                    ]
+                ],
             ];
         }
 
