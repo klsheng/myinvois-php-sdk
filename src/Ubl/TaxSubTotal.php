@@ -19,6 +19,8 @@ class TaxSubTotal implements ISerializable, IValidator
     ];
     private $taxCategory;
     private $percent;
+    private $perUnitAmount;
+    private $baseUnitMeasure;
 
     /**
      * @return mixed
@@ -109,6 +111,42 @@ class TaxSubTotal implements ISerializable, IValidator
     }
 
     /**
+     * @return float
+     */
+    public function getPerUnitAmount()
+    {
+        return $this->perUnitAmount;
+    }
+
+    /**
+     * @param float $perUnitAmount
+     * @return TaxSubTotal
+     */
+    public function setPerUnitAmount($perUnitAmount)
+    {
+        $this->perUnitAmount = $perUnitAmount;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getBaseUnitMeasure()
+    {
+        return $this->baseUnitMeasure;
+    }
+
+    /**
+     * @param float $baseUnitMeasure
+     * @return TaxSubTotal
+     */
+    public function setBaseUnitMeasure($baseUnitMeasure)
+    {
+        $this->baseUnitMeasure = $baseUnitMeasure;
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
@@ -156,6 +194,18 @@ class TaxSubTotal implements ISerializable, IValidator
         $writer->write([
             XmlSchema::CAC . 'TaxCategory' => $this->taxCategory
         ]);
+
+        if ($this->perUnitAmount !== null) {
+            $writer->write([
+                XmlSchema::CBC . 'PerUnitAmount' => number_format($this->perUnitAmount, 2, '.', ''),
+            ]);
+        }
+
+        if ($this->baseUnitMeasure !== null) {
+            $writer->write([
+                XmlSchema::CBC . 'BaseUnitMeasure' => $this->baseUnitMeasure,
+            ]);
+        }
     }
 
     /**
@@ -191,6 +241,18 @@ class TaxSubTotal implements ISerializable, IValidator
         }
 
         $arrays['TaxCategory'][] = $this->taxCategory;
+
+        if ($this->perUnitAmount !== null) {
+            $arrays['PerUnitAmount'][] = [
+                '_' => (float)number_format($this->perUnitAmount, 2, '.', ''),
+            ];
+        }
+
+        if ($this->baseUnitMeasure !== null) {
+            $arrays['BaseUnitMeasure'][] = [
+                '_' => (float)$this->baseUnitMeasure,
+            ];
+        }
 
         return $arrays;
     }
