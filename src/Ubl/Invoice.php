@@ -32,6 +32,7 @@ class Invoice implements ISerializable, IValidator
     private $allowanceCharges = [];
     private $additionalDocumentReferences = [];
     private $documentCurrencyCode = CurrencyCodes::MYR;
+    private $taxCurrencyCode;
     private $buyerReference;
     private $accountingCostCode;
     private $invoicePeriod;
@@ -42,6 +43,9 @@ class Invoice implements ISerializable, IValidator
     private $ublExtensions;
     private $signatureId = UblSpecifications::SIGNATURE_ID;
     private $signatureMethod = UblSpecifications::SIGNATURE_METHOD;
+
+    // TODO
+    // TaxExchangeRate
 
     /**
      * @return mixed
@@ -80,12 +84,38 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
-     * @param mixed $currencyCode
+     * @return string
+     */
+    public function getDocumentCurrencyCode()
+    {
+        return $this->documentCurrencyCode;
+    }
+
+    /**
+     * @param string $currencyCode
      * @return Invoice
      */
     public function setDocumentCurrencyCode($currencyCode)
     {
         $this->documentCurrencyCode = $currencyCode;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTaxCurrencyCode()
+    {
+        return $this->taxCurrencyCode;
+    }
+
+    /**
+     * @param string $currencyCode
+     * @return Invoice
+     */
+    public function setTaxCurrencyCode($currencyCode)
+    {
+        $this->taxCurrencyCode = $currencyCode;
         return $this;
     }
 
@@ -563,6 +593,12 @@ class Invoice implements ISerializable, IValidator
             XmlSchema::CBC . 'DocumentCurrencyCode' => $this->documentCurrencyCode,
         ]);
 
+        if ($this->taxCurrencyCode !== null) {
+            $writer->write([
+                XmlSchema::CBC . 'TaxCurrencyCode' => $this->taxCurrencyCode
+            ]);
+        }
+
         if ($this->accountingCostCode !== null) {
             $writer->write([
                 XmlSchema::CBC . 'AccountingCostCode' => $this->accountingCostCode
@@ -701,6 +737,12 @@ class Invoice implements ISerializable, IValidator
         $arrays['DocumentCurrencyCode'][] = [
             '_' => $this->documentCurrencyCode,
         ];
+
+        if ($this->taxCurrencyCode !== null) {
+            $arrays['TaxCurrencyCode'][] = [
+                '_' => $this->taxCurrencyCode,
+            ];
+        }
 
         if ($this->accountingCostCode !== null) {
             $arrays['AccountingCostCode'][] = [
