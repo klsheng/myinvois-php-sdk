@@ -65,7 +65,7 @@ class TaxCategory implements ISerializable, IValidator
     }
 
     /**
-     * @return string
+     * @return float
      */
     public function getPercent()
     {
@@ -73,7 +73,7 @@ class TaxCategory implements ISerializable, IValidator
     }
 
     /**
-     * @param string $percent
+     * @param float $percent
      * @return TaxCategory
      */
     public function setPercent($percent)
