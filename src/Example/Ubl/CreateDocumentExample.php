@@ -213,7 +213,7 @@ class CreateDocumentExample
         $address->addAddressLine($addressLine);
 
         $country = new Country();
-        $country->setIdentificationCode('MYS', 'ISO3166-1', '6');
+        $country->setIdentificationCode('MYS');
         $address->setCountry($country);
 
         $legalEntity = new LegalEntity();
@@ -268,7 +268,7 @@ class CreateDocumentExample
         $address->addAddressLine($addressLine);
 
         $country = new Country();
-        $country->setIdentificationCode('MYS', 'ISO3166-1', '6');
+        $country->setIdentificationCode('MYS');
         $address->setCountry($country);
 
         $legalEntity = new LegalEntity();
@@ -318,7 +318,7 @@ class CreateDocumentExample
         $address->addAddressLine($addressLine);
 
         $country = new Country();
-        $country->setIdentificationCode('MYS', 'ISO3166-1', '6');
+        $country->setIdentificationCode('MYS');
         $address->setCountry($country);
 
         $legalEntity = new LegalEntity();
@@ -374,7 +374,7 @@ class CreateDocumentExample
         $taxTotal->setTaxAmount(14.61);
 
         $taxScheme = new TaxScheme();
-        $taxScheme->setId('OTH', 'UN/ECE 5153', '6');
+        $taxScheme->setId('OTH');
 
         $taxCategory = new TaxCategory();
         $taxCategory->setId('01');
@@ -519,7 +519,7 @@ class CreateDocumentExample
         $taxTotal->setTaxAmount(87.63);
 
         $taxScheme = new TaxScheme();
-        $taxScheme->setId('OTH', 'UN/ECE 5153', '6');
+        $taxScheme->setId('OTH');
 
         $taxCategory = new TaxCategory();
         $taxCategory->setId('01');
