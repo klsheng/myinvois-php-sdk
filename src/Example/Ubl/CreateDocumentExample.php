@@ -55,27 +55,29 @@ use Klsheng\Myinvois\Ubl\Constant\MSICCodes;
 
 class CreateDocumentExample
 {
-    public function createXmlDocument()
+    public function createXmlDocument($id)
     {
-        $document = $this->createDocument();
+        $document = $this->createDocument($id);
 
         $builder = new XmlDocumentBuilder();
         return $builder->getDocument($document);
     }
 
-    public function createJsonDocument()
+    public function createJsonDocument($id)
     {
-        $document = $this->createDocument();
+        $document = $this->createDocument($id);
 
         $builder = new JsonDocumentBuilder();
         return $builder->getDocument($document);
     }
 
-    private function createDocument()
+    private function createDocument($id)
     {
+        $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+
         $document = new Invoice();
-        $document->setId('INV20240418105410');
-        $document->setIssueDateTime(new \DateTime('2024-05-10 15:30:00Z'));
+        $document->setId($id);
+        $document->setIssueDateTime($issueDateTime);
 
         //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
@@ -369,20 +371,21 @@ class CreateDocumentExample
         $allowanceCharges[] = $allowanceCharge;
 
         $taxTotal = new TaxTotal();
-        $taxTotal->setTaxAmount(1460.50);
+        $taxTotal->setTaxAmount(14.61);
 
         $taxScheme = new TaxScheme();
         $taxScheme->setId('OTH', 'UN/ECE 5153', '6');
 
         $taxCategory = new TaxCategory();
-        $taxCategory->setId('E');
-        $taxCategory->setPercent('6.00');
+        $taxCategory->setId('01');
+        $taxCategory->setPercent(10.0);
         $taxCategory->setTaxExemptionReason('Exempt New Means of Transport');
         $taxCategory->setTaxScheme($taxScheme);
 
         $taxSubTotal = new TaxSubTotal();
         $taxSubTotal->setTaxableAmount(1460.50);
-        $taxSubTotal->setTaxAmount(0);
+        $taxSubTotal->setTaxAmount(14.61);
+        $taxSubTotal->setPercent(10.0);
         $taxSubTotal->setTaxCategory($taxCategory);
         $taxTotal->addTaxSubTotal($taxSubTotal);
 

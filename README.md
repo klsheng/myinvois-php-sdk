@@ -152,12 +152,12 @@ $response = $client->validateTaxPayerTin($tin, $idType, $idValue);
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
-
+$id = 'INV20240418105410';
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument();
+$invoice = $example->createJsonDocument($id);
 
 $documents = [];
-$document = MyInvoisHelper::getSubmitDocument('INV20240418105410', $invoice);
+$document = MyInvoisHelper::getSubmitDocument($id, $invoice);
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);
@@ -168,12 +168,12 @@ $response = $client->submitDocument($documents);
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
-
+$id = 'INV20240418105410';
 $example = new CreateDocumentExample();
-$invoice = $example->createXmlDocument();
+$invoice = $example->createXmlDocument($id);
 
 $documents = [];
-$document = MyInvoisHelper::getSubmitDocument('INV20240418105410', $invoice);
+$document = MyInvoisHelper::getSubmitDocument($id, $invoice);
 $documents[] = $document;
 
 $response = $client->submitDocument($documents);
