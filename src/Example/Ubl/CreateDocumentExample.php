@@ -383,20 +383,21 @@ class CreateDocumentExample
         $allowanceCharges[] = $allowanceCharge;
 
         $taxTotal = new TaxTotal();
-        $taxTotal->setTaxAmount(1460.50);
+        $taxTotal->setTaxAmount(14.61);
 
         $taxScheme = new TaxScheme();
         $taxScheme->setId('OTH', 'UN/ECE 5153', '6');
 
         $taxCategory = new TaxCategory();
-        $taxCategory->setId('E');
-        $taxCategory->setPercent('6.00');
+        $taxCategory->setId('01');
+        $taxCategory->setPercent(10.0);
         $taxCategory->setTaxExemptionReason('Exempt New Means of Transport');
         $taxCategory->setTaxScheme($taxScheme);
 
         $taxSubTotal = new TaxSubTotal();
         $taxSubTotal->setTaxableAmount(1460.50);
-        $taxSubTotal->setTaxAmount(0);
+        $taxSubTotal->setTaxAmount(14.61);
+        $taxSubTotal->setPercent(10.0);
         $taxSubTotal->setTaxCategory($taxCategory);
         $taxTotal->addTaxSubTotal($taxSubTotal);
 
