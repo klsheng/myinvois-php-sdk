@@ -85,9 +85,11 @@ class CreateDocumentExample
 
     private function createDocument($id)
     {
+        $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+
         $document = new Invoice();
         $document->setId($id);
-        $document->setIssueDateTime(new \DateTime('2024-05-14 00:00:00Z'));
+        $document->setIssueDateTime($issueDateTime);
 
         //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
