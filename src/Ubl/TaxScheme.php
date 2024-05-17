@@ -9,7 +9,10 @@ use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 class TaxScheme implements ISerializable, IValidator
 {
     private $id;
-    private $idAttributes = [];
+    private $idAttributes = [
+        UblAttributes::SCHEME_ID => 'UN/ECE 5153',
+        UblAttributes::SCHEME_AGENCY_ID => '6',
+    ];
     private $name;
     private $taxTypeCode;
     private $currencyCode;

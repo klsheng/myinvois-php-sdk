@@ -278,12 +278,32 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
+     * @param InvoiceLine $allowanceCharge
+     * @return Invoice
+     */
+    public function setInvoiceLine(InvoiceLine $invoiceLine)
+    {
+        $this->invoiceLines = [$invoiceLine];
+        return $this;
+    }
+
+    /**
      * @param InvoiceLine[] $invoiceLines
      * @return Invoice
      */
     public function setInvoiceLines($invoiceLines)
     {
         $this->invoiceLines = $invoiceLines;
+        return $this;
+    }
+
+    /**
+     * @param InvoiceLine $invoiceLine
+     * @return Invoice
+     */
+    public function addInvoiceLine(InvoiceLine $invoiceLine)
+    {
+        $this->invoiceLines[] = $invoiceLine;
         return $this;
     }
 
@@ -296,12 +316,32 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
+     * @param AllowanceCharge $allowanceCharge
+     * @return Invoice
+     */
+    public function setAllowanceCharge(AllowanceCharge $allowanceCharge)
+    {
+        $this->allowanceCharges = [$allowanceCharge];
+        return $this;
+    }
+
+    /**
      * @param AllowanceCharge[] $allowanceCharges
      * @return Invoice
      */
     public function setAllowanceCharges($allowanceCharges)
     {
         $this->allowanceCharges = $allowanceCharges;
+        return $this;
+    }
+
+    /**
+     * @param AllowanceCharge $allowanceCharge
+     * @return Invoice
+     */
+    public function addAllowanceCharge(AllowanceCharge $allowanceCharge)
+    {
+        $this->allowanceCharges[] = $allowanceCharge;
         return $this;
     }
 
