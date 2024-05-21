@@ -190,7 +190,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
     private function setSignatureValue(Signature $signature, $certPrivateKeyContent, $digestValue)
     {
         $signatureValue = '';
-        openssl_sign($digestValue, $signatureValue, $certPrivateKeyContent, 'sha256');
+        openssl_sign($digestValue, $signatureValue, $certPrivateKeyContent, OPENSSL_ALGO_SHA256);
 
         $signature->setSignatureValue(base64_encode($signatureValue));
 
