@@ -44,6 +44,10 @@ class TaxPayerService extends AbstractService
         $url = $this->getBaseUrl() . '/validate/' . $tin . $query;
 
         $response = $this->getClient()->request('GET', $url);
+        // When it is valid, the gateway return empty with statusCode 200
+        if($response == null) {
+            return '';
+        }
         return $response;
     }
 }
