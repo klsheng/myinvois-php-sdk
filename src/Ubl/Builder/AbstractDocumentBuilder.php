@@ -5,6 +5,7 @@ namespace Klsheng\Myinvois\Ubl\Builder;
 use DateTime;
 use DateTimeZone;
 use InvalidArgumentException;
+use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Ubl\Invoice;
 use Klsheng\Myinvois\Ubl\Extension\UBLExtensions;
@@ -105,8 +106,9 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
     private function setSignInfo(Signature $signature, $documentHash)
     {
-        // TODO
         $signedInfo = new SignInfo();
+
+        // Reference 1
         $reference = new SignInfoReference();
         $reference->setAttributes([
             'Id' => 'id-doc-signed-data',
@@ -122,17 +124,23 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $transform->setXPath('not(//ancestor-or-self::cac:Signature)');
         $reference->addTransform($transform);
 
+        $transform = new SignInfoTransform();
+        $transform->setAttributes([
+            UblAttributes::ALGORITHM => 'http://www.w3.org/2006/12/xml-c14n11',
+        ]);
+        $reference->addTransform($transform);
+
         $signedInfo->addReference($reference);
 
-        /*
+        // Reference 2
         $reference = new SignInfoReference();
         $reference->setAttributes([
             'Type' => 'http://www.w3.org/2000/09/xmldsig#SignatureProperties',
             'URI' => '#id-xades-signed-props',
         ]);
-        $reference->setDigestValue('OGU1M2Q3NGFkOTdkYTRiNDVhOGZmYmU2ZjE0YzI3ZDhhNjlmM2EzZmQ4MTU5NTBhZjBjNDU2MWZlNjU3MWU0ZQ==');
+        $reference->setDigestValue($documentHash);
+
         $signedInfo->addReference($reference);
-        */
 
         $signature->setSignInfo($signedInfo);
 

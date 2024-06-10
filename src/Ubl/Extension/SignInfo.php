@@ -82,7 +82,7 @@ class SignInfo implements ISerializable, IValidator
         $writer->write([
             'name' => XmlSchema::DS . 'SignatureMethod',
             'attributes' => [
-                'Algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#ecdsa-sha256',
+                'Algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
             ]
         ]);
 

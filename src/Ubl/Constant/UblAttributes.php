@@ -13,4 +13,5 @@ class UblAttributes
     const LIST_VERSION_ID = 'listVersionID';
     const CURRENCY_ID = 'currencyID';
     const UNIT_CODE = 'unitCode';
+    const ALGORITHM = 'Algorithm';
 }

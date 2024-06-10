@@ -7,10 +7,14 @@ use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\ISerializable;
 use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
+use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
 class SignInfoTransform implements ISerializable, IValidator
 {
     private $xpath;
+    private $attributes = [
+        UblAttributes::ALGORITHM => 'http://www.w3.org/TR/1999/REC-xpath-19991116',
+    ];
 
     /**
      * @return string
@@ -31,15 +35,30 @@ class SignInfoTransform implements ISerializable, IValidator
     }
 
     /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param array $attributes
+     * @return SignInfoTransform
+     */
+    public function setAttributes($attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
      */
     public function validate()
     {
-        if (empty($this->xpath)) {
-            throw new InvalidArgumentException('Missing SignInfoTransform xpath');
-        }
     }
 
     /**
@@ -52,10 +71,12 @@ class SignInfoTransform implements ISerializable, IValidator
     {
         $this->validate();
 
-        $writer->write([
-            'name' => XmlSchema::DS . 'XPath',
-            'value' => $this->xpath,
-        ]);
+        if (!empty($this->xpath)) {
+            $writer->write([
+                'name' => XmlSchema::DS . 'XPath',
+                'value' => $this->xpath,
+            ]);
+        }
     }
 
     /**
@@ -69,9 +90,11 @@ class SignInfoTransform implements ISerializable, IValidator
 
         $arrays = [];
 
-        $arrays['XPath'][] = [
-            '_' => $this->xpath,
-        ];
+        if (!empty($this->xpath)) {
+            $arrays['XPath'][] = [
+                '_' => $this->xpath,
+            ];
+        }
 
         return $arrays;
     }

@@ -616,6 +616,10 @@ class Invoice implements ISerializable, IValidator
                 XmlSchema::EXT . 'UBLExtensions' => $this->ublExtensions
             ]);
 
+            // https://sdk.myinvois.hasil.gov.my/files/one-doc-signed.xml
+            // https://sdk.myinvois.hasil.gov.my/files/sample-ul-invoice-2.1-signed.min.json
+            // XML sample does not have this attribute while JSON sample has this attribute
+            /*
             $writer->write([
                 'name' => XmlSchema::CAC . 'Signature',
                 'value' => [
@@ -623,6 +627,7 @@ class Invoice implements ISerializable, IValidator
                     XmlSchema::CBC . 'SignatureMethod' => $this->signatureMethod,
                 ]
             ]);
+            */
         }
 
         $writer->write([
@@ -777,6 +782,18 @@ class Invoice implements ISerializable, IValidator
 
         if ($this->ublExtensions !== null) {
             $arrays['UBLExtensions'][] = $this->ublExtensions;
+
+            // https://sdk.myinvois.hasil.gov.my/files/one-doc-signed.xml
+            // https://sdk.myinvois.hasil.gov.my/files/sample-ul-invoice-2.1-signed.min.json
+            // XML sample does not have this attribute while JSON sample has this attribute
+            $arrays['Signature'][] = [
+                'ID' => [[
+                    '_' => $this->signatureId,
+                ]],
+                'SignatureMethod' => [[
+                    '_' => $this->signatureMethod,
+                ]],
+            ];
         }
 
         $arrays['ID'][] = [

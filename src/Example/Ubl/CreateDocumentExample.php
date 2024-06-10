@@ -145,6 +145,12 @@ class CreateDocumentExample
         $transform->setXPath('not(//ancestor-or-self::cac:Signature)');
         $reference->addTransform($transform);
 
+        $transform = new SignInfoTransform();
+        $transform->setAttributes([
+            UblAttributes::ALGORITHM => 'http://www.w3.org/2006/12/xml-c14n11',
+        ]);
+        $reference->addTransform($transform);
+
         $signedInfo->addReference($reference);
 
         $reference = new SignInfoReference();

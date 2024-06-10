@@ -115,15 +115,19 @@ class SignInfoReference implements ISerializable, IValidator
         $this->validate();
 
         if (!empty($this->transforms)) {
+            $childs = [];
             foreach ($this->transforms as $transform) {
-                $writer->write([
+                $childs[] = [
                     'name' => XmlSchema::DS . 'Transform',
                     'value' => $transform,
-                    'attributes' => [
-                        'Algorithm' => 'http://www.w3.org/TR/1999/REC-xpath-19991116',
-                    ],
-                ]);
+                    'attributes' => $transform->getAttributes(),
+                ];
             }
+
+            $writer->write([
+                'name' => XmlSchema::DS . 'Transforms',
+                'value' => $childs,
+            ]);
         }
 
         $writer->write([
