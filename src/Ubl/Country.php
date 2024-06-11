@@ -10,7 +10,7 @@ class Country implements ISerializable, IValidator
 {
     private $identificationCode;
     private $identificationCodeAttributes = [
-        UblAttributes::LIST_ID => '’ISO3166-1',
+        UblAttributes::LIST_ID => 'ISO3166-1',
         UblAttributes::LIST_AGENCY_ID => '6',
     ];
 
