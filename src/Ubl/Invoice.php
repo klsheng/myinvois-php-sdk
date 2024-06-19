@@ -536,7 +536,7 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
-     * @return float
+     * @return TaxExchangeRate
      */
     public function getTaxExchangeRate()
     {
@@ -544,10 +544,10 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
-     * @param float $taxExchangeRate
+     * @param TaxExchangeRate $taxExchangeRate
      * @return Invoice
      */
-    public function setTaxExchangeRate($taxExchangeRate)
+    public function setTaxExchangeRate(TaxExchangeRate $taxExchangeRate)
     {
         $this->taxExchangeRate = $taxExchangeRate;
         return $this;
@@ -655,17 +655,6 @@ class Invoice implements ISerializable, IValidator
             ]);
         }
 
-        if($this->taxExchangeRate !== null) {
-            $writer->write([
-                [
-                    'name' => XmlSchema::CAC . 'TaxExchangeRate',
-                    'value' => [
-                        XmlSchema::CBC . 'CalculationRate' => number_format($this->taxExchangeRate, 1, '.', ''),
-                    ]
-                ],
-            ]);
-        }
-
         if ($this->accountingCostCode !== null) {
             $writer->write([
                 XmlSchema::CBC . 'AccountingCostCode' => $this->accountingCostCode
@@ -747,6 +736,12 @@ class Invoice implements ISerializable, IValidator
             }
         }
 
+        if($this->taxExchangeRate !== null) {
+            $writer->write([
+                XmlSchema::CAC . 'TaxExchangeRate' => $this->taxExchangeRate
+            ]);
+        }
+
         if ($this->taxTotal !== null) {
             $writer->write([
                 XmlSchema::CAC . 'TaxTotal' => $this->taxTotal
@@ -811,16 +806,6 @@ class Invoice implements ISerializable, IValidator
             ];
         }
 
-        if($this->taxExchangeRate !== null) {
-            $arrays['TaxExchangeRate'][] = [
-                'CalculationRate' => [
-                    [
-                        '_' => number_format($this->taxExchangeRate, 1, '.', '')
-                    ]
-                ],
-            ];
-        }
-
         if ($this->accountingCostCode !== null) {
             $arrays['AccountingCostCode'][] = [
                 '_' => $this->accountingCostCode,
@@ -878,6 +863,10 @@ class Invoice implements ISerializable, IValidator
             foreach ($this->allowanceCharges as $allowanceCharge) {
                 $arrays['AllowanceCharge'][] = $allowanceCharge;
             }
+        }
+
+        if($this->taxExchangeRate !== null) {
+            $arrays['TaxExchangeRate'][] = $this->taxExchangeRate;
         }
 
         if ($this->taxTotal !== null) {
