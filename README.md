@@ -73,7 +73,7 @@ This package require the following extensions in order to work properly:
 If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
 
 ## Usage
-You may refer example to create UBL v2.1 document supported by MyInvois System at [CreateDocumentExample](https://github.com/klsheng/myinvois-php-sdk/blob/main/src/example/ubl/CreateDocumentExample.php).
+You may refer example to create UBL v2.1 document supported by MyInvois System at [CreateDocumentExample](https://github.com/klsheng/myinvois-php-sdk/blob/main/src/Example/Ubl/CreateDocumentExample.php).
 
 Sample usage:
 
