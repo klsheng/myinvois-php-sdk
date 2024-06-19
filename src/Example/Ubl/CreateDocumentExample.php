@@ -35,6 +35,7 @@ use Klsheng\Myinvois\Ubl\PaymentMeans;
 use Klsheng\Myinvois\Ubl\PaymentTerms;
 use Klsheng\Myinvois\Ubl\BillingReference;
 use Klsheng\Myinvois\Ubl\PrepaidPayment;
+use Klsheng\Myinvois\Ubl\TaxExchangeRate;
 use Klsheng\Myinvois\Ubl\Extension\UBLExtensions;
 use Klsheng\Myinvois\Ubl\Extension\UBLExtensionItem;
 use Klsheng\Myinvois\Ubl\Extension\UBLDocumentSignatures;
@@ -105,6 +106,7 @@ class CreateDocumentExample
         $document = $this->setPaymentTerms($document);
         $document = $this->setAllowanceCharges($document);
         $document = $this->setTaxTotal($document);
+        $document = $this->setTaxExchangeRate($document);
 
         return $document;
     }
@@ -550,5 +552,15 @@ class CreateDocumentExample
         $taxTotal->addTaxSubTotal($taxSubTotal);
 
         return $document->setTaxTotal($taxTotal);
+    }
+
+    private function setTaxExchangeRate($document)
+    {
+        $taxExchangeRate = new TaxExchangeRate();
+        $taxExchangeRate->setSourceCurrencyCode('EUR');
+        $taxExchangeRate->setTargetCurrencyCode('MYR');
+        $taxExchangeRate->setCalculationRate(5.07);
+
+        return $document->setTaxExchangeRate($taxExchangeRate);
     }
 }
