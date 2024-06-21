@@ -140,7 +140,7 @@ $response = $client->getNotifications($dateFrom, $dateTo, $type, $language, $sta
 
 #### Validate Taxpayer's TIN
 ```php
-$tin = 'C25845632020';
+$tin = 'C00000000000';
 $idType = 'NRIC';
 $idValue = '770625015324';
 
