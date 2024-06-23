@@ -153,8 +153,21 @@ use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
 
 $id = 'INV20240418105410';
+$supplier = [
+    'TIN' => 'C00000000000',
+    'BRN' => '0000000-T',
+];
+$customer = [
+    'TIN' => 'C00000000000',
+    'BRN' => '0000000-T',
+];
+$delivery = [
+    'TIN' => 'C00000000000',
+    'BRN' => '0000000-T',
+];
+
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument($id);
+$invoice = $example->createJsonDocument($id, $supplier, $customer, $delivery);
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
