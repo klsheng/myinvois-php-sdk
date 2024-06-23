@@ -59,7 +59,7 @@ class CreateDocumentExample
     public function createXmlDocument($id, $supplier, $customer, $delivery, 
         $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null)
     {
-        $document = $this->createDocument($id, $supplier, $customer, $delivery);
+        $document = $this->createDocument($id, $supplier, $customer, $delivery, $includeSignature);
 
         $builder = new XmlDocumentBuilder();
         $builder->setDocument($document);
@@ -74,7 +74,7 @@ class CreateDocumentExample
     public function createJsonDocument($id, $supplier, $customer, $delivery, 
         $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null)
     {
-        $document = $this->createDocument($id, $supplier, $customer, $delivery);
+        $document = $this->createDocument($id, $supplier, $customer, $delivery, $includeSignature);
 
         $builder = new JsonDocumentBuilder();
         $builder->setDocument($document);
@@ -86,13 +86,18 @@ class CreateDocumentExample
         return $builder->build();
     }
 
-    private function createDocument($id, $supplier, $customer, $delivery)
+    private function createDocument($id, $supplier, $customer, $delivery, $includeSignature)
     {
         $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
 
         $document = new Invoice();
         $document->setId($id);
         $document->setIssueDateTime($issueDateTime);
+
+        if($includeSignature) {
+            $typeCode = $document->getInvoiceTypeCode(); // Get original type code
+            $document->setInvoiceTypeCode($typeCode, '1.1'); // 1.1 is with digital signature verification
+        }
 
         //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
@@ -113,6 +118,7 @@ class CreateDocumentExample
         return $document;
     }
 
+    /*
     private function setUBLExtension($document)
     {
         $signedSignatureProperties = new SignedSignatureProperties();
@@ -189,6 +195,7 @@ class CreateDocumentExample
 
         return $document;
     }
+    */
 
     private function setBillingReference($document)
     {
