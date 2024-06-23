@@ -685,7 +685,8 @@ class Invoice implements ISerializable, IValidator
             }
         }
 
-        if ($this->signatureId !== null && 
+        if ($this->ublExtensions !== null &&
+            $this->signatureId !== null && 
             $this->signatureMethod !== null) {
             $writer->write([
                 'name' => XmlSchema::CAC . 'Signature',
@@ -839,7 +840,8 @@ class Invoice implements ISerializable, IValidator
             }
         }
 
-        if ($this->signatureId !== null && 
+        if ($this->ublExtensions !== null &&
+            $this->signatureId !== null && 
             $this->signatureMethod !== null) {
             $arrays['Signature'][] = [
                 'ID' => [[

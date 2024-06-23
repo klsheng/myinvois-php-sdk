@@ -70,10 +70,10 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $documentString = $this->build();
         $documentHash = MyInvoisHelper::getHash($documentString);
 
-        $signature = $this->setSignatureObject($signature, $certPrivateKeyContent, $issuerSerial);
-        $signature = $this->setSignInfo($signature, $documentHash);
-        $signature = $this->setKeyInfo($signature, $certPrivateKeyContent, $issuerSerial);
         $signature = $this->setSignatureValue($signature, $certPrivateKeyContent, $documentHash);
+        $signature = $this->setSignatureObject($signature, $certContent, $issuerSerial);
+        $signature = $this->setKeyInfo($signature, $certPrivateKeyContent, $issuerSerial);
+        $signature = $this->setSignInfo($signature, $documentHash);
 
         $information = new SignatureInformation();
         $information->setSignature($signature, ['Id' => 'signature']);
@@ -109,12 +109,14 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $signedInfo = new SignInfo();
 
         // Reference 1
+        // https://sdk.myinvois.hasil.gov.my/signature-creation/
+        // Step 3
         $reference = new SignInfoReference();
         $reference->setAttributes([
             'Id' => 'id-doc-signed-data',
             'URI' => '',
         ]);
-        $reference->setDigestValue($documentHash);
+        $reference->setDigestValue(base64_encode($documentHash));
 
         $transform = new SignInfoTransform();
         $transform->setXPath('not(//ancestor-or-self::ext:UBLExtensions)');
@@ -133,18 +135,44 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $signedInfo->addReference($reference);
 
         // Reference 2
+        // https://sdk.myinvois.hasil.gov.my/signature-creation/
+        // Step 7
+
+        $propsDigestHash = $this->getPropsDigestHash($signature);
+
         $reference = new SignInfoReference();
         $reference->setAttributes([
             'Type' => 'http://www.w3.org/2000/09/xmldsig#SignatureProperties',
             'URI' => '#id-xades-signed-props',
         ]);
-        $reference->setDigestValue($documentHash);
+        $reference->setDigestValue(base64_encode($propsDigestHash));
 
         $signedInfo->addReference($reference);
 
         $signature->setSignInfo($signedInfo);
 
         return $signature;
+    }
+
+    private function getPropsDigestHash(Signature $signature)
+    {
+        // TODO
+        $service = new \Sabre\Xml\Service();
+        $service->namespaceMap = [
+            'http://uri.etsi.org/01903/v1.3.2#' => 'xades',
+            'http://www.w3.org/2000/09/xmldsig#' => 'ds',
+        ];
+
+        $content = $service->write('{http://uri.etsi.org/01903/v1.3.2#}root', $signature->getObject()->getQualifyingProperties());
+        $content = str_replace("<?xml version=\"1.0\"?>\n", '', $content);
+
+        $xml = new \DOMDocument('1.0', 'UTF-8');
+        $xml->preserveWhiteSpace = false;
+        $xml->loadXML($content);
+        
+        $content = $xml->C14N();
+
+        return MyInvoisHelper::getHash($content);
     }
 
     private function setKeyInfo(Signature $signature, $certPrivateKeyContent, IssuerSerial $issuerSerial)
@@ -163,15 +191,16 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
-    private function setSignatureObject(Signature $signature, $certPrivateKeyContent, IssuerSerial $issuerSerial)
+    private function setSignatureObject(Signature $signature, $certContent, IssuerSerial $issuerSerial)
     {
         $signingTime = new DateTime('now', new DateTimeZone('UTC'));
 
-        $cert = $this->getRawPrivateKeyContent($certPrivateKeyContent);
-        $certHash = MyInvoisHelper::getHash($cert);
+        // https://sdk.myinvois.hasil.gov.my/signature-creation/
+        // Step 5 & 6
+        $certHash = MyInvoisHelper::getHash($certContent);
 
         $certDigest = new CertDigest();
-        $certDigest->setDigestValue($certHash);
+        $certDigest->setDigestValue(base64_encode($certHash));
 
         $signingCertificate = new SigningCertificate();
         $signingCertificate->setCertDigest($certDigest);
@@ -197,6 +226,8 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
     private function setSignatureValue(Signature $signature, $certPrivateKeyContent, $digestValue)
     {
+        // https://sdk.myinvois.hasil.gov.my/signature-creation/
+        // Step 4
         $signatureValue = '';
         openssl_sign($digestValue, $signatureValue, $certPrivateKeyContent, OPENSSL_ALGO_SHA256);
 

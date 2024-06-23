@@ -2,6 +2,7 @@
 
 namespace Klsheng\Myinvois\Ubl\Builder;
 
+use DOMDocument;
 use Sabre\Xml\Service;
 use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
@@ -22,8 +23,15 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
             UblSpecifications::EXT => 'ext'
         ];
 
-        return $xmlService->write($document->xmlTagName, [
+        $content = $xmlService->write($document->xmlTagName, [
             $document
         ]);
+
+        $content = str_replace("<?xml version=\"1.0\"?>\n", '', $content);
+
+        $xml = new DOMDocument('1.0', 'UTF-8');
+        $xml->loadXML($content);
+        
+        return $xml->C14N();
     }
 }

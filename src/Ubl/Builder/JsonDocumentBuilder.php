@@ -13,7 +13,7 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
     {
         $document = $this->getDocument();
 
-        return json_encode([
+        $content = json_encode([
             '_D' => 'urn:oasis:names:specification:ubl:schema:xsd:' . $document->xmlTagName . '-2',
             '_A' => UblSpecifications::CAC,
             '_B' => UblSpecifications::CBC,
@@ -21,6 +21,11 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
             $document->xmlTagName => [
                 $document
             ],
-        ]);
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        // $content = json_encode(json_decode($content), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $content = str_replace(array("\r", "\n"), '', $content);
+
+        return $content;
     }
 }
