@@ -21,7 +21,7 @@ Please take note that MyInvois System is still under development and not yet fin
 - [x] Submit Documents (Invoice)
 - [x] Submit Documents (CreditNote)
 - [x] Submit Documents (DebitNote)
-- [ ] Submit Documents (RefundNote, Self-Billed Invoice, Self-Billed Credit Note, Self-Billed Debit Note, Self-Billed Refund Note)
+- [x] Submit Documents (RefundNote, Self-Billed Invoice, Self-Billed Credit Note, Self-Billed Debit Note, Self-Billed Refund Note)
 - [x] Cancel Document
 - [x] Reject Document
 - [x] Get Recent Documents
