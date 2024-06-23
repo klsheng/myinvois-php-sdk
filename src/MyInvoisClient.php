@@ -17,6 +17,9 @@ use Klsheng\Myinvois\Service\Taxpayer\TaxPayerService;
 
 class MyInvoisClient
 {
+    private const SANDBOX_PORTAL_BASE_URL = 'https://preprod.myinvois.hasil.gov.my';
+    private const PROD_PORTAL_BASE_URL = 'https://myinvois.hasil.gov.my';
+
     /**
      * Client Id for MyInvois API
      *
@@ -95,6 +98,13 @@ class MyInvoisClient
     private $taxPayerService;
 
     /**
+     * MyInvois Portal Base URL
+     *
+     * @var string
+     */
+    private $portalBaseUrl;
+
+    /**
      * Client constructor.
      *
      * @param string            $clientId
@@ -108,6 +118,8 @@ class MyInvoisClient
         $this->clientSecret = $clientSecret;
         $this->prodMode = $prodMode;
         $this->setHttpClient($httpClient ?: new GuzzleClient());
+
+        $this->portalBaseUrl = ($prodMode) ? self::PROD_PORTAL_BASE_URL : self::SANDBOX_PORTAL_BASE_URL;
     }
 
     /**
@@ -210,6 +222,17 @@ class MyInvoisClient
         }
 
         return false;
+    }
+
+    /**
+     * @param string $id        Unique ID of document.
+     * @param string $longId    Long ID of document.
+     *
+     * @return string
+     */
+    public function generateDocumentQrCodeUrl($id, $longId)
+    {
+        return $this->portalBaseUrl . '/' . $id . '/share/' . $longId;
     }
 
     /**
