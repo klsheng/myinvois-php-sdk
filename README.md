@@ -31,6 +31,7 @@ Please take note that MyInvois System is still under development and not yet fin
 - [x] Search Documents
 - [ ] Digital Signature
 - [ ] Mandatory Field Verification
+- [x] Get Document's QR Code URL
 
 ## [How to obtain Client ID and Client Secret for Sandbox?](https://sdk.myinvois.hasil.gov.my/faq/#how-to-obtain-client-id-and-client-secret-for-sandbox)
 
@@ -276,4 +277,17 @@ $receiverTin = null;
 $issuerTin = null;
 
 $response = $client->searchDocuments($id, $submissionDateFrom, $submissionDateTo, $continuationToken, $pageSize, $issueDateFrom, $issueDateTo, $direction, $status, $documentType, $receiverId, $receiverIdType, $receiverTin, $issuerTin);
+```
+
+#### Get Document's QR Code URL
+```php
+use Klsheng\Myinvois\MyInvoisClient;
+
+$prodMode = false;
+$client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
+
+$id = '0000000000000'; // Document's UUID
+$longId = '11111111111111'; // Document's Long Id
+$url = $client->generateDocumentQrCodeUrl($id, $longId);
+
 ```
