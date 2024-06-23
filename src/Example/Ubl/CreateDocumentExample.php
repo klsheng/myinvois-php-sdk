@@ -56,23 +56,23 @@ use Klsheng\Myinvois\Ubl\Constant\MSICCodes;
 
 class CreateDocumentExample
 {
-    public function createXmlDocument($id)
+    public function createXmlDocument($id, $supplier, $customer, $delivery)
     {
-        $document = $this->createDocument($id);
+        $document = $this->createDocument($id, $supplier, $customer, $delivery);
 
         $builder = new XmlDocumentBuilder();
         return $builder->getDocument($document);
     }
 
-    public function createJsonDocument($id)
+    public function createJsonDocument($id, $supplier, $customer, $delivery)
     {
-        $document = $this->createDocument($id);
+        $document = $this->createDocument($id, $supplier, $customer, $delivery);
 
         $builder = new JsonDocumentBuilder();
         return $builder->getDocument($document);
     }
 
-    private function createDocument($id)
+    private function createDocument($id, $supplier, $customer, $delivery)
     {
         $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
 
@@ -83,9 +83,9 @@ class CreateDocumentExample
         //$document = $this->setUBLExtension($document);
         $document = $this->setBillingReference($document);
         $document = $this->setPrepaidPayment($document);
-        $document = $this->setSupplier($document);
-        $document = $this->setCustomer($document);
-        $document = $this->setDelivery($document);
+        $document = $this->setSupplier($document, $supplier);
+        $document = $this->setCustomer($document, $customer);
+        $document = $this->setDelivery($document, $delivery);
         $document = $this->setDocumentLine($document);
         $document = $this->setAdditionalDocumentReference($document);
         $document = $this->setLegalMonetaryTotal($document);
@@ -195,7 +195,7 @@ class CreateDocumentExample
         return $document;
     }
 
-    private function setSupplier($document)
+    private function setSupplier($document, $partyDetail)
     {
         $address = new Address();
         $address->setCityName('Kuala Lumpur');
@@ -227,13 +227,11 @@ class CreateDocumentExample
 
         $supplier = new Party();
 
-        $partyIdentification = new PartyIdentification();
-        $partyIdentification->setId('C25746052070', 'TIN');
-        $supplier->addPartyIdentification($partyIdentification);
-
-        $partyIdentification = new PartyIdentification();
-        $partyIdentification->setId('1307004-T', 'BRN');
-        $supplier->addPartyIdentification($partyIdentification);
+        foreach($partyDetail as $key => $value) {
+            $partyIdentification = new PartyIdentification();
+            $partyIdentification->setId($value, $key);
+            $supplier->addPartyIdentification($partyIdentification);
+        }
 
         $supplier->setPostalAddress($address);
         $supplier->setLegalEntity($legalEntity);
@@ -250,7 +248,7 @@ class CreateDocumentExample
         return $document->setAccountingSupplierParty($accountingParty);
     }
 
-    private function setCustomer($document)
+    private function setCustomer($document, $partyDetail)
     {
         $address = new Address();
         $address->setCityName('Kuala Lumpur');
@@ -282,13 +280,11 @@ class CreateDocumentExample
 
         $customer = new Party();
 
-        $partyIdentification = new PartyIdentification();
-        $partyIdentification->setId('C2584563200', 'TIN');
-        $customer->addPartyIdentification($partyIdentification);
-
-        $partyIdentification = new PartyIdentification();
-        $partyIdentification->setId('201901234567', 'BRN');
-        $customer->addPartyIdentification($partyIdentification);
+        foreach($partyDetail as $key => $value) {
+            $partyIdentification = new PartyIdentification();
+            $partyIdentification->setId($value, $key);
+            $customer->addPartyIdentification($partyIdentification);
+        }
 
         $customer->setPostalAddress($address);
         $customer->setLegalEntity($legalEntity);
@@ -300,7 +296,7 @@ class CreateDocumentExample
         return $document->setAccountingCustomerParty($accountingParty);
     }
 
-    private function setDelivery($document)
+    private function setDelivery($document, $partyDetail)
     {
         $address = new Address();
         $address->setCityName('Kuala Lumpur');
@@ -328,13 +324,11 @@ class CreateDocumentExample
 
         $deliveryParty = new Party();
 
-        $partyIdentification = new PartyIdentification();
-        $partyIdentification->setId('C2584563200', 'TIN');
-        $deliveryParty->addPartyIdentification($partyIdentification);
-
-        $partyIdentification = new PartyIdentification();
-        $partyIdentification->setId('201901234567', 'BRN');
-        $deliveryParty->addPartyIdentification($partyIdentification);
+        foreach($partyDetail as $key => $value) {
+            $partyIdentification = new PartyIdentification();
+            $partyIdentification->setId($value, $key);
+            $deliveryParty->addPartyIdentification($partyIdentification);
+        }
 
         $deliveryParty->setPostalAddress($address);
         $deliveryParty->setLegalEntity($legalEntity);
