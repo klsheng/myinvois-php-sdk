@@ -3,6 +3,7 @@
 namespace Klsheng\Myinvois\Ubl\Builder;
 
 use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
+use Klsheng\Myinvois\Ubl\Extension\Signature;
 
 class JsonDocumentBuilder extends AbstractDocumentBuilder
 {
@@ -25,6 +26,18 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
 
         // $content = json_encode(json_decode($content), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $content = str_replace(array("\r", "\n"), '', $content);
+
+        return $content;
+    }
+
+    protected function getPropsDigestHash(Signature $signature)
+    {
+        // https://sdk.myinvois.hasil.gov.my/signature-creation-json/
+        // Step 5
+        
+        $content = json_encode($signature->getObject()->getQualifyingProperties(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $content = ltrim($content, '{');
+        $content = rtrim($content, '}');
 
         return $content;
     }

@@ -154,27 +154,6 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
-    private function getPropsDigestHash(Signature $signature)
-    {
-        // TODO
-        $service = new \Sabre\Xml\Service();
-        $service->namespaceMap = [
-            'http://uri.etsi.org/01903/v1.3.2#' => 'xades',
-            'http://www.w3.org/2000/09/xmldsig#' => 'ds',
-        ];
-
-        $content = $service->write('{http://uri.etsi.org/01903/v1.3.2#}root', $signature->getObject()->getQualifyingProperties());
-        $content = str_replace("<?xml version=\"1.0\"?>\n", '', $content);
-
-        $xml = new \DOMDocument('1.0', 'UTF-8');
-        $xml->preserveWhiteSpace = false;
-        $xml->loadXML($content);
-        
-        $content = $xml->C14N();
-
-        return MyInvoisHelper::getHash($content);
-    }
-
     private function setKeyInfo(Signature $signature, $certPrivateKeyContent, IssuerSerial $issuerSerial)
     {
         $cert = $this->getRawPrivateKeyContent($certPrivateKeyContent);
