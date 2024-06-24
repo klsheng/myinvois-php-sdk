@@ -8,6 +8,7 @@ use Sabre\Xml\Writer;
 class BillingReference implements ISerializable, IValidator
 {
     private $additionalDocumentReference;
+    private $invoiceDocumentReference;
 
     /**
      * @return AdditionalDocumentReference
@@ -24,6 +25,24 @@ class BillingReference implements ISerializable, IValidator
     public function setAdditionalDocumentReference(AdditionalDocumentReference $additionalDocumentReference)
     {
         $this->additionalDocumentReference = $additionalDocumentReference;
+        return $this;
+    }
+
+    /**
+     * @return InvoiceDocumentReference
+     */
+    public function getInvoiceDocumentReference()
+    {
+        return $this->invoiceDocumentReference;
+    }
+
+    /**
+     * @param InvoiceDocumentReference $invoiceDocumentReference
+     * @return BillingReference
+     */
+    public function setInvoiceDocumentReference(InvoiceDocumentReference $invoiceDocumentReference)
+    {
+        $this->invoiceDocumentReference = $invoiceDocumentReference;
         return $this;
     }
 
@@ -52,6 +71,12 @@ class BillingReference implements ISerializable, IValidator
         $writer->write([
             XmlSchema::CAC . 'AdditionalDocumentReference' => $this->additionalDocumentReference
         ]);
+
+        if ($this->invoiceDocumentReference !== null) {
+            $writer->write([
+                XmlSchema::CAC . 'InvoiceDocumentReference' => $this->invoiceDocumentReference
+            ]);
+        }
     }
 
     /**
@@ -66,6 +91,10 @@ class BillingReference implements ISerializable, IValidator
         $arrays = [];
 
         $arrays['AdditionalDocumentReference'][] = $this->additionalDocumentReference;
+
+        if ($this->invoiceDocumentReference !== null) {
+            $arrays['InvoiceDocumentReference'][] = $this->invoiceDocumentReference;
+        }
 
         return $arrays;
     }

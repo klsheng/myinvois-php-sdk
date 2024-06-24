@@ -21,7 +21,11 @@ Please take note that MyInvois System is still under development and not yet fin
 - [x] Submit Documents (Invoice)
 - [x] Submit Documents (CreditNote)
 - [x] Submit Documents (DebitNote)
-- [x] Submit Documents (RefundNote, Self-Billed Invoice, Self-Billed Credit Note, Self-Billed Debit Note, Self-Billed Refund Note)
+- [x] Submit Documents (RefundNote)
+- [x] Submit Documents (Self-Billed Invoice)
+- [x] Submit Documents (Self-Billed Credit Note)
+- [x] Submit Documents (Self-Billed Debit Note)
+- [x] Submit Documents (Self-Billed Refund Note)
 - [x] Cancel Document
 - [x] Reject Document
 - [x] Get Recent Documents
@@ -152,6 +156,7 @@ $response = $client->validateTaxPayerTin($tin, $idType, $idValue);
 ```php
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
+use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
 $id = 'INV20240418105410';
 $supplier = [
@@ -167,8 +172,9 @@ $delivery = [
     'BRN' => '0000000-T',
 ];
 
+// Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument($id, $supplier, $customer, $delivery);
+$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
@@ -181,6 +187,7 @@ $response = $client->submitDocument($documents);
 ```php
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
+use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
 $id = 'INV20240418105410';
 $supplier = [
@@ -196,8 +203,9 @@ $delivery = [
     'BRN' => '0000000-T',
 ];
 
+// Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createXmlDocument($id, $supplier, $customer, $delivery);
+$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);

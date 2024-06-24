@@ -5,6 +5,11 @@ namespace Klsheng\Myinvois\Example\Ubl;
 use Klsheng\Myinvois\Ubl\Invoice;
 use Klsheng\Myinvois\Ubl\CreditNote;
 use Klsheng\Myinvois\Ubl\DebitNote;
+use Klsheng\Myinvois\Ubl\RefundNote;
+use Klsheng\Myinvois\Ubl\SelfBilledInvoice;
+use Klsheng\Myinvois\Ubl\SelfBilledCreditNote;
+use Klsheng\Myinvois\Ubl\SelfBilledDebitNote;
+use Klsheng\Myinvois\Ubl\SelfBilledRefundNote;
 use Klsheng\Myinvois\Ubl\Address;
 use Klsheng\Myinvois\Ubl\AddressLine;
 use Klsheng\Myinvois\Ubl\Country;
@@ -36,6 +41,7 @@ use Klsheng\Myinvois\Ubl\PaymentTerms;
 use Klsheng\Myinvois\Ubl\BillingReference;
 use Klsheng\Myinvois\Ubl\PrepaidPayment;
 use Klsheng\Myinvois\Ubl\TaxExchangeRate;
+use Klsheng\Myinvois\Ubl\InvoiceDocumentReference;
 use Klsheng\Myinvois\Ubl\Extension\UBLExtensions;
 use Klsheng\Myinvois\Ubl\Extension\UBLExtensionItem;
 use Klsheng\Myinvois\Ubl\Extension\UBLDocumentSignatures;
@@ -53,30 +59,61 @@ use Klsheng\Myinvois\Ubl\Extension\SignedSignatureProperties;
 use Klsheng\Myinvois\Ubl\Builder\XmlDocumentBuilder;
 use Klsheng\Myinvois\Ubl\Builder\JsonDocumentBuilder;
 use Klsheng\Myinvois\Ubl\Constant\MSICCodes;
+use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
 class CreateDocumentExample
 {
-    public function createXmlDocument($id, $supplier, $customer, $delivery)
+    public function createXmlDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery)
     {
-        $document = $this->createDocument($id, $supplier, $customer, $delivery);
+        $document = $this->createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery);
 
         $builder = new XmlDocumentBuilder();
         return $builder->getDocument($document);
     }
 
-    public function createJsonDocument($id, $supplier, $customer, $delivery)
+    public function createJsonDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery)
     {
-        $document = $this->createDocument($id, $supplier, $customer, $delivery);
+        $document = $this->createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery);
 
         $builder = new JsonDocumentBuilder();
         return $builder->getDocument($document);
     }
 
-    private function createDocument($id, $supplier, $customer, $delivery)
+    private function getDocumentInstance($invoiceTypeCode)
+    {
+        switch($invoiceTypeCode) {
+            case InvoiceTypeCodes::CREDIT_NOTE:
+                return new CreditNote();
+                break;
+            case InvoiceTypeCodes::DEBIT_NOTE:
+                return new DebitNote();
+                break;
+            case InvoiceTypeCodes::REFUND_NOTE:
+                return new RefundNote();
+                break;
+            case InvoiceTypeCodes::SELF_BILLED_INVOICE:
+                return new SelfBilledInvoice();
+                break;
+            case InvoiceTypeCodes::SELF_BILLED_CREDIT_NOTE:
+                return new SelfBilledCreditNote();
+                break;
+            case InvoiceTypeCodes::SELF_BILLED_DEBIT_NOTE:
+                return new SelfBilledDebitNote();
+                break;
+            case InvoiceTypeCodes::SELF_BILLED_REFUND_NOTE:
+                return new SelfBilledRefundNote();
+                break;
+            default:
+                return new Invoice();
+                break;
+        }
+    }
+
+    private function createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery)
     {
         $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
 
-        $document = new Invoice();
+        $document = $this->getDocumentInstance($invoiceTypeCode);
         $document->setId($id);
         $document->setIssueDateTime($issueDateTime);
 
@@ -177,6 +214,15 @@ class CreateDocumentExample
 
         $billingReference = new BillingReference();
         $billingReference->setAdditionalDocumentReference($additionalDocumentReference);
+
+        $invoiceTypeCode = $document->getInvoiceTypeCode();
+        if($invoiceTypeCode == InvoiceTypeCodes::CREDIT_NOTE) {
+            $invoiceDocumentReference = new InvoiceDocumentReference();
+            $invoiceDocumentReference->setId('INV12345');
+            $invoiceDocumentReference->setUuid('00000000000000000000');
+
+            $billingReference->setInvoiceDocumentReference($invoiceDocumentReference);
+        }
 
         $document->setBillingReference($billingReference);
 
