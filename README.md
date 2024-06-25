@@ -21,7 +21,11 @@ Please take note that MyInvois System is still under development and not yet fin
 - [x] Submit Documents (Invoice)
 - [x] Submit Documents (CreditNote)
 - [x] Submit Documents (DebitNote)
-- [ ] Submit Documents (RefundNote, Self-Billed Invoice, Self-Billed Credit Note, Self-Billed Debit Note, Self-Billed Refund Note)
+- [x] Submit Documents (RefundNote)
+- [x] Submit Documents (Self-Billed Invoice)
+- [x] Submit Documents (Self-Billed Credit Note)
+- [x] Submit Documents (Self-Billed Debit Note)
+- [x] Submit Documents (Self-Billed Refund Note)
 - [x] Cancel Document
 - [x] Reject Document
 - [x] Get Recent Documents
@@ -31,6 +35,7 @@ Please take note that MyInvois System is still under development and not yet fin
 - [x] Search Documents
 - [ ] Digital Signature
 - [ ] Mandatory Field Verification
+- [x] Get Document's QR Code URL
 
 ## [How to obtain Client ID and Client Secret for Sandbox?](https://sdk.myinvois.hasil.gov.my/faq/#how-to-obtain-client-id-and-client-secret-for-sandbox)
 
@@ -151,6 +156,7 @@ $response = $client->validateTaxPayerTin($tin, $idType, $idValue);
 ```php
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
+use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
 $id = 'INV20240418105410';
 $supplier = [
@@ -166,8 +172,9 @@ $delivery = [
     'BRN' => '0000000-T',
 ];
 
+// Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument($id, $supplier, $customer, $delivery);
+$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
@@ -180,6 +187,7 @@ $response = $client->submitDocument($documents);
 ```php
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Example\Ubl\CreateDocumentExample;
+use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
 $id = 'INV20240418105410';
 $supplier = [
@@ -195,8 +203,9 @@ $delivery = [
     'BRN' => '0000000-T',
 ];
 
+// Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createXmlDocument($id, $supplier, $customer, $delivery);
+$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
@@ -275,4 +284,17 @@ $receiverTin = null;
 $issuerTin = null;
 
 $response = $client->searchDocuments($id, $submissionDateFrom, $submissionDateTo, $continuationToken, $pageSize, $issueDateFrom, $issueDateTo, $direction, $status, $documentType, $receiverId, $receiverIdType, $receiverTin, $issuerTin);
+```
+
+#### Get Document's QR Code URL
+```php
+use Klsheng\Myinvois\MyInvoisClient;
+
+$prodMode = false;
+$client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
+
+$id = '0000000000000'; // Document's UUID
+$longId = '11111111111111'; // Document's Long Id
+$url = $client->generateDocumentQrCodeUrl($id, $longId);
+
 ```
