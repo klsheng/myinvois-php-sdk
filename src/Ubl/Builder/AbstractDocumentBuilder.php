@@ -72,7 +72,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
         $signature = $this->setSignatureValue($signature, $certPrivateKeyContent, $documentHash);
         $signature = $this->setSignatureObject($signature, $certContent, $issuerSerial);
-        $signature = $this->setKeyInfo($signature, $certPrivateKeyContent, $issuerSerial);
+        $signature = $this->setKeyInfo($signature, $certContent, $issuerSerial);
         $signature = $this->setSignInfo($signature, $documentHash);
 
         $information = new SignatureInformation();
@@ -154,9 +154,9 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
-    private function setKeyInfo(Signature $signature, $certPrivateKeyContent, IssuerSerial $issuerSerial)
+    private function setKeyInfo(Signature $signature, $certContent, IssuerSerial $issuerSerial)
     {
-        $cert = $this->getRawPrivateKeyContent($certPrivateKeyContent);
+        $cert = $this->getRawPrivateKeyContent($certContent);
 
         $x509Data = new KeyInfoX509Data();
         $x509Data->setX509Certificate($cert);
