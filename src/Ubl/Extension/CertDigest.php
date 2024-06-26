@@ -80,6 +80,7 @@ class CertDigest implements ISerializable, IValidator
 
         $arrays['DigestMethod'][] = [
             '_' => '',
+            'Algorithm' => 'http://www.w3.org/2001/04/xmlenc#sha256',
         ];
 
         if (!empty($this->digestValue)) {

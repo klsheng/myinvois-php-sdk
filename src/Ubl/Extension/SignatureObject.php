@@ -57,13 +57,19 @@ class SignatureObject implements ISerializable, IValidator
         ]);
 
         if ($this->qualifyingProperties !== null) {
+
+            $attributes = $this->qualifyingProperties->getAttributes();
+
+            $attributes = array_merge([
+                'xmlns:xades' => 'http://uri.etsi.org/01903/v1.3.2#',
+            ], $attributes);
+
+            $this->qualifyingProperties->setAttributes($attributes);
+
             $writer->write([
                 'name' => XmlSchema::XADES . 'QualifyingProperties',
                 'value' => $this->qualifyingProperties,
-                'attributes' => [
-                    'xmlns:xades' => 'http://uri.etsi.org/01903/v1.3.2#',
-                    'Target' => 'signature',
-                ],
+                'attributes' => $this->qualifyingProperties->getAttributes(),
             ]);
         }
     }

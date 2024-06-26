@@ -13,9 +13,9 @@ class MyInvoisHelper
         }
     }
 
-    public static function getHash($content)
+    public static function getHash($content, $binary = false)
     {
-        return hash('sha256', $content);
+        return hash('sha256', $content, $binary);
     }
     
     /**

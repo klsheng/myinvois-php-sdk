@@ -82,6 +82,9 @@ class KeyInfoX509Data implements ISerializable, IValidator
             ]);
         }
 
+        // https://sdk.myinvois.hasil.gov.my/files/one-doc-signed.xml
+        // XML format doesn't have while JSON format have
+        /*
         if($this->issuerSerial !== null) {
             $writer->write([
                 'name' => XmlSchema::DS . 'X509SubjectName',
@@ -93,6 +96,7 @@ class KeyInfoX509Data implements ISerializable, IValidator
                 'value' => $this->issuerSerial,
             ]);
         }
+        */
     }
 
     /**

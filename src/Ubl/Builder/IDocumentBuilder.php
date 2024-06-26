@@ -18,9 +18,10 @@ interface IDocumentBuilder
      * 
      * @param string $certFilePath Certificate file path
      * @param string $certPrivateKeyFilePath Private key file path
+     * @param string $passphrase Password to decrypt Certificate
      * @return IDocumentBuilder
      */
-    public function createSignature($certFilePath, $certPrivateKeyFilePath);
+    public function createSignature($certFilePath, $certPrivateKeyFilePath, $passphrase = null);
 
     /**
      * Build Invoice object into string

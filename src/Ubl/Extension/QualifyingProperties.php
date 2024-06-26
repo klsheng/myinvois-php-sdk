@@ -10,7 +10,31 @@ use Klsheng\Myinvois\Ubl\XmlSchema;
 
 class QualifyingProperties implements ISerializable, IValidator
 {
+    private $attributes = [
+        'Target' => 'signature',
+    ];
     private $signedProperties;
+
+    /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param array $attributes
+     * 
+     * @return QualifyingProperties
+     */
+    public function setAttributes($attributes)
+    {
+        if(is_array($attributes)) {
+            $this->attributes = array_merge($attributes, $this->attributes);
+        }
+        return $this;
+    }
 
     /**
      * @return SignedProperties
@@ -73,6 +97,12 @@ class QualifyingProperties implements ISerializable, IValidator
         $this->validate();
 
         $arrays = [];
+
+        if($this->attributes !== null) {
+            foreach($this->attributes as $key => $value) {
+                $arrays[$key] = $value;
+            }
+        }
 
         if ($this->signedProperties !== null) {
             $arrays['SignedProperties'][] = $this->signedProperties;

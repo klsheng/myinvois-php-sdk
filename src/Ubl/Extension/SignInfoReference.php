@@ -156,14 +156,25 @@ class SignInfoReference implements ISerializable, IValidator
 
         $arrays = [];
 
+        // https://sdk.myinvois.hasil.gov.my/files/sample-ul-invoice-2.1-signed.min.json
+        // JSON doesn't have this
+        /*
         if (!empty($this->transforms)) {
             foreach ($this->transforms as $transform) {
                 $arrays['Transform'][] = $transform;
             }
         }
+        */
+
+        if($this->attributes !== null) {
+            foreach($this->attributes as $key => $value) {
+                $arrays[$key] = $value;
+            }
+        }
 
         $arrays['DigestMethod'][] = [
             '_' => '',
+            'Algorithm' => 'http://www.w3.org/2001/04/xmlenc#sha256',
         ];
 
         if (!empty($this->digestValue)) {

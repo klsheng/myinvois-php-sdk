@@ -10,10 +10,32 @@ use Klsheng\Myinvois\Ubl\XmlSchema;
 
 class Signature implements ISerializable, IValidator
 {
+    private $attributes = [];
     private $signatureValue;
     private $signInfo;
     private $keyInfo;
     private $object;
+
+    /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * @param array $attributes
+     * 
+     * @return Signature
+     */
+    public function setAttributes($attributes)
+    {
+        if(is_array($attributes)) {
+            $this->attributes = array_merge($attributes, $this->attributes);
+        }
+        return $this;
+    }
 
     /**
      * @return string
@@ -161,14 +183,20 @@ class Signature implements ISerializable, IValidator
 
         $arrays = [];
 
-        if ($this->signatureValue !== null) {
-            $arrays['SignatureValue'][] = [
-                '_' => $this->signatureValue,
-            ];
+        if($this->attributes !== null) {
+            foreach($this->attributes as $key => $value) {
+                $arrays[$key] = $value;
+            }
         }
 
         if ($this->signInfo !== null) {
             $arrays['SignedInfo'][] = $this->signInfo;
+        }
+
+        if ($this->signatureValue !== null) {
+            $arrays['SignatureValue'][] = [
+                '_' => $this->signatureValue,
+            ];
         }
 
         if ($this->keyInfo !== null) {

@@ -80,7 +80,11 @@ class UBLDocumentSignatures implements ISerializable, IValidator
         $arrays = [];
 
         if ($this->signatureInformation !== null) {
-            $arrays['UBLDocumentSignatures'][] = $this->signatureInformation;
+            $arrays['UBLDocumentSignatures'][] = [
+                'SignatureInformation' => [
+                    $this->signatureInformation,
+                ]
+            ];
         }
 
         return $arrays;

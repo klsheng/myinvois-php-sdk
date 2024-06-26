@@ -108,12 +108,17 @@ class SignInfo implements ISerializable, IValidator
 
         $arrays = [];
 
+        // https://sdk.myinvois.hasil.gov.my/files/sample-ul-invoice-2.1-signed.min.json
+        // JSON doesn't have this
+        /*
         $arrays['CanonicalizationMethod'][] = [
             '_' => '',
         ];
+        */
 
         $arrays['SignatureMethod'][] = [
             '_' => '',
+            'Algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
         ];
 
         if (!empty($this->references)) {

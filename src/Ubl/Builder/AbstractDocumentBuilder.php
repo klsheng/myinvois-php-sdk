@@ -29,6 +29,7 @@ use Klsheng\Myinvois\Ubl\Extension\IssuerSerial;
 abstract class AbstractDocumentBuilder implements IDocumentBuilder
 {
     private $document = null;
+    protected $isSigned = false;
 
     /**
      * {@inheritdoc}
@@ -42,22 +43,33 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
     /**
      * {@inheritdoc}
      */
-    public function createSignature($certFilePath, $certPrivateKeyFilePath)
+    public function createSignature($certFilePath, $certPrivateKeyFilePath, $passphrase = null)
     {
         if(empty($certFilePath)) {
             throw new InvalidArgumentException('certFilePath is empty');
         }
 
-        if(empty($certPrivateKeyFilePath)) {
-            throw new InvalidArgumentException('certPrivateKeyFilePath is empty');
+        if(empty($certPrivateKeyFilePath) && empty($passphrase)) {
+            throw new InvalidArgumentException('certPrivateKeyFilePath and passphrase is empty');
         }
 
         $certContent = file_get_contents($certFilePath);
-        $certPrivateKeyContent = file_get_contents($certPrivateKeyFilePath);
+
+        $ext = pathinfo($certFilePath, PATHINFO_EXTENSION);
+        if($ext ==='p12' || $ext === 'pfx') {
+            if(!openssl_pkcs12_read($certContent, $certs, $passphrase)) {
+                throw new InvalidArgumentException('certFilePath is invalid');
+            }
+
+            $certContent = $certs['cert'];
+            $certPrivateKeyContent = $certs['pkey'];
+        } else {
+            $certPrivateKeyContent = file_get_contents($certPrivateKeyFilePath);
+        }
 
         $data = openssl_x509_parse($certContent);
         $issuerArray = $data['issuer'];
-        $issuerName = http_build_query($issuerArray, '', ', ');
+        $issuerName = urldecode(http_build_query($issuerArray, '', ', '));
         $serialNumber = $data['serialNumber'];
 
         $issuerSerial = new IssuerSerial();
@@ -65,10 +77,12 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $issuerSerial->setSerialNumber($serialNumber);
 
         $signature = new Signature();
+        $signature->setAttributes(['Id' => 'signature']);
 
         // Get original document and hash first before insert signature component
         $documentString = $this->build();
-        $documentHash = MyInvoisHelper::getHash($documentString);
+        // hash in bytes
+        $documentHash = MyInvoisHelper::getHash($documentString, true);
 
         $signature = $this->setSignatureValue($signature, $certPrivateKeyContent, $documentHash);
         $signature = $this->setSignatureObject($signature, $certContent, $issuerSerial);
@@ -76,7 +90,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $signature = $this->setSignInfo($signature, $documentHash);
 
         $information = new SignatureInformation();
-        $information->setSignature($signature, ['Id' => 'signature']);
+        $information->setSignature($signature);
 
         $sign = new UBLDocumentSignatures();
         $sign->setSignatureInformation($information);
@@ -88,6 +102,8 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $ublExtensions->addUBLExtensionItem($ublExtensionItem);
         
         $this->document->setUBLExtensions($ublExtensions);
+
+        $this->isSigned = true;
 
         return $this;
     }
@@ -156,7 +172,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
     private function setKeyInfo(Signature $signature, $certContent, IssuerSerial $issuerSerial)
     {
-        $cert = $this->getRawPrivateKeyContent($certContent);
+        $cert = $this->getRawContent($certContent);
 
         $x509Data = new KeyInfoX509Data();
         $x509Data->setX509Certificate($cert);
@@ -176,7 +192,9 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
         // https://sdk.myinvois.hasil.gov.my/signature-creation/
         // Step 5 & 6
-        $certHash = MyInvoisHelper::getHash($certContent);
+        $cert = $this->getRawContent($certContent);
+        $decodedCertBytes = base64_decode($cert);
+        $certHash = MyInvoisHelper::getHash($decodedCertBytes, true);
 
         $certDigest = new CertDigest();
         $certDigest->setDigestValue(base64_encode($certHash));
@@ -203,21 +221,21 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
-    private function setSignatureValue(Signature $signature, $certPrivateKeyContent, $digestValue)
+    private function setSignatureValue(Signature $signature, $certPrivateKeyContent, $documentHash)
     {
         // https://sdk.myinvois.hasil.gov.my/signature-creation/
         // Step 4
-        $signatureValue = '';
-        openssl_sign($digestValue, $signatureValue, $certPrivateKeyContent, OPENSSL_ALGO_SHA256);
+        openssl_sign($documentHash, $signatureValue, $certPrivateKeyContent, OPENSSL_ALGO_SHA256);
 
         $signature->setSignatureValue(base64_encode($signatureValue));
 
         return $signature;
     }
 
-    private function getRawPrivateKeyContent($certPrivateKeyContent)
+    private function getRawContent($content)
     {
-        $keyArray = explode("\n", $certPrivateKeyContent);
+        $content = str_replace(array("\r"), '', $content);
+        $keyArray = explode("\n", $content);
 
         // Remove -----BEGIN XXXX PRIVATE KEY-----
         unset($keyArray[0]);
