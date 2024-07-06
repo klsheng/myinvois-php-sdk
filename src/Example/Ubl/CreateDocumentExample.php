@@ -144,22 +144,24 @@ class CreateDocumentExample
 
     private function setBillingReference($document)
     {
-        $additionalDocumentReference = new AdditionalDocumentReference();
-        $additionalDocumentReference->setId('E12345678912');
+        for ($i = 0; $i < 2; $i++) {
+            $additionalDocumentReference = new AdditionalDocumentReference();
+            $additionalDocumentReference->setId('E12345678912' . $i);
 
-        $billingReference = new BillingReference();
-        $billingReference->setAdditionalDocumentReference($additionalDocumentReference);
+            $billingReference = new BillingReference();
+            $billingReference->setAdditionalDocumentReference($additionalDocumentReference);
 
-        $invoiceTypeCode = $document->getInvoiceTypeCode();
-        if($invoiceTypeCode == InvoiceTypeCodes::CREDIT_NOTE) {
-            $invoiceDocumentReference = new InvoiceDocumentReference();
-            $invoiceDocumentReference->setId('INV12345');
-            $invoiceDocumentReference->setUuid('00000000000000000000');
+            $invoiceTypeCode = $document->getInvoiceTypeCode();
+            if($invoiceTypeCode == InvoiceTypeCodes::CREDIT_NOTE) {
+                $invoiceDocumentReference = new InvoiceDocumentReference();
+                $invoiceDocumentReference->setId('INV12345' . $i);
+                $invoiceDocumentReference->setUuid('00000000000000000000' . $i);
 
-            $billingReference->setInvoiceDocumentReference($invoiceDocumentReference);
+                $billingReference->setInvoiceDocumentReference($invoiceDocumentReference);
+            }
+
+            $document->addBillingReference($billingReference);
         }
-
-        $document->setBillingReference($billingReference);
 
         return $document;
     }

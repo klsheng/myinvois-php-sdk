@@ -38,7 +38,7 @@ class Invoice implements ISerializable, IValidator
     private $invoicePeriod;
     private $delivery;
     private $orderReference;
-    private $billingReference;
+    private $billingReferences = [];
     private $prepaidPayment;
     private $ublExtensions;
     private $signatureId = UblSpecifications::SIGNATURE_ID;
@@ -474,11 +474,11 @@ class Invoice implements ISerializable, IValidator
     }
 
     /**
-     * @return BillingReference
+     * @return array<BillingReference>
      */
-    public function getBillingReference()
+    public function getBillingReferences()
     {
-        return $this->billingReference;
+        return $this->billingReferences;
     }
 
     /**
@@ -487,7 +487,27 @@ class Invoice implements ISerializable, IValidator
      */
     public function setBillingReference(BillingReference $billingReference)
     {
-        $this->billingReference = $billingReference;
+        $this->billingReferences = [$billingReference];
+        return $this;
+    }
+
+    /**
+     * @param BillingReference[] $billingReferences
+     * @return Invoice
+     */
+    public function setBillingReferences($billingReferences)
+    {
+        $this->billingReferences = $billingReferences;
+        return $this;
+    }
+
+    /**
+     * @param BillingReference $billingReference
+     * @return Invoice
+     */
+    public function addBillingReference(BillingReference $billingReference)
+    {
+        $this->billingReferences[] = $billingReference;
         return $this;
     }
 
@@ -671,10 +691,12 @@ class Invoice implements ISerializable, IValidator
             ]);
         }
 
-        if ($this->billingReference !== null) {
-            $writer->write([
-                XmlSchema::CAC . 'BillingReference' => $this->billingReference
-            ]);
+        if (!empty($this->billingReferences)) {
+            foreach ($this->billingReferences as $billingReference) {
+                $writer->write([
+                    XmlSchema::CAC . 'BillingReference' => $billingReference
+                ]);
+            }
         }
 
         if (!empty($this->additionalDocumentReferences)) {
@@ -830,8 +852,10 @@ class Invoice implements ISerializable, IValidator
             $arrays['OrderReference'][] = $this->orderReference;
         }
 
-        if ($this->billingReference !== null) {
-            $arrays['BillingReference'][] = $this->billingReference;
+        if (!empty($this->billingReferences)) {
+            foreach ($this->billingReferences as $billingReference) {
+                $arrays['BillingReference'][] = $billingReference;
+            }
         }
 
         if (!empty($this->additionalDocumentReferences)) {
