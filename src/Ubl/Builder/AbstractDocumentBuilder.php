@@ -69,6 +69,24 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
         $data = openssl_x509_parse($certContent);
         $issuerArray = $data['issuer'];
+
+        // From LHDN sample, CN must be first and C must be last, bad design
+        if(array_key_exists('CN', $issuerArray)) {
+            $cnValue = $issuerArray['CN'];
+            unset($issuerArray['CN']);
+            $issuerArray = array_merge([
+                'CN' => $cnValue,
+            ], $issuerArray);
+        }
+
+        if(array_key_exists('C', $issuerArray)) {
+            $cValue = $issuerArray['C'];
+            unset($issuerArray['C']);
+            $issuerArray = array_merge($issuerArray, [
+                'C' => $cValue,
+            ]);
+        }
+
         $issuerName = urldecode(http_build_query($issuerArray, '', ', '));
         $serialNumber = $data['serialNumber'];
 
@@ -84,7 +102,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         // hash in bytes
         $documentHash = MyInvoisHelper::getHash($documentString, true);
 
-        $signature = $this->setSignatureValue($signature, $certPrivateKeyContent, $documentHash);
+        $signature = $this->setSignatureValue($signature, $certPrivateKeyContent, $documentString);
         $signature = $this->setSignatureObject($signature, $certContent, $issuerSerial);
         $signature = $this->setKeyInfo($signature, $certContent, $issuerSerial);
         $signature = $this->setSignInfo($signature, $documentHash);
@@ -120,6 +138,13 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $this->document;
     }
 
+    /**
+     * Set SignInfo into Signature object
+     * 
+     * @param Signature $signature Signature object
+     * @param string $documentHash Document hash
+     * @return Signature
+     */
     private function setSignInfo(Signature $signature, $documentHash)
     {
         $signedInfo = new SignInfo();
@@ -158,7 +183,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
         $reference = new SignInfoReference();
         $reference->setAttributes([
-            'Type' => 'http://www.w3.org/2000/09/xmldsig#SignatureProperties',
+            'Type' => 'http://uri.etsi.org/01903/v1.3.2#SignedProperties',
             'URI' => '#id-xades-signed-props',
         ]);
         $reference->setDigestValue(base64_encode($propsDigestHash));
@@ -170,6 +195,14 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
+    /**
+     * Set KeyInfo into Signature object
+     * 
+     * @param Signature $signature Signature object
+     * @param string $certContent Cert content
+     * @param IssuerSerial $issuerSerial IssuerSerial object
+     * @return Signature
+     */
     private function setKeyInfo(Signature $signature, $certContent, IssuerSerial $issuerSerial)
     {
         $cert = $this->getRawContent($certContent);
@@ -186,6 +219,14 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
+    /**
+     * Set SignatureObject into Signature object
+     * 
+     * @param Signature $signature Signature object
+     * @param string $certContent Cert content
+     * @param IssuerSerial $issuerSerial IssuerSerial object
+     * @return Signature
+     */
     private function setSignatureObject(Signature $signature, $certContent, IssuerSerial $issuerSerial)
     {
         $signingTime = new DateTime('now', new DateTimeZone('UTC'));
@@ -221,17 +262,31 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         return $signature;
     }
 
-    private function setSignatureValue(Signature $signature, $certPrivateKeyContent, $documentHash)
+    /**
+     * Set SignatureValue into Signature object
+     * 
+     * @param Signature $signature Signature object
+     * @param string $certPrivateKeyContent Cert's private key content
+     * @param string $documentString Document JSON string
+     * @return Signature
+     */
+    private function setSignatureValue(Signature $signature, $certPrivateKeyContent, $documentString)
     {
         // https://sdk.myinvois.hasil.gov.my/signature-creation/
         // Step 4
-        openssl_sign($documentHash, $signatureValue, $certPrivateKeyContent, OPENSSL_ALGO_SHA256);
+        openssl_sign($documentString, $signatureValue, $certPrivateKeyContent, OPENSSL_ALGO_SHA256);
 
         $signature->setSignatureValue(base64_encode($signatureValue));
 
         return $signature;
     }
 
+    /**
+     * Get certificate related content
+     * 
+     * @param string $content Content
+     * @return string
+     */
     private function getRawContent($content)
     {
         $content = str_replace(array("\r"), '', $content);

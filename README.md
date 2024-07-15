@@ -175,7 +175,7 @@ $delivery = [
 
 // Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
+$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.crt', '/path/to/eInvoice.key');
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
@@ -206,7 +206,7 @@ $delivery = [
 
 // Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
+$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.crt', '/path/to/eInvoice.key');
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);

@@ -39,13 +39,19 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
         return $content;
     }
 
+    /**
+     * Get Props Digiest Hash
+     * 
+     * @param Signature $signature Signature object
+     * @return string
+     */
     protected function getPropsDigestHash(Signature $signature)
     {
         // https://sdk.myinvois.hasil.gov.my/signature-creation-json/
         // Step 5
         
         $content = json_encode(
-            $signature->getObject()->getQualifyingProperties()->getSignedProperties(), 
+            $signature->getObject()->getQualifyingProperties(), 
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         //$content = ltrim($content, '{');

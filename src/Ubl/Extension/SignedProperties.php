@@ -71,6 +71,8 @@ class SignedProperties implements ISerializable, IValidator
 
         $arrays = [];
 
+        $arrays['Id'] = 'id-xades-signed-props';
+
         if ($this->signedSignatureProperties !== null) {
             $arrays['SignedSignatureProperties'][] = $this->signedSignatureProperties;
         }

@@ -42,15 +42,21 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
 
         $content = utf8_encode($content);
         $content = str_replace(array("\n", "\t", "\r"), '', $content);
-
-        // Custom code to resolve signature issue
-        // if($this->isSigned) {
-        //     $content = str_replace('<ds:Reference Type="http://www.w3.org/2000/09/xmldsig#SignatureProperties" URI="#id-xades-signed-props">', '<ds:Reference xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Type="http://uri.etsi.org/01903/v1.3.2#SignedProperties" URI="#id-xades-signed-props">', $content);
-        // }
+        $content = str_replace("<xades:SignedProperties Id=\"id-xades-signed-props\">", "<xades:SignedProperties Id=\"id-xades-signed-props\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", $content);
+        $content = str_replace("<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"></ds:DigestMethod>","<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"></ds:DigestMethod>", $content);
+        $content = str_replace("<ds:X509SerialNumber>","<ds:X509SerialNumber xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
+        $content = str_replace("<ds:X509IssuerName>","<ds:X509IssuerName xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
+        $content = str_replace("<ds:DigestValue>","<ds:DigestValue xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
         
         return $content;
     }
 
+    /**
+     * Get Props Digiest Hash
+     * 
+     * @param Signature $signature Signature object
+     * @return string
+     */
     protected function getPropsDigestHash(Signature $signature)
     {
         // https://sdk.myinvois.hasil.gov.my/signature-creation/
@@ -76,8 +82,11 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
         $content = str_replace("<?xml version=\"1.0\"?>", '', $content);
         $content = str_replace("<xades:root xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", '', $content);
         $content = str_replace("</xades:root>", '', $content);
-        //$content = str_replace("<xades:SignedProperties Id=\"id-xades-signed-props\">", '', $content);
-        //$content = str_replace("</xades:SignedProperties>", '', $content);
+        $content = str_replace("<xades:SignedProperties Id=\"id-xades-signed-props\">", "<xades:SignedProperties Id=\"id-xades-signed-props\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", $content);
+        $content = str_replace("<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"></ds:DigestMethod>","<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"></ds:DigestMethod>", $content);
+        $content = str_replace("<ds:X509SerialNumber>","<ds:X509SerialNumber xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
+        $content = str_replace("<ds:X509IssuerName>","<ds:X509IssuerName xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
+        $content = str_replace("<ds:DigestValue>","<ds:DigestValue xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
 
         return MyInvoisHelper::getHash($content, true);
     }
