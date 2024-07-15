@@ -33,7 +33,7 @@ Please take note that MyInvois System is still under development and not yet fin
 - [x] Get Document
 - [x] Get Document Details
 - [x] Search Documents
-- [ ] Digital Signature
+- [x] Digital Signature
 - [ ] Mandatory Field Verification
 - [x] Get Document's QR Code URL
 
