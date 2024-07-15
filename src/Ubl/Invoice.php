@@ -635,14 +635,6 @@ class Invoice implements ISerializable, IValidator
             $writer->write([
                 XmlSchema::EXT . 'UBLExtensions' => $this->ublExtensions
             ]);
-
-            $writer->write([
-                'name' => XmlSchema::CAC . 'Signature',
-                'value' => [
-                    XmlSchema::CBC . 'ID' => $this->signatureId,
-                    XmlSchema::CBC . 'SignatureMethod' => $this->signatureMethod,
-                ]
-            ]);
         }
 
         $writer->write([
@@ -713,6 +705,18 @@ class Invoice implements ISerializable, IValidator
                     XmlSchema::CAC . 'AdditionalDocumentReference' => $additionalDocumentReference
                 ]);
             }
+        }
+
+        if ($this->ublExtensions !== null &&
+            $this->signatureId !== null && 
+            $this->signatureMethod !== null) {
+            $writer->write([
+                'name' => XmlSchema::CAC . 'Signature',
+                'value' => [
+                    XmlSchema::CBC . 'ID' => $this->signatureId,
+                    XmlSchema::CBC . 'SignatureMethod' => $this->signatureMethod,
+                ]
+            ]);
         }
 
         $writer->write([
@@ -858,6 +862,19 @@ class Invoice implements ISerializable, IValidator
             foreach ($this->additionalDocumentReferences as $additionalDocumentReference) {
                 $arrays['AdditionalDocumentReference'][] = $additionalDocumentReference;
             }
+        }
+
+        if ($this->ublExtensions !== null &&
+            $this->signatureId !== null && 
+            $this->signatureMethod !== null) {
+            $arrays['Signature'][] = [
+                'ID' => [[
+                    '_' => $this->signatureId,
+                ]],
+                'SignatureMethod' => [[
+                    '_' => $this->signatureMethod,
+                ]],
+            ];
         }
 
         $arrays['AccountingSupplierParty'][] = $this->accountingSupplierParty;

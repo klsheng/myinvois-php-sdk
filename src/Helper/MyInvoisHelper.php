@@ -12,6 +12,11 @@ class MyInvoisHelper
                 break;
         }
     }
+
+    public static function getHash($content, $binary = false)
+    {
+        return hash('sha256', $content, $binary);
+    }
     
     /**
      * Get SubmitDocument array required by MyInvois API gateway
@@ -34,7 +39,7 @@ class MyInvoisHelper
         }
 
         $document = base64_encode($content);
-        $documentHash = hash('sha256', $content);
+        $documentHash = self::getHash($content);
 
         return [
             'format' => $format,

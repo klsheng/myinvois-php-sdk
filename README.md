@@ -73,6 +73,7 @@ This package require the following extensions in order to work properly:
 - [`guzzlehttp/guzzle`](https://github.com/guzzle/guzzle)
 - [`sabre/xml`](https://github.com/sabre-io/xml)
 - [`psr/http-client`](https://github.com/php-fig/http-client)
+- [`openssl`](https://www.php.net/manual/en/book.openssl.php)
 
 If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
 
@@ -174,7 +175,7 @@ $delivery = [
 
 // Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
+$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.crt', '/path/to/eInvoice.key');
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
@@ -205,7 +206,7 @@ $delivery = [
 
 // Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
-$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery);
+$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.crt', '/path/to/eInvoice.key');
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);

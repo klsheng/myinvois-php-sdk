@@ -11,6 +11,7 @@ use Klsheng\Myinvois\Ubl\XmlSchema;
 class KeyInfoX509Data implements ISerializable, IValidator
 {
     private $x509Certificate;
+    private $issuerSerial;
 
     /**
      * @return string
@@ -31,6 +32,24 @@ class KeyInfoX509Data implements ISerializable, IValidator
     }
 
     /**
+     * @return IssuerSerial
+     */
+    public function getIssuerSerial()
+    {
+        return $this->issuerSerial;
+    }
+
+    /**
+     * @param IssuerSerial $issuerSerial
+     * @return KeyInfoX509Data
+     */
+    public function setIssuerSerial(IssuerSerial $issuerSerial)
+    {
+        $this->issuerSerial = $issuerSerial;
+        return $this;
+    }
+
+    /**
      * validate function
      *
      * @throws InvalidArgumentException An error with information about required data that is missing
@@ -39,6 +58,10 @@ class KeyInfoX509Data implements ISerializable, IValidator
     {
         if (empty($this->x509Certificate)) {
             throw new InvalidArgumentException('Missing KeyInfoX509Data x509Certificate');
+        }
+
+        if($this->issuerSerial === null) {
+            throw new InvalidArgumentException('Missing KeyInfoX509Data issuerSerial');
         }
     }
 
@@ -58,6 +81,22 @@ class KeyInfoX509Data implements ISerializable, IValidator
                 'value' => $this->x509Certificate,
             ]);
         }
+
+        // https://sdk.myinvois.hasil.gov.my/files/one-doc-signed.xml
+        // XML format doesn't have while JSON format have
+        /*
+        if($this->issuerSerial !== null) {
+            $writer->write([
+                'name' => XmlSchema::DS . 'X509SubjectName',
+                'value' => $this->issuerSerial->getIssuerName(),
+            ]);
+
+            $writer->write([
+                'name' => XmlSchema::DS . 'X509IssuerSerial',
+                'value' => $this->issuerSerial,
+            ]);
+        }
+        */
     }
 
     /**
@@ -75,6 +114,14 @@ class KeyInfoX509Data implements ISerializable, IValidator
             $arrays['X509Certificate'][] = [
                 '_' => $this->x509Certificate,
             ];
+        }
+
+        if($this->issuerSerial !== null) {
+            $arrays['X509SubjectName'][] = [
+                '_' => $this->issuerSerial->getIssuerName(),
+            ];
+
+            $arrays['X509IssuerSerial'][] = $this->issuerSerial;
         }
 
         return $arrays;

@@ -42,20 +42,6 @@ use Klsheng\Myinvois\Ubl\BillingReference;
 use Klsheng\Myinvois\Ubl\PrepaidPayment;
 use Klsheng\Myinvois\Ubl\TaxExchangeRate;
 use Klsheng\Myinvois\Ubl\InvoiceDocumentReference;
-use Klsheng\Myinvois\Ubl\Extension\UBLExtensions;
-use Klsheng\Myinvois\Ubl\Extension\UBLExtensionItem;
-use Klsheng\Myinvois\Ubl\Extension\UBLDocumentSignatures;
-use Klsheng\Myinvois\Ubl\Extension\SignatureInformation;
-use Klsheng\Myinvois\Ubl\Extension\Signature;
-use Klsheng\Myinvois\Ubl\Extension\SignInfo;
-use Klsheng\Myinvois\Ubl\Extension\SignInfoReference;
-use Klsheng\Myinvois\Ubl\Extension\SignInfoTransform;
-use Klsheng\Myinvois\Ubl\Extension\KeyInfo;
-use Klsheng\Myinvois\Ubl\Extension\KeyInfoX509Data;
-use Klsheng\Myinvois\Ubl\Extension\SignatureObject;
-use Klsheng\Myinvois\Ubl\Extension\QualifyingProperties;
-use Klsheng\Myinvois\Ubl\Extension\SignedProperties;
-use Klsheng\Myinvois\Ubl\Extension\SignedSignatureProperties;
 use Klsheng\Myinvois\Ubl\Builder\XmlDocumentBuilder;
 use Klsheng\Myinvois\Ubl\Builder\JsonDocumentBuilder;
 use Klsheng\Myinvois\Ubl\Constant\MSICCodes;
@@ -63,20 +49,36 @@ use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
 class CreateDocumentExample
 {
-    public function createXmlDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery)
+    public function createXmlDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, 
+        $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null, $passphrase = null)
     {
-        $document = $this->createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery);
-
         $builder = new XmlDocumentBuilder();
-        return $builder->getDocument($document);
+        
+        return $this->createBuilder($builder, $invoiceTypeCode, $id, $supplier, $customer, $delivery, 
+            $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase);
     }
 
-    public function createJsonDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery)
+    public function createJsonDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, 
+        $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null, $passphrase = null)
     {
-        $document = $this->createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery);
-
         $builder = new JsonDocumentBuilder();
-        return $builder->getDocument($document);
+
+        return $this->createBuilder($builder, $invoiceTypeCode, $id, $supplier, $customer, $delivery, 
+            $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase);
+    }
+
+    private function createBuilder($builder, $invoiceTypeCode, $id, $supplier, $customer, $delivery, 
+        $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase)
+    {
+        $document = $this->createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, $includeSignature);
+
+        $builder->setDocument($document);
+
+        if($includeSignature) {
+            $builder->createSignature($certFilePath, $certPrivateKeyFilePath, $passphrase);
+        }
+    
+        return $builder->build();
     }
 
     private function getDocumentInstance($invoiceTypeCode)
@@ -109,7 +111,7 @@ class CreateDocumentExample
         }
     }
 
-    private function createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery)
+    private function createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, $includeSignature)
     {
         $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
 
@@ -117,7 +119,11 @@ class CreateDocumentExample
         $document->setId($id);
         $document->setIssueDateTime($issueDateTime);
 
-        //$document = $this->setUBLExtension($document);
+        if($includeSignature) {
+            $typeCode = $document->getInvoiceTypeCode(); // Get original type code
+            $document->setInvoiceTypeCode($typeCode, '1.1'); // 1.1 is with digital signature verification
+        }
+
         $document = $this->setBillingReference($document);
         $document = $this->setPrepaidPayment($document);
         $document = $this->setSupplier($document, $supplier);
@@ -132,77 +138,6 @@ class CreateDocumentExample
         $document = $this->setAllowanceCharges($document);
         $document = $this->setTaxTotal($document);
         $document = $this->setTaxExchangeRate($document);
-
-        return $document;
-    }
-
-    private function setUBLExtension($document)
-    {
-        $signedSignatureProperties = new SignedSignatureProperties();
-        $signedSignatureProperties->setSigningTime(new \DateTime('2024-04-01 00:41:21'));
-
-        $signedProperties = new SignedProperties();
-        $signedProperties->setSignedSignatureProperties($signedSignatureProperties);
-
-        $qualifyingProperties = new QualifyingProperties();
-        $qualifyingProperties->setSignedProperties($signedProperties);
-
-        $signatureObject = new SignatureObject();
-        $signatureObject->setQualifyingProperties($qualifyingProperties);
-
-        $x509Data = new KeyInfoX509Data();
-        $x509Data->setX509Certificate('MIIEQzCCAyugAwIBAgIhAOkUChItLeodmoK/A7B0XLcSUCvT4jgrSeYBOeZ1G8VPMA0GCSqGSIb3DQEBBQUAMIG9MQswCQYDVQQGEwJLTDEhMB8GA1UECgwYQ29udG9zbyBNYWxheXNpYSBTZG4gQmhkMSEwHwYDVQQLDBhDb250b3NvIE1hbGF5c2lhIFNkbiBCaGQxITAfBgNVBAMMGENvbnRvc28gTWFsYXlzaWEgU2RuIEJoZDEiMCAGCSqGSIb3DQEJARYTbm9lbWFpbEBjb250b3NvLmNvbTEhMB8GA1UEAwwYQ29udG9zbyBNYWxheXNpYSBTZG4gQmhkMB4XDTI0MDQwMzA5NTM1MFoXDTI3MDQwNDA5NTM1MFowgZoxCzAJBgNVBAYTAktMMSEwHwYDVQQKDBhDb250b3NvIE1hbGF5c2lhIFNkbiBCaGQxITAfBgNVBAsMGENvbnRvc28gTWFsYXlzaWEgU2RuIEJoZDEhMB8GA1UEAwwYQ29udG9zbyBNYWxheXNpYSBTZG4gQmhkMSIwIAYJKoZIhvcNAQkBFhNub2VtYWlsQGNvbnRvc28uY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA8yRxOigcbDzObxhNmVklzyJOItz4eSZHUv+JEy7nTosOg/wcFcDgrJDw6LZ/Mr6aW98VJ930hlSw52fOPiMnXTyJLF6ZjISPsTjlrn9eKnbWt6DWqFIDWDIaXVhAcfFRkKftSFgSIEO9NIb+kmV6K/LotWEiLglz6KZE3EopSF+pXa1LmwC8v0UhK8V8LcxqIe3dBq/jzyaWsLx5D4zdQqBSFEXrfp0A+N/93uAtQa35Fj3ypEpSzF/EQ6bDO/GwBKQm3lCny6AJB/I/kCbC/X+oMxkTOo9zW5hcdRiqmAa4iIrhORIOTlj5qfnngjulTnSMdK5kXSLJxC6SDlKtVwIDAQABo08wTTAdBgNVHQ4EFgQU2pvYc/z5Prqp8Dt8PM1C/df1ysQwHwYDVR0jBBgwFoAU2pvYc/z5Prqp8Dt8PM1C/df1ysQwCwYDVR0RBAQwAoIAMA0GCSqGSIb3DQEBBQUAA4IBAQBHzVHoQk+cAwunDlmrBjWYxfzmF3Adab81HKug+riDGiSG3bNntAwRVkDC4onG680Ucsuhxeyj18gkAtR/5ZWu3RDZwcYoBMuQzUSS9U5bwg5VqCqxEfTQCSERjuCa8lt99EcgY06e8a8WEwcY19LKVVwtrTJnlHvXhmcheumX3pfjPb5u0c0WKnbkj5mow75TuEmc0k1qow6Z6H5O6cPhX+eyNQSFZ3QnC0W2oIZTi96TVT4JH8LOPurZ5AdG9maQNIypaZ0gYPtAJISP+nxPOHmloicecdLLaMG/cvDf2+/bJR2P98dTuTZqgKrvWHkiMOma62MVx5dbcmbxgxU6');
-
-        $keyInfo = new KeyInfo();
-        $keyInfo->setX509Data($x509Data);
-
-        $signedInfo = new SignInfo();
-        $reference = new SignInfoReference();
-        $reference->setAttributes([
-            'Id' => 'id-doc-signed-data',
-            'URI' => '',
-        ]);
-        $reference->setDigestValue('RvCSpMYz8009KbJ3ku72oaCFWpzEfQNcpc+5bulh3Jk=');
-
-        $transform = new SignInfoTransform();
-        $transform->setXPath('not(//ancestor-or-self::ext:UBLExtensions)');
-        $reference->addTransform($transform);
-
-        $transform = new SignInfoTransform();
-        $transform->setXPath('not(//ancestor-or-self::cac:Signature)');
-        $reference->addTransform($transform);
-
-        $signedInfo->addReference($reference);
-
-        $reference = new SignInfoReference();
-        $reference->setAttributes([
-            'Type' => 'http://www.w3.org/2000/09/xmldsig#SignatureProperties',
-            'URI' => '#id-xades-signed-props',
-        ]);
-        $reference->setDigestValue('OGU1M2Q3NGFkOTdkYTRiNDVhOGZmYmU2ZjE0YzI3ZDhhNjlmM2EzZmQ4MTU5NTBhZjBjNDU2MWZlNjU3MWU0ZQ==');
-        $signedInfo->addReference($reference);
-
-        $signature = new Signature();
-        $signature->setSignatureValue('VkiVEIkPTISrrwdFouXWEHirxST2mCbLuXmgO0T+4UXHq9Sir+/9gnEZU7Aa2PCB
-        Q/3X0RIkX/sQwGMNdQ5jUJWc0BoGOszhc0CYHxDiayqlQ4fZGz+nhVdoUog4o7Tx
-        dk+vu/LS/7iz6asudXp2Zh8tT4LnOINsj+//DdRd6yM=');
-        $signature->setSignInfo($signedInfo);
-        $signature->setKeyInfo($keyInfo);
-        $signature->setObject($signatureObject);
-
-        $information = new SignatureInformation();
-        $information->setSignature($signature, ['Id' => 'addedSig']);
-
-        $sign = new UBLDocumentSignatures();
-        $sign->setSignatureInformation($information);
-
-        $ublExtensionItem = new UBLExtensionItem();
-        $ublExtensionItem->setContent($sign);
-
-        $ublExtensions = new UBLExtensions();
-        $ublExtensions->addUBLExtensionItem($ublExtensionItem);
-        
-        $document->setUBLExtensions($ublExtensions);
 
         return $document;
     }
@@ -276,9 +211,9 @@ class CreateDocumentExample
         $supplier = new Party();
 
         foreach($partyDetail as $key => $value) {
-            $partyIdentification = new PartyIdentification();
+        $partyIdentification = new PartyIdentification();
             $partyIdentification->setId($value, $key);
-            $supplier->addPartyIdentification($partyIdentification);
+        $supplier->addPartyIdentification($partyIdentification);
         }
 
         $supplier->setPostalAddress($address);
@@ -329,9 +264,9 @@ class CreateDocumentExample
         $customer = new Party();
 
         foreach($partyDetail as $key => $value) {
-            $partyIdentification = new PartyIdentification();
+        $partyIdentification = new PartyIdentification();
             $partyIdentification->setId($value, $key);
-            $customer->addPartyIdentification($partyIdentification);
+        $customer->addPartyIdentification($partyIdentification);
         }
 
         $customer->setPostalAddress($address);
@@ -373,9 +308,9 @@ class CreateDocumentExample
         $deliveryParty = new Party();
 
         foreach($partyDetail as $key => $value) {
-            $partyIdentification = new PartyIdentification();
+        $partyIdentification = new PartyIdentification();
             $partyIdentification->setId($value, $key);
-            $deliveryParty->addPartyIdentification($partyIdentification);
+        $deliveryParty->addPartyIdentification($partyIdentification);
         }
 
         $deliveryParty->setPostalAddress($address);

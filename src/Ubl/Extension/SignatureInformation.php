@@ -14,7 +14,6 @@ class SignatureInformation implements ISerializable, IValidator
     private $id = 'urn:oasis:names:specification:ubl:signature:1';
     private $referencedSignatureId = UblSpecifications::SIGNATURE_ID;
     private $signature;
-    private $signatureAttributes = [];
 
     /**
      * @return string
@@ -62,16 +61,12 @@ class SignatureInformation implements ISerializable, IValidator
 
     /**
      * @param Signature $signature
-     * @param array $attributes Optional
      * 
      * @return SignatureInformation
      */
-    public function setSignature(Signature $signature, $attributes = null)
+    public function setSignature(Signature $signature)
     {
         $this->signature = $signature;
-        if (isset($attributes)) {
-            $this->signatureAttributes = $attributes;
-        }
         return $this;
     }
 
@@ -108,16 +103,20 @@ class SignatureInformation implements ISerializable, IValidator
         if($this->referencedSignatureId !== null) {
             $writer->write([ XmlSchema::SBC . 'ReferencedSignatureID' => $this->referencedSignatureId]);
         }
-
-        $this->signatureAttributes = array_merge([
-            'xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
-        ], $this->signatureAttributes);
-
         if ($this->signature !== null) {
+
+            $signatureAttributes = $this->signature->getAttributes();
+
+            $signatureAttributes = array_merge([
+                'xmlns:ds' => 'http://www.w3.org/2000/09/xmldsig#',
+            ], $signatureAttributes);
+
+            $this->signature->setAttributes($signatureAttributes);
+
             $writer->write([
                 'name' => XmlSchema::DS . 'Signature',
                 'value' => $this->signature,
-                'attributes' => $this->signatureAttributes,
+                'attributes' => $this->signature->getAttributes(),
             ]);
         }
     }
@@ -147,7 +146,6 @@ class SignatureInformation implements ISerializable, IValidator
 
         if ($this->signature !== null) {
             $arrays['Signature'][] = $this->signature;
-            //$arrays['Signature'][] = $this->signatureAttributes; // From reference, it doesn't seem to have attributes for JSON
         }
 
         return $arrays;
