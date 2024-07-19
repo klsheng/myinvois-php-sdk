@@ -42,11 +42,7 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
 
         $content = utf8_encode($content);
         $content = str_replace(array("\n", "\t", "\r"), '', $content);
-        $content = str_replace("<xades:SignedProperties Id=\"id-xades-signed-props\">", "<xades:SignedProperties Id=\"id-xades-signed-props\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", $content);
-        $content = str_replace("<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"></ds:DigestMethod>","<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"></ds:DigestMethod>", $content);
-        $content = str_replace("<ds:X509SerialNumber>","<ds:X509SerialNumber xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
-        $content = str_replace("<ds:X509IssuerName>","<ds:X509IssuerName xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
-        $content = str_replace("<ds:DigestValue>","<ds:DigestValue xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
+        $content = $this->replaceCommonAttributes($content);
         
         return $content;
     }
@@ -82,12 +78,25 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
         $content = str_replace("<?xml version=\"1.0\"?>", '', $content);
         $content = str_replace("<xades:root xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", '', $content);
         $content = str_replace("</xades:root>", '', $content);
+        $content = $this->replaceCommonAttributes($content);
+
+        return MyInvoisHelper::getHash($content, true);
+    }
+
+    /**
+     * Replace common XML attributes to meet LHDN requirement
+     * 
+     * @param string $content XML raw content
+     * @return string
+     */
+    private function replaceCommonAttributes($content)
+    {
         $content = str_replace("<xades:SignedProperties Id=\"id-xades-signed-props\">", "<xades:SignedProperties Id=\"id-xades-signed-props\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", $content);
         $content = str_replace("<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\"></ds:DigestMethod>","<ds:DigestMethod Algorithm=\"http://www.w3.org/2001/04/xmlenc#sha256\" xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\"></ds:DigestMethod>", $content);
         $content = str_replace("<ds:X509SerialNumber>","<ds:X509SerialNumber xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
         $content = str_replace("<ds:X509IssuerName>","<ds:X509IssuerName xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
         $content = str_replace("<ds:DigestValue>","<ds:DigestValue xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">", $content);
 
-        return MyInvoisHelper::getHash($content, true);
+        return $content;
     }
 }

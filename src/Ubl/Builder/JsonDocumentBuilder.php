@@ -54,8 +54,6 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
             $signature->getObject()->getQualifyingProperties(), 
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-        //$content = ltrim($content, '{');
-        //$content = rtrim($content, '}');
         $content = utf8_encode($content);
 
         return MyInvoisHelper::getHash($content, true);

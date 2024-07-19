@@ -70,21 +70,16 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $data = openssl_x509_parse($certContent);
         $issuerArray = $data['issuer'];
 
-        // From LHDN sample, CN must be first and C must be last, bad design
-        if(array_key_exists('CN', $issuerArray)) {
-            $cnValue = $issuerArray['CN'];
-            unset($issuerArray['CN']);
-            $issuerArray = array_merge([
-                'CN' => $cnValue,
-            ], $issuerArray);
-        }
-
-        if(array_key_exists('C', $issuerArray)) {
-            $cValue = $issuerArray['C'];
-            unset($issuerArray['C']);
-            $issuerArray = array_merge($issuerArray, [
-                'C' => $cValue,
-            ]);
+        // From LHDN sample, It must be below sequence, bad design
+        $issuerKeys = ['CN', 'E', 'OU', 'O', 'C'];
+        foreach($issuerKeys as $issuerKey) {
+            if(array_key_exists($issuerKey, $issuerArray)) {
+                $issuerValue = $issuerArray[$issuerKey];
+                unset($issuerArray[$issuerKey]);
+                $issuerArray = array_merge($issuerArray, [
+                    $issuerKey => $issuerValue,
+                ]);
+            }
         }
 
         $issuerName = urldecode(http_build_query($issuerArray, '', ', '));
