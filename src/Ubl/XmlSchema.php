@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
+/**
+ * XML schema
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class XmlSchema
 {
     const CBC = '{' . UblSpecifications::CBC . '}';

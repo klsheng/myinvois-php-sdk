@@ -11,6 +11,12 @@ use InvalidArgumentException;
 use DateTime;
 use Sabre\Xml\Writer;
 
+/**
+ * Payment means
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class PaymentMeans implements ISerializable, IValidator
 {
     private $paymentMeansCode = '01';

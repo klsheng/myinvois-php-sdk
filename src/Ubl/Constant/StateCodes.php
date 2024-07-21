@@ -7,6 +7,12 @@
 
 namespace Klsheng\Myinvois\Ubl\Constant;
 
+/**
+ * State codes
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class StateCodes
 {
     const CODE = 'Code';

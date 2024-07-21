@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
+/**
+ * self billed debit note
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SelfBilledDebitNote extends DebitNote
 {
     public $xmlTagName = 'Invoice'; //'SelfBilledDebitNote'; // MyInvois System re-use back same tag name

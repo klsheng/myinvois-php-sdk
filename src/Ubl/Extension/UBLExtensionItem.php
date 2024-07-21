@@ -14,6 +14,12 @@ use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
 use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
+/**
+ * UBL extension item
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class UBLExtensionItem implements ISerializable, IValidator
 {
     private $uri = UblSpecifications::SIGNATURE_METHOD;

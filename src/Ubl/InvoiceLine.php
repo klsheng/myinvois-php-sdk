@@ -13,6 +13,12 @@ use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UnitCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Invoice line
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class InvoiceLine implements ISerializable, IValidator
 {
     public $xmlTagName = 'InvoiceLine';

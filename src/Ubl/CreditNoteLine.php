@@ -7,6 +7,12 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+/**
+ * Credit note line
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class CreditNoteLine extends InvoiceLine
 {
     public $xmlTagName = 'InvoiceLine'; //'CreditNoteLine'; // MyInvois System re-use back same tag name

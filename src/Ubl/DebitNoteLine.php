@@ -7,6 +7,12 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+/**
+ * Debit note line
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class DebitNoteLine extends InvoiceLine
 {
     public $xmlTagName = 'InvoiceLine'; //'DebitNoteLine'; // MyInvois System re-use back same tag name

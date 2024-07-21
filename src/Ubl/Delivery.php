@@ -11,6 +11,12 @@ use InvalidArgumentException;
 use DateTime;
 use Sabre\Xml\Writer;
 
+/**
+ * Delivery
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class Delivery implements ISerializable, IValidator
 {
     private $actualDeliveryDate;

@@ -12,6 +12,12 @@ use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Settlement period
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SettlementPeriod implements ISerializable, IValidator
 {
     private $startDate;

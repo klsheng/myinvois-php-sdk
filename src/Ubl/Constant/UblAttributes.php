@@ -7,6 +7,12 @@
 
 namespace Klsheng\Myinvois\Ubl\Constant;
 
+/**
+ * UBL attributes
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class UblAttributes
 {
     const SCHEME_ID = 'schemeID';

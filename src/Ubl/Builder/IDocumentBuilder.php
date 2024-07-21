@@ -10,6 +10,12 @@ namespace Klsheng\Myinvois\Ubl\Builder;
 use DateTime;
 use Klsheng\Myinvois\Ubl\Invoice;
 
+/**
+ * document builder interface
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 interface IDocumentBuilder
 {
     /**

@@ -10,6 +10,12 @@ namespace Klsheng\Myinvois\Ubl;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
+/**
+ * Payee financial account
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class PayeeFinancialAccount implements ISerializable, IValidator
 {
     private $id;

@@ -20,6 +20,12 @@ use Klsheng\Myinvois\Service\Document\DocumentSubmissionService;
 use Klsheng\Myinvois\Service\Notification\NotificationService;
 use Klsheng\Myinvois\Service\Taxpayer\TaxPayerService;
 
+/**
+ * Access point to use MyInvoice services
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class MyInvoisClient
 {
     private const SANDBOX_PORTAL_BASE_URL = 'https://preprod.myinvois.hasil.gov.my';

@@ -12,6 +12,12 @@ use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Tax exchange rate
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class TaxExchangeRate implements ISerializable, IValidator
 {
     private $sourceCurrencyCode;

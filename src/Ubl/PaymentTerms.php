@@ -11,6 +11,12 @@ use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Payment terms
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class PaymentTerms implements ISerializable, IValidator
 {
     private $note;

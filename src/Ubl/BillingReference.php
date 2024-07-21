@@ -10,6 +10,12 @@ namespace Klsheng\Myinvois\Ubl;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
+/**
+ * Billing reference
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class BillingReference implements ISerializable, IValidator
 {
     private $additionalDocumentReference;

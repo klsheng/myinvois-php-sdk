@@ -11,6 +11,12 @@ use Exception;
 use Klsheng\Myinvois\MyInvoisClient;
 use Klsheng\Myinvois\Service\AbstractService;
 
+/**
+ * Identity service
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class IdentityService extends AbstractService
 {
     public const SANDBOX_IDENTITY_BASE_URL = 'https://preprod-api.myinvois.hasil.gov.my/connect/token';

@@ -11,6 +11,12 @@ use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Tax category
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class TaxCategory implements ISerializable, IValidator
 {
     private $id;

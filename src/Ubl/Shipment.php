@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Sabre\Xml\Writer;
 
+/**
+ * Shipment
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class Shipment implements ISerializable, IValidator
 {
     private $id;

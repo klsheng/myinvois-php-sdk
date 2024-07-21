@@ -12,6 +12,12 @@ use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Legal monetary total
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class LegalMonetaryTotal implements ISerializable, IValidator
 {
     private $lineExtensionAmount = 0;

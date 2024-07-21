@@ -11,6 +11,12 @@ use DateTime;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
+/**
+ * Invoice period
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class InvoicePeriod implements ISerializable, IValidator
 {
     private $startDate;

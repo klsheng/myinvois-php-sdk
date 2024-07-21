@@ -10,6 +10,12 @@ namespace Klsheng\Myinvois\Model;
 use ReflectionClass;
 use ReflectionProperty;
 
+/**
+ * Abstract class for Model
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 abstract class AbstractModel
 {
     /**

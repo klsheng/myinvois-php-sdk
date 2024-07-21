@@ -7,8 +7,22 @@
 
 namespace Klsheng\Myinvois\Helper;
 
+/**
+ * Helper class
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class MyInvoisHelper
 {
+    /**
+     * Static function helper
+     * 
+     * @param string $name Function name
+     * @param array $arguments Function parameters
+     * 
+     * @return mixed
+     */
     public static function __callStatic($name, $arguments) {
         switch ($name) {
             case 'getSubmitDocument':
@@ -18,6 +32,14 @@ class MyInvoisHelper
         }
     }
 
+    /**
+     * Static function helper
+     * 
+     * @param string $content Content
+     * @param bool $binary Indicate whether result should be in binary
+     * 
+     * @return string
+     */
     public static function getHash($content, $binary = false)
     {
         return hash('sha256', $content, $binary);
@@ -54,6 +76,13 @@ class MyInvoisHelper
         ];
     }
 
+    /**
+     * Check whether content is json format
+     * 
+     * @param string $string Content
+     * 
+     * @return bool
+     */
     public static function isJson($string) {
         json_decode($string);
         return json_last_error() === JSON_ERROR_NONE;

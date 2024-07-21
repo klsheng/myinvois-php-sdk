@@ -7,6 +7,12 @@
 
 namespace Klsheng\Myinvois\Ubl;
 
+/**
+ * IValidator interface
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 interface IValidator
 {
     public function validate();

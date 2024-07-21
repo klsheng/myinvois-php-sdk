@@ -10,6 +10,12 @@ namespace Klsheng\Myinvois\Service;
 use Exception;
 use Klsheng\Myinvois\MyInvoisClient;
 
+/**
+ * Abstract class for service component
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 abstract class AbstractService
 {
     /**

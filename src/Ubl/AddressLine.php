@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Sabre\Xml\Writer;
 
+/**
+ * Address line
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class AddressLine implements ISerializable, IValidator
 {
     private $line;

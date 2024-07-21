@@ -13,6 +13,12 @@ use Klsheng\Myinvois\Ubl\ISerializable;
 use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
 
+/**
+ * Qualifying properties
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class QualifyingProperties implements ISerializable, IValidator
 {
     private $attributes = [

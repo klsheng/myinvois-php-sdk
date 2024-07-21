@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
+/**
+ * Debit note
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class DebitNote extends Invoice
 {
     public $xmlTagName = 'Invoice'; //'DebitNote'; // MyInvois System re-use back same tag name

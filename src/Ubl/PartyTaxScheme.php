@@ -10,6 +10,12 @@ namespace Klsheng\Myinvois\Ubl;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
+/**
+ * Party tax scheme
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class PartyTaxScheme implements ISerializable, IValidator
 {
     private $registrationName;

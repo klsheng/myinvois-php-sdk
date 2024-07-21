@@ -13,6 +13,12 @@ use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 use Klsheng\Myinvois\Helper\MyInvoisHelper;
 use Klsheng\Myinvois\Ubl\Extension\Signature;
 
+/**
+ * XML document builder
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class XmlDocumentBuilder extends AbstractDocumentBuilder
 {
     /**

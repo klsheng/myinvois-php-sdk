@@ -11,6 +11,12 @@ use InvalidArgumentException;
 use DateTime;
 use Sabre\Xml\Writer;
 
+/**
+ * Order reference
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class OrderReference implements ISerializable, IValidator
 {
     private $id;

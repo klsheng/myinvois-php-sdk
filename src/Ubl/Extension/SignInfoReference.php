@@ -13,6 +13,12 @@ use Klsheng\Myinvois\Ubl\ISerializable;
 use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
 
+/**
+ * Signed info reference
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SignInfoReference implements ISerializable, IValidator
 {
     private $attributes = [];

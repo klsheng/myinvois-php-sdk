@@ -12,6 +12,12 @@ use DateTime;
 use Klsheng\Myinvois\MyInvoisClient;
 use Klsheng\Myinvois\Service\AbstractService;
 
+/**
+ * Notification service
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class NotificationService extends AbstractService
 {
     public const SANDBOX_API_BASE_URL = 'https://preprod-api.myinvois.hasil.gov.my/api/v1.0/notifications';

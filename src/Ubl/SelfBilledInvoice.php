@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
+/**
+ * self billed invoice
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SelfBilledInvoice extends Invoice
 {
     public $xmlTagName = 'Invoice'; //'SelfBilledInvoice'; // MyInvois System re-use back same tag name

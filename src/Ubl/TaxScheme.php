@@ -11,6 +11,12 @@ use InvalidArgumentException;
 use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Tax scheme
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class TaxScheme implements ISerializable, IValidator
 {
     private $id;

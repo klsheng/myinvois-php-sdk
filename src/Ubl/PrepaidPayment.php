@@ -13,6 +13,12 @@ use Sabre\Xml\Writer;
 use Klsheng\Myinvois\Ubl\Constant\CurrencyCodes;
 use Klsheng\Myinvois\Ubl\Constant\UblAttributes;
 
+/**
+ * Prepaid payment
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class PrepaidPayment implements ISerializable, IValidator
 {
     private $id;

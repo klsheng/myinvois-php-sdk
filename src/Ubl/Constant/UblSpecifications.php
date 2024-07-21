@@ -7,6 +7,12 @@
 
 namespace Klsheng\Myinvois\Ubl\Constant;
 
+/**
+ * UBL specifications
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class UblSpecifications
 {
     const SIGNATURE_ID = 'urn:oasis:names:specification:ubl:signature:Invoice';

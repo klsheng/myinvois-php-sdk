@@ -31,6 +31,12 @@ use Klsheng\Myinvois\Ubl\Extension\SigningCertificate;
 use Klsheng\Myinvois\Ubl\Extension\CertDigest;
 use Klsheng\Myinvois\Ubl\Extension\IssuerSerial;
 
+/**
+ * Abstract document builder
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 abstract class AbstractDocumentBuilder implements IDocumentBuilder
 {
     private $document = null;

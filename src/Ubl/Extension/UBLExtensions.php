@@ -13,6 +13,12 @@ use Klsheng\Myinvois\Ubl\ISerializable;
 use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
 
+/**
+ * UBL extensions
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class UBLExtensions implements ISerializable, IValidator
 {
     private $ublExtensionItems = [];

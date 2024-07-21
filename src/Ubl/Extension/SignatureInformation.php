@@ -14,6 +14,12 @@ use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
 use Klsheng\Myinvois\Ubl\Constant\UblSpecifications;
 
+/**
+ * Signature info
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SignatureInformation implements ISerializable, IValidator
 {
     private $id = 'urn:oasis:names:specification:ubl:signature:1';

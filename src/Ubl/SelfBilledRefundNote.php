@@ -9,6 +9,12 @@ namespace Klsheng\Myinvois\Ubl;
 
 use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 
+/**
+ * self billed refund note
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SelfBilledRefundNote extends Invoice
 {
     public $xmlTagName = 'Invoice'; //'SelfBilledRefundNote'; // MyInvois System re-use back same tag name

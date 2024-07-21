@@ -11,6 +11,12 @@ use Exception;
 use InvalidArgumentException;
 use Sabre\Xml\Writer;
 
+/**
+ * Attachment
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class Attachment implements ISerializable, IValidator
 {
     private $filePath;

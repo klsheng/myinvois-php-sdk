@@ -13,6 +13,12 @@ use Klsheng\Myinvois\Ubl\ISerializable;
 use Klsheng\Myinvois\Ubl\IValidator;
 use Klsheng\Myinvois\Ubl\XmlSchema;
 
+/**
+ * Signed properties
+ * 
+ * @author Sean Kau (kliensheng2020@gmail.com)
+ * @since 1.0.0
+ */
 class SignedProperties implements ISerializable, IValidator
 {
     private $signedSignatureProperties;
