@@ -114,6 +114,7 @@ class CreateDocumentExample
     private function createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, $includeSignature)
     {
         $issueDateTime = new \DateTime('now', new \DateTimeZone('UTC'));
+        $issueDateTime->modify('-1 day'); // Yesterday
 
         $document = $this->getDocumentInstance($invoiceTypeCode);
         $document->setId($id);
