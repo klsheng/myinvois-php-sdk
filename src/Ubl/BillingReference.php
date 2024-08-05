@@ -64,9 +64,6 @@ class BillingReference implements ISerializable, IValidator
      */
     public function validate()
     {
-        if ($this->additionalDocumentReference === null) {
-            throw new InvalidArgumentException('Missing additionalDocumentReference');
-        }
     }
 
     /**
@@ -79,9 +76,11 @@ class BillingReference implements ISerializable, IValidator
     {
         $this->validate();
 
-        $writer->write([
-            XmlSchema::CAC . 'AdditionalDocumentReference' => $this->additionalDocumentReference
-        ]);
+        if ($this->additionalDocumentReference !== null) {
+            $writer->write([
+                XmlSchema::CAC . 'AdditionalDocumentReference' => $this->additionalDocumentReference
+            ]);
+        }
 
         if ($this->invoiceDocumentReference !== null) {
             $writer->write([
@@ -101,7 +100,9 @@ class BillingReference implements ISerializable, IValidator
 
         $arrays = [];
 
-        $arrays['AdditionalDocumentReference'][] = $this->additionalDocumentReference;
+        if ($this->additionalDocumentReference !== null) {
+            $arrays['AdditionalDocumentReference'][] = $this->additionalDocumentReference;
+        }
 
         if ($this->invoiceDocumentReference !== null) {
             $arrays['InvoiceDocumentReference'][] = $this->invoiceDocumentReference;
