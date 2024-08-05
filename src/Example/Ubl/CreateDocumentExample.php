@@ -146,13 +146,15 @@ class CreateDocumentExample
     private function setBillingReference($document)
     {
         for ($i = 0; $i < 2; $i++) {
-            $additionalDocumentReference = new AdditionalDocumentReference();
-            $additionalDocumentReference->setId('E12345678912' . $i);
-
             $billingReference = new BillingReference();
-            $billingReference->setAdditionalDocumentReference($additionalDocumentReference);
-
             $invoiceTypeCode = $document->getInvoiceTypeCode();
+            
+            if($invoiceTypeCode == InvoiceTypeCodes::INVOICE) {
+                $additionalDocumentReference = new AdditionalDocumentReference();
+                $additionalDocumentReference->setId('E12345678912' . $i);
+                $billingReference->setAdditionalDocumentReference($additionalDocumentReference);
+            }
+
             if($invoiceTypeCode == InvoiceTypeCodes::CREDIT_NOTE) {
                 $invoiceDocumentReference = new InvoiceDocumentReference();
                 $invoiceDocumentReference->setId('INV12345' . $i);
