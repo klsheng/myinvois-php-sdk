@@ -25,6 +25,12 @@ interface IDocumentBuilder
     public function setDocument(Invoice $invoice);
 
     /**
+     * @param array $issuerKeys LHDN has different issuer's sequence for different CA cert, so this function allow user to customize the sequence
+     * @return IDocumentBuilder
+     */
+    public function setIssuerKeys($issuerKeys);
+
+    /**
      * Create signature and apply into Invoice object
      * 
      * @param string $certFilePath Certificate file path

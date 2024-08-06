@@ -50,31 +50,32 @@ use Klsheng\Myinvois\Ubl\Constant\InvoiceTypeCodes;
 class CreateDocumentExample
 {
     public function createXmlDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, 
-        $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null, $passphrase = null)
+        $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null, $passphrase = null, $issuerKeys = null)
     {
         $builder = new XmlDocumentBuilder();
         
         return $this->createBuilder($builder, $invoiceTypeCode, $id, $supplier, $customer, $delivery, 
-            $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase);
+            $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase, $issuerKeys);
     }
 
     public function createJsonDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, 
-        $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null, $passphrase = null)
+        $includeSignature = false, $certFilePath = null, $certPrivateKeyFilePath = null, $passphrase = null, $issuerKeys = null)
     {
         $builder = new JsonDocumentBuilder();
 
         return $this->createBuilder($builder, $invoiceTypeCode, $id, $supplier, $customer, $delivery, 
-            $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase);
+            $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase, $issuerKeys);
     }
 
     private function createBuilder($builder, $invoiceTypeCode, $id, $supplier, $customer, $delivery, 
-        $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase)
+        $includeSignature, $certFilePath, $certPrivateKeyFilePath, $passphrase, $issuerKeys)
     {
         $document = $this->createDocument($invoiceTypeCode, $id, $supplier, $customer, $delivery, $includeSignature);
 
         $builder->setDocument($document);
 
         if($includeSignature) {
+            $builder->setIssuerKeys($issuerKeys);
             $builder->createSignature($certFilePath, $certPrivateKeyFilePath, $passphrase);
         }
     

@@ -41,6 +41,7 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 {
     private $document = null;
     protected $isSigned = false;
+    protected $issuerKeys = null;
 
     /**
      * {@inheritdoc}
@@ -48,6 +49,15 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
     public function setDocument(Invoice $invoice)
     {
         $this->document = $invoice;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setIssuerKeys($issuerKeys)
+    {
+        $this->issuerKeys = $issuerKeys;
         return $this;
     }
 
@@ -83,6 +93,9 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
 
         // From LHDN sample, It must be below sequence, bad design
         $issuerKeys = ['CN', 'E', 'OU', 'O', 'C'];
+        if(!empty($this->issuerKeys) && is_array($this->issuerKeys)) {
+            $issuerKeys = $this->issuerKeys;
+        }
         foreach($issuerKeys as $issuerKey) {
             if(array_key_exists($issuerKey, $issuerArray)) {
                 $issuerValue = $issuerArray[$issuerKey];

@@ -179,6 +179,17 @@ $delivery = [
 $example = new CreateDocumentExample();
 $invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.crt', '/path/to/eInvoice.key');
 
+// If you are using p12 or pfx file, you may use following code to generate document
+/*
+$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.p12', null, 'passphrase');
+*/
+
+// In case there is DS326 error, you may use following code to re-arrange issuer key sequences
+// Default sequence -> ['CN', 'E', 'OU', 'O', 'C']
+/*
+$invoice = $example->createJsonDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.p12', null, 'passphrase', ['C', 'O', 'OU', 'E', 'CN']);
+*/
+
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
 $documents[] = $document;
@@ -209,6 +220,17 @@ $delivery = [
 // Example contains hardcoded test data, you may need to modify it yourself
 $example = new CreateDocumentExample();
 $invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.crt', '/path/to/eInvoice.key');
+
+// If you are using p12 or pfx file, you may use following code to generate document
+/*
+$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.p12', null, 'passphrase');
+*/
+
+// In case there is DS326 error, you may use following code to re-arrange issuer key sequences
+// Default sequence -> ['CN', 'E', 'OU', 'O', 'C']
+/*
+$invoice = $example->createXmlDocument(InvoiceTypeCodes::INVOICE, $id, $supplier, $customer, $delivery, true, '/path/to/eInvoice.p12', null, 'passphrase', ['C', 'O', 'OU', 'E', 'CN']);
+*/
 
 $documents = [];
 $document = MyInvoisHelper::getSubmitDocument($id, $invoice);
