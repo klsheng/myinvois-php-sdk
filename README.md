@@ -9,8 +9,6 @@ An object-oriented PHP library to create custom UBL v2.1 format supported by MyI
 
 This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice) package. However, MyInvois System doesn't fully support UBL v2.1 format, so UBL package re-create based on original author to support MyInvois System.
 
-Please take note that MyInvois System is still under development and not yet finalize. If the SDK doesn't work at some point, feel free to inform me and I will re-check with MyInvois System.
-
 ## TODO
 
 - [x] Login as Taxpayer System

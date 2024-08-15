@@ -68,9 +68,6 @@ class NotificationService extends AbstractService
         ];
         $query = '?' . http_build_query($params);
 
-        print_r($query);
-        die;
-
         $url = $this->getBaseUrl() . '/taxpayer' . $query;
 
         $response = $this->getClient()->request('GET', $url);
