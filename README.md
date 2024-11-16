@@ -37,16 +37,6 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [ ] Mandatory Field Verification
 - [x] Get Document's QR Code URL
 
-## [How to obtain Client ID and Client Secret for Sandbox?](https://sdk.myinvois.hasil.gov.my/faq/#how-to-obtain-client-id-and-client-secret-for-sandbox)
-
-To obtain your Client ID and Client Secret, please send an email request to sdkmyinvois@hasil.gov.my with the following information:
-
-1. Taxpayer TIN
-2. Business Registration Number
-3. Company Name
-4. Company Email Address
-5. ERP System Name
-
 ## Installation and usage
 
 This package requires PHP 7.4 or higher. 
@@ -76,6 +66,11 @@ This package require the following extensions in order to work properly:
 - [`openssl`](https://www.php.net/manual/en/book.openssl.php)
 
 If you use Composer, these dependencies should be handled automatically. If you install manually, you'll want to make sure that these extensions are available.
+
+It is recommended to install and use composer in PHP development when doesn't use any PHP framework (E.g: Laravel, Yii, etc)
+
+## To use MyInvois PHP SDK without PHP framework environment
+You may refer to README at [PurePHPExample](https://github.com/klsheng/myinvois-php-sdk/blob/main/src/Example/PurePHP/README.md).
 
 ## Usage
 You may refer example to create UBL v2.1 document supported by MyInvois System at [CreateDocumentExample](https://github.com/klsheng/myinvois-php-sdk/blob/main/src/Example/Ubl/CreateDocumentExample.php).
