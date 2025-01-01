@@ -132,11 +132,10 @@ $dateTo = '2015-02-13T14:20:10Z';
 $type = '2';
 $language = 'en';
 $status = 'delivered';
-$channel = 'email';
 $pageNo = 3;
 $pageSize = 20;
 
-$response = $client->getNotifications($dateFrom, $dateTo, $type, $language, $status, $channel, $pageNo, $pageSize);
+$response = $client->getNotifications($dateFrom, $dateTo, $type, $language, $status, $pageNo, $pageSize);
 ```
 
 #### Validate Taxpayer's TIN
@@ -146,6 +145,19 @@ $idType = 'NRIC';
 $idValue = '770625015324';
 
 $response = $client->validateTaxPayerTin($tin, $idType, $idValue);
+```
+
+#### Search Taxpayer's TIN
+```php
+$taxPayerName = 'AXXX_XXXX SMART';
+// OR
+// $taxPayerName = 'AXXX_XXXX+SMART';
+// OR
+// $taxPayerName = '';
+$idType = 'NRIC';
+$idValue = '770625015324';
+
+$response = $client->searchTaxPayerTin($taxPayerName, $idType, $idValue);
 ```
 
 #### Submit JSON document
@@ -269,7 +281,12 @@ $response = $client->getRecentDocuments($pageNo, $pageSize, $submissionDateFrom,
 
 #### Get Submission
 ```php
-$response = $client->getSubmission($tid);
+$response = $client->getSubmission($id);
+// OR
+$pageNo = 1;
+$pageSize = 100;
+
+$response = $client->getSubmission($id, $pageNo, $pageSize);
 ```
 
 #### Get Document
@@ -284,24 +301,24 @@ $response = $client->getDocumentDetail($id);
 
 #### Search Documents
 ```php
-$response = $client->searchDocuments();
+$submissionDateFrom = new \DateTime('2024-12-31T00:00:00Z'); 
+$submissionDateTo = '2025-01-02T00:00:00Z';
+
+$response = $client->searchDocuments(null, $submissionDateFrom, $submissionDateTo);
 // OR
 $id = 'F9D425P6DS7D8IU';
-$submissionDateFrom = null;
-$submissionDateTo = null;
-$continuationToken = 'Y4RWK9617T0TJNRBF4CSVGQG10';
+$submissionDateFrom = new \DateTime('2024-12-31T00:00:00Z'); 
+$submissionDateTo = '2025-01-02T00:00:00Z';
+$pageNo = 1;
 $pageSize = 100;
 $issueDateFrom = null;
 $issueDateTo = null;
 $direction = 'Sent';
 $status = 'Valid';
 $documentType = '01';
-$receiverId = null;
-$receiverIdType = null;
-$receiverTin = null;
-$issuerTin = null;
+$searchQuery = null;
 
-$response = $client->searchDocuments($id, $submissionDateFrom, $submissionDateTo, $continuationToken, $pageSize, $issueDateFrom, $issueDateTo, $direction, $status, $documentType, $receiverId, $receiverIdType, $receiverTin, $issuerTin);
+$response = $client->searchDocuments($id, $submissionDateFrom, $submissionDateTo, $pageNo, $pageSize, $issueDateFrom, $issueDateTo, $direction, $status, $documentType, $searchQuery);
 ```
 
 #### Get Document's QR Code URL
