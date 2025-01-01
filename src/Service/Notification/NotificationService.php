@@ -44,14 +44,13 @@ class NotificationService extends AbstractService
      * @param string            $type       Optional: type of notifications to retrieve specified as ID of the type
      * @param string            $language   Optional: used to get notifications only if they were sent out in a specific language
      * @param string            $status     Optional: used to get notifications of certain status only, e.g., only those that were not delivered. Values: pending, batched, delivered, error
-     * @param string            $channel    Optional: used to get notifications delivered over certain channel only. Values: email, push
      * @param int               $pageNo     Optional: number of the page to retrieve. Typically this parameter value is derived from initial parameter less call when caller learns total amount of page of certain size
      * @param int               $pageSize   Optional: number of the packages to retrieve per page. Page size cannot exceed system configured maximum page size for this API which is 100
      * 
      * @return array
      */
     public function getNotifications($dateFrom = null, $dateTo = null, $type = null, $language = null, $status = null,
-        $channel = null, $pageNo = 1, $pageSize = 20)
+        $pageNo = 1, $pageSize = 20)
     {
         $dateFromString = ($dateFrom instanceof DateTime) ? $dateFrom->format('Y-m-d\TH:i:s\Z') : $dateFrom;
         $dateToString = ($dateTo instanceof DateTime) ? $dateTo->format('Y-m-d\TH:i:s\Z') : $dateTo;
@@ -62,7 +61,6 @@ class NotificationService extends AbstractService
             'type' => $type,
             'language' => $language,
             'status' => $status,
-            'channel' => $channel,
             'pageNo' => $pageNo,
             'pageSize' => $pageSize,
         ];

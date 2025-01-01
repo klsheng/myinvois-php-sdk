@@ -52,6 +52,10 @@ class CountryCodes
                 CountryCodes::COUNTRY => "ANDORA"
             ],
             [
+                CountryCodes::CODE => "ANT",
+                CountryCodes::COUNTRY => "NETHERLANDS ANTILLES"
+            ],
+            [
                 CountryCodes::CODE => "ARE",
                 CountryCodes::COUNTRY => "UNITED ARAB EMIRATES"
             ],
@@ -1002,6 +1006,10 @@ class CountryCodes
             [
                 CountryCodes::CODE => "WSM",
                 CountryCodes::COUNTRY => "SAMOA"
+            ],
+            [
+                CountryCodes::CODE => "XKX",
+                CountryCodes::COUNTRY => "KOSOVO"
             ],
             [
                 CountryCodes::CODE => "YEM",

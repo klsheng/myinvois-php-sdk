@@ -38,13 +38,21 @@ class DocumentSubmissionService extends AbstractService
     /**
      * This API returns information on documents submitted during a single submission by taxpayer.
      * 
-     * @param string $id    Unique ID of the document submission to retrieve.
+     * @param string    $id         Mandatory: Unique ID of the document submission to retrieve.
+     * @param int       $pageNo     Optional: number of the page to retrieve
+     * @param int       $pageSize   Optional: number of the documents to retrieve per page. Page size cannot exceed system configured maximum page size for this API [100]
      * 
      * @return array
      */
-    public function getSubmission($id)
+    public function getSubmission($id, $pageNo = 1, $pageSize = 100)
     {
-        $url = $this->getBaseUrl() . '/' . $id;
+        $params = [
+            'pageNo' => $pageNo,
+            'pageSize' => $pageSize,
+        ];
+        $query = '?' . http_build_query($params);
+
+        $url = $this->getBaseUrl() . '/' . $id . $query;
 
         $response = $this->getClient()->request('GET', $url);
         return $response;

@@ -280,6 +280,8 @@ class MyInvoisClient
                 return call_user_func_array([$this->getNotificationService(), $name], $args);
             case 'validateTaxPayerTin':
                 return call_user_func_array([$this->getTaxPayerService(), $name], $args);
+            case 'searchTaxPayerTin':
+                return call_user_func_array([$this->getTaxPayerService(), $name], $args);
             default:
                 throw new BadMethodCallException($name . ' does not exist!');
         }

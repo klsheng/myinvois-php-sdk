@@ -62,4 +62,32 @@ class TaxPayerService extends AbstractService
         }
         return $response;
     }
+
+    /**
+     * This API allows taxpayer's ERP system to search for a specific Tax Identification Number (TIN) 
+     * using the supported search parameters. The available search parameters are either 
+     * the Taxpayer Name or ID Type and ID Value, or all three parameters combined. 
+     * If all parameters are provided then the search would use an AND operator to make sure the result 
+     * found matches all search parameters provided.
+     *
+     * @param string $taxPayerName      The Taxpayer Name.
+     * @param string $idType            NRIC, Passport number, Business registration number, army number
+     * @param string $idValue           The actual value of the ID Type selected. For example, if NRIC selected as ID Type, then pass the NRIC value here.
+     * 
+     * @return string
+     */
+    public function searchTaxPayerTin($taxPayerName = '', $idType = '', $idValue = '')
+    {
+        $params = [
+            'idType' => $idType,
+            'idValue' => $idValue,
+            'taxpayerName' => $taxPayerName,
+        ];
+        $query = '?' . http_build_query($params);
+
+        $url = $this->getBaseUrl() . '/search/tin' .  $query;
+
+        $response = $this->getClient()->request('GET', $url);
+        return $response;
+    }
 }

@@ -122,7 +122,7 @@ class DocumentService extends AbstractService
      * @param DateTime|string   $submissionDateTo       Optional: The end date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateFrom’ is provided
      * @param DateTime|string   $issueDateFrom          Optional: The start date and time when the document was issued. Mandatory when ‘issueDateTo’ is provided
      * @param DateTime|string   $issueDateTo            Optional: The end date and time when the document was issued. Mandatory when ‘issueDateFrom’ is provided
-     * @param string            $direction              Optional: direction of the document. Possible values: (Sent, Received)
+     * @param string            $invoiceDirection       Optional: direction of the document. Possible values: (Sent, Received)
      * @param string            $status                 Optional: status of the document. Possible values: (Valid, Invalid, Cancelled, Submitted)
      * @param string            $documentType           Optional: Document type code.
      * @param string            $receiverId             Optional: Document recipient identifier. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (Business registration number, National ID(IC), Passport Number, Army ID)
@@ -135,7 +135,7 @@ class DocumentService extends AbstractService
      * @return array
      */
     public function getRecentDocuments($pageNo = 1, $pageSize = 20, $submissionDateFrom = null, 
-        $submissionDateTo = null, $issueDateFrom = null, $issueDateTo = null, $direction = null, 
+        $submissionDateTo = null, $issueDateFrom = null, $issueDateTo = null, $invoiceDirection = null, 
         $status = null, $documentType = null, $receiverId = null, $receiverIdType = null, $receiverTin = null,
         $issuerId = null, $issuerIdType = null, $issuerTin = null)
     {
@@ -151,7 +151,7 @@ class DocumentService extends AbstractService
             'submissionDateTo' => $submissionDateToString,
             'issueDateFrom' => $issueDateFromString,
             'issueDateTo' => $issueDateToString,
-            'direction' => $direction,
+            'invoiceDirection' => $invoiceDirection,
             'status' => $status,
             'documentType' => $documentType,
             'receiverId' => $receiverId,
@@ -175,24 +175,20 @@ class DocumentService extends AbstractService
      * @param string            $id                     Optional: Unique ID of the document to retrieve.
      * @param DateTime|string   $submissionDateFrom     Optional: The start date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateTo’ is provided or issueDate filters are not used
      * @param DateTime|string   $submissionDateTo       Optional: The end date and time when the document was submitted to the e-Invoice API, Time to be supplied in UTC timezone. Mandatory when ‘submissionDateFrom’ is provided or issueDate filters are not used
-     * @param string            $continuationToken      Optional: Token provided to navigate to the next page. Must be omitted or use an empty string when requesting the first page.
+     * @param int               $pageNo                 Optional: number of the page to retrieve. Typically this parameter value is derived from initial parameter less call when caller learns total amount of page of certain size
      * @param int               $pageSize               Optional: number of the documents to retrieve per page. Page size cannot exceed system configured maximum page size for this API. Default is 100
      * @param DateTime|string   $issueDateFrom          Optional: The start date and time when the document was issued. Mandatory when ‘issueDateTo’ is provided or submissionDate filters are not used
      * @param DateTime|string   $issueDateTo            Optional: The end date and time when the document was issued. Mandatory when ‘issueDateFrom’ is provided or submissionDate filters are not used
-     * @param string            $direction              Optional: direction of the document. Possible values: (Sent, Received). When not provided sent and received documents are retrieved.
+     * @param string            $invoiceDirection       Optional: direction of the document. Possible values: (Sent, Received). When not provided sent and received documents are retrieved.
      * @param string            $status                 Optional: status of the document. Possible values: (Valid, Invalid, Cancelled, Submitted)
      * @param string            $documentType           Optional: Unique name of the document type. Possible values: 01 [Invoice], 02 [Credit Note], 03 [Debit Note], 04 [Refund Note], 11 [Self-billed Invoice], 12 [Self-billed Credit Note], 13 [Self-billed Debit Note], 14 [Self-billed Refund Note]
-     * @param string            $receiverId             Optional: Document recipient identifier. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (Business registration number, Passport Number, National ID)
-     * @param string            $receiverIdType         Optional: Document recipient identifier type. Only can be used when ‘Direction’ filter is set to Sent. Possible values: (BRN, PASSPORT, NRIC, ARMY) This is mandatory in case the receiverId is provided
-     * @param string            $receiverTin            Optional: Document recipient TIN. Only can be used when ‘Direction’ filter is set to Sent.
-     * @param string            $issuerTin              Optional: Document issuer identifier. Only can be used when ‘Direction’ filter is set to Received.
+     * @param string            $searchQuery            Optional: Free Text can be given. Possible Search parameters: (uuid, buyerTIN, supplierTIN, buyerName, supplierName, internalID, total) Special characters are not allowed
      * 
      * @return array
      */
     public function searchDocuments($id = null, $submissionDateFrom = null, $submissionDateTo = null, 
-        $continuationToken = null, $pageSize = 100, $issueDateFrom = null, $issueDateTo = null, $direction = null, 
-        $status = null, $documentType = null, $receiverId = null, $receiverIdType = null, $receiverTin = null,
-        $issuerTin = null)
+        $pageNo = 1, $pageSize = 100, $issueDateFrom = null, $issueDateTo = null, $invoiceDirection = null, 
+        $status = null, $documentType = null, $searchQuery = null)
     {
         $submissionDateFromString = ($submissionDateFrom instanceof DateTime) ? $submissionDateFrom->format('Y-m-d\TH:i:s\Z') : $submissionDateFrom;
         $submissionDateToString = ($submissionDateTo instanceof DateTime) ? $submissionDateTo->format('Y-m-d\TH:i:s\Z') : $submissionDateTo;
@@ -204,17 +200,14 @@ class DocumentService extends AbstractService
             'uuid' => $id,
             'submissionDateFrom' => $submissionDateFromString,
             'submissionDateTo' => $submissionDateToString,
-            'continuationToken' => $continuationToken,
+            'pageNo' => $pageNo,
             'pageSize' => $pageSize,
             'issueDateFrom' => $issueDateFromString,
             'issueDateTo' => $issueDateToString,
-            'direction' => $direction,
+            'invoiceDirection' => $invoiceDirection,
             'status' => $status,
             'documentType' => $documentType,
-            'receiverId' => $receiverId,
-            'receiverIdType' => $receiverIdType,
-            'receiverTin' => $receiverTin,
-            'issuerTin' => $issuerTin,
+            'searchQuery' => $searchQuery,
         ];
         $query = '?' . http_build_query($params);
 
