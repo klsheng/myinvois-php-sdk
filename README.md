@@ -18,6 +18,7 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [x] Get Document Type Version
 - [x] Get Notifications
 - [x] Validate Taxpayer's TIN
+- [x] Search Taxpayer's TIN
 - [x] Submit Documents (Invoice)
 - [x] Submit Documents (CreditNote)
 - [x] Submit Documents (DebitNote)
