@@ -317,9 +317,13 @@ abstract class AbstractDocumentBuilder implements IDocumentBuilder
         $lastKey = key(array_slice($keyArray, -1, 1, true));
 
         // Remove last empty space line
-        unset($keyArray[$lastKey]);
+        while(empty($keyArray[$lastKey])) {
+            unset($keyArray[$lastKey]);
+            $lastKey = key(array_slice($keyArray, -1, 1, true));
+        }
+        
         // Remove -----END RSA PRIVATE KEY-----
-        unset($keyArray[$lastKey - 1]);
+        unset($keyArray[$lastKey]);
 
         return implode('', $keyArray);
     }
