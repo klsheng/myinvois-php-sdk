@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright Copyright (c) 2024 Sean Kau (kliensheng2020@gmail.com)
+ * @copyright Copyright (c) 2025 Sean Kau (kliensheng2020@gmail.com)
  * @license https://github.com/klsheng/myinvois-php-sdk/blob/main/LICENSE
  */
 
@@ -15,7 +15,7 @@ use Klsheng\Myinvois\Service\AbstractService;
  * Tax payers service
  * 
  * @author Sean Kau (kliensheng2020@gmail.com)
- * @since 1.0.0
+ * @since 1.0.8
  */
 class TaxPayersService extends AbstractService
 {
@@ -41,7 +41,7 @@ class TaxPayersService extends AbstractService
      *
      * @param string $qrCodeText       Decoded Base64 string.
      * 
-     * @return bool
+     * @return array
      */
     public function getTaxPayerFromQrcode($qrCodeText)
     {
