@@ -19,6 +19,7 @@ use Klsheng\Myinvois\Service\Document\DocumentTypeService;
 use Klsheng\Myinvois\Service\Document\DocumentSubmissionService;
 use Klsheng\Myinvois\Service\Notification\NotificationService;
 use Klsheng\Myinvois\Service\Taxpayer\TaxPayerService;
+use Klsheng\Myinvois\Service\Taxpayer\TaxPayersService;
 
 /**
  * Access point to use MyInvoice services
@@ -107,6 +108,13 @@ class MyInvoisClient
      * @var \Klsheng\Myinvois\Taxpayer\TaxPayerService
      */
     private $taxPayerService;
+
+    /**
+     * TaxPayersService object
+     *
+     * @var \Klsheng\Myinvois\Taxpayer\TaxPayersService
+     */
+    private $taxPayersService;
 
     /**
      * MyInvois Portal Base URL
@@ -279,9 +287,10 @@ class MyInvoisClient
             case 'getNotifications':
                 return call_user_func_array([$this->getNotificationService(), $name], $args);
             case 'validateTaxPayerTin':
-                return call_user_func_array([$this->getTaxPayerService(), $name], $args);
             case 'searchTaxPayerTin':
                 return call_user_func_array([$this->getTaxPayerService(), $name], $args);
+            case 'getTaxPayerFromQrcode':
+                return call_user_func_array([$this->getTaxPayersService(), $name], $args);
             default:
                 throw new BadMethodCallException($name . ' does not exist!');
         }
@@ -369,6 +378,20 @@ class MyInvoisClient
         $this->taxPayerService = new TaxPayerService($this, $this->prodMode);
 
         return $this->taxPayerService;
+    }
+
+    /**
+     * @return \Klsheng\Myinvois\Taxpayer\TaxPayersService
+     */
+    private function getTaxPayersService()
+    {
+        if ($this->taxPayersService) {
+            return $this->taxPayersService;
+        }
+
+        $this->taxPayersService = new TaxPayersService($this, $this->prodMode);
+
+        return $this->taxPayersService;
     }
 
     /**

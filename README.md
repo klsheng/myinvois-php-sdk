@@ -19,6 +19,7 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [x] Get Notifications
 - [x] Validate Taxpayer's TIN
 - [x] Search Taxpayer's TIN
+- [x] Get Taxpayer From QR Code
 - [x] Submit Documents (Invoice)
 - [x] Submit Documents (CreditNote)
 - [x] Submit Documents (DebitNote)
@@ -159,6 +160,13 @@ $idType = 'NRIC';
 $idValue = '770625015324';
 
 $response = $client->searchTaxPayerTin($taxPayerName, $idType, $idValue);
+```
+
+#### Get Taxpayer From QR Code
+```php
+$qrCodeText = '4e1bc907-25b7-45b1-9620-2d671a6f9cae';
+
+$response = $client->getTaxPayerFromQrcode($qrCodeText);
 ```
 
 #### Submit JSON document
