@@ -209,7 +209,7 @@ class CreateDocumentExample
         $legalEntity->setRegistrationName('AMS Setia Jaya Sdn. Bhd.');
 
         $contact = new Contact();
-        $contact->setTelephone('+60-123456789');
+        $contact->setTelephone('+60123456789');
         $contact->setElectronicMail('general.ams@supplier.com');
 
         $supplier = new Party();
@@ -262,7 +262,7 @@ class CreateDocumentExample
         $legalEntity->setRegistrationName('Hebat Group');
 
         $contact = new Contact();
-        $contact->setTelephone('+60-123456789');
+        $contact->setTelephone('+60123456789');
         $contact->setElectronicMail('name@buyer.com');
 
         $customer = new Party();
@@ -285,6 +285,10 @@ class CreateDocumentExample
 
     private function setDelivery($document, $partyDetail)
     {
+        if(empty($partyDetail)) {
+            return $document;
+        }
+
         $address = new Address();
         $address->setCityName('Kuala Lumpur');
         $address->setPostalZone('50480');
