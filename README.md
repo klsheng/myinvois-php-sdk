@@ -36,7 +36,6 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [x] Get Document Details
 - [x] Search Documents
 - [x] Digital Signature
-- [ ] Mandatory Field Verification
 - [x] Get Document's QR Code URL
 
 ## Installation and usage
