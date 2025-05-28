@@ -41,8 +41,8 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
         // $content = json_encode(json_decode($content), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $content = str_replace(array("\r", "\n"), '', $content);
         if (!mb_check_encoding($content, 'UTF-8')) {
-						$content = mb_convert_encoding($content, 'UTF-8', 'auto');
-				}
+            $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        }
 
         // XML and JSON has different value for this
         if($this->isSigned) {
@@ -68,8 +68,8 @@ class JsonDocumentBuilder extends AbstractDocumentBuilder
             JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         if (!mb_check_encoding($content, 'UTF-8')) {
-						$content = mb_convert_encoding($content, 'UTF-8', 'auto');
-				}
+            $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        }
 
         return MyInvoisHelper::getHash($content, true);
     }

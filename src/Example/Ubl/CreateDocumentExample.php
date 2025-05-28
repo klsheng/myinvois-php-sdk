@@ -380,7 +380,7 @@ class CreateDocumentExample
         $country->setIdentificationCode('MYS');
 
         $item = new Item();
-        $item->setDescription('Laptop Peripherals');
+        $item->setDescription('螺丝');
         //$item->setCountry($country); // Removed by MyInvois
 
         $commodityClassification = new CommodityClassification();

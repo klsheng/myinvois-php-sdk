@@ -51,7 +51,9 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
 
         $content = $xml->C14N();
 
-        $content = utf8_encode($content);
+        if (!mb_check_encoding($content, 'UTF-8')) {
+            $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        }
         $content = str_replace(array("\n", "\t", "\r"), '', $content);
         $content = $this->replaceCommonAttributes($content);
         
@@ -84,7 +86,9 @@ class XmlDocumentBuilder extends AbstractDocumentBuilder
         
         $content = $xml->C14N();
 
-        $content = utf8_encode($content);
+        if (!mb_check_encoding($content, 'UTF-8')) {
+            $content = mb_convert_encoding($content, 'UTF-8', 'auto');
+        }
         $content = str_replace(array("\n", "\t", "\r"), '', $content);
         $content = str_replace("<?xml version=\"1.0\"?>", '', $content);
         $content = str_replace("<xades:root xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\" xmlns:xades=\"http://uri.etsi.org/01903/v1.3.2#\">", '', $content);
