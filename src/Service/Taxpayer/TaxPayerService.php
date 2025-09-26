@@ -73,15 +73,17 @@ class TaxPayerService extends AbstractService
      * @param string $taxPayerName      The Taxpayer Name.
      * @param string $idType            NRIC, Passport number, Business registration number, army number
      * @param string $idValue           The actual value of the ID Type selected. For example, if NRIC selected as ID Type, then pass the NRIC value here.
+     * @param string $fileType          Optional: Value to differentiate between individual and non-individual taxpayers. (1 for IG TIN (individual). 2 for non-IG TIN (non-individual).)
      * 
      * @return string
      */
-    public function searchTaxPayerTin($taxPayerName = '', $idType = '', $idValue = '')
+    public function searchTaxPayerTin($taxPayerName = '', $idType = '', $idValue = '', $fileType = '')
     {
         $params = [
             'idType' => $idType,
             'idValue' => $idValue,
             'taxpayerName' => $taxPayerName,
+            'fileType' => $fileType,
         ];
         $query = '?' . http_build_query($params);
 

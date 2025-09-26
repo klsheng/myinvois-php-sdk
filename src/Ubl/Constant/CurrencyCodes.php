@@ -156,8 +156,12 @@ class CurrencyCodes
                 CurrencyCodes::CURRENCY => 'Chilean Peso'
             ],
             [
+                CurrencyCodes::CODE => 'CNH',
+                CurrencyCodes::CURRENCY => 'Yuan Renminbi (International)'
+            ],
+            [
                 CurrencyCodes::CODE => 'CNY',
-                CurrencyCodes::CURRENCY => 'Yuan Renminbi'
+                CurrencyCodes::CURRENCY => 'Yuan Renminbi (Domestic)'
             ],
             [
                 CurrencyCodes::CODE => 'COP',
@@ -716,10 +720,6 @@ class CurrencyCodes
                 CurrencyCodes::CURRENCY => 'Sucre'
             ],
             [
-                CurrencyCodes::CODE => 'XTS',
-                CurrencyCodes::CURRENCY => 'Codes specifically reserved for testing purposes'
-            ],
-            [
                 CurrencyCodes::CODE => 'XUA',
                 CurrencyCodes::CURRENCY => 'ADB Unit of Account'
             ],
@@ -742,7 +742,7 @@ class CurrencyCodes
             [
                 CurrencyCodes::CODE => 'ZWL',
                 CurrencyCodes::CURRENCY => 'Zimbabwe Dollar'
-            ]
+            ],
         ];
     }
 }

@@ -22,10 +22,6 @@ class StateCodes
     {
         return [
             [
-                StateCodes::CODE => '00',
-                StateCodes::STATE => 'All States'
-            ],
-            [
                 StateCodes::CODE => '01',
                 StateCodes::STATE => 'Johor'
             ],

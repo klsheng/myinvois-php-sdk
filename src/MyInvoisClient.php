@@ -428,9 +428,9 @@ class MyInvoisClient
      * @throws PHP Exception
      *
      */
-    protected function handleError(Exception $e)
+    protected function handleError(BadResponseException $e)
     {
-        $body = $e->getResponse()->getBody();
+        $body = $e->getResponse()->getReasonPhrase();
         $errorCode = $e->getResponse()->getStatusCode();
 
         throw new Exception($body, $errorCode);

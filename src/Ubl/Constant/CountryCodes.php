@@ -53,7 +53,7 @@ class CountryCodes
             ],
             [
                 CountryCodes::CODE => "ANT",
-                CountryCodes::COUNTRY => "NETHERLANDS ANTILLES"
+                CountryCodes::COUNTRY => "NETHERLANDS ANTILLE"
             ],
             [
                 CountryCodes::CODE => "ARE",
@@ -233,11 +233,15 @@ class CountryCodes
             ],
             [
                 CountryCodes::CODE => "CPV",
-                CountryCodes::COUNTRY => "CAPE VERDE"
+                CountryCodes::COUNTRY => "CABO VERDE"
             ],
             [
                 CountryCodes::CODE => "CRI",
                 CountryCodes::COUNTRY => "COSTA RICA"
+            ],
+            [
+                CountryCodes::CODE => "CRM",
+                CountryCodes::COUNTRY => "CRIMEA"
             ],
             [
                 CountryCodes::CODE => "CUB",
@@ -796,6 +800,10 @@ class CountryCodes
                 CountryCodes::COUNTRY => "SAUDI ARABIA"
             ],
             [
+                CountryCodes::CODE => "SCT",
+                CountryCodes::COUNTRY => "SCOTLAND"
+            ],
+            [
                 CountryCodes::CODE => "SDN",
                 CountryCodes::COUNTRY => "SUDAN"
             ],
@@ -877,7 +885,7 @@ class CountryCodes
             ],
             [
                 CountryCodes::CODE => "SXM",
-                CountryCodes::COUNTRY => "SINT MAARTEN (DUTCH PART)"
+                CountryCodes::COUNTRY => "SINT MAARTEN"
             ],
             [
                 CountryCodes::CODE => "SYC",
@@ -1026,7 +1034,7 @@ class CountryCodes
             [
                 CountryCodes::CODE => "ZWE",
                 CountryCodes::COUNTRY => "ZIMBABWE"
-            ]
+            ],
         ];
     }
 }

@@ -157,8 +157,9 @@ $taxPayerName = 'AXXX_XXXX SMART';
 // $taxPayerName = '';
 $idType = 'NRIC';
 $idValue = '770625015324';
+$fileType = null; // null or '1' or '2'
 
-$response = $client->searchTaxPayerTin($taxPayerName, $idType, $idValue);
+$response = $client->searchTaxPayerTin($taxPayerName, $idType, $idValue, $fileType);
 ```
 
 #### Get Taxpayer From QR Code
