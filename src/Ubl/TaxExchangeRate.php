@@ -146,7 +146,7 @@ class TaxExchangeRate implements ISerializable, IValidator
 
         if ($this->sourceCurrencyBaseRate !== null) {
             $writer->write([
-                XmlSchema::CBC . 'SourceCurrencyBaseRate' => number_format($this->sourceCurrencyBaseRate, 2, '.', ''),
+                XmlSchema::CBC . 'SourceCurrencyBaseRate' => NumberFormatter::format($this->sourceCurrencyBaseRate),
             ]);
         }
 
@@ -158,13 +158,13 @@ class TaxExchangeRate implements ISerializable, IValidator
 
         if ($this->targetCurrencyBaseRate !== null) {
             $writer->write([
-                XmlSchema::CBC . 'TargetCurrencyBaseRate' => number_format($this->targetCurrencyBaseRate, 2, '.', ''),
+                XmlSchema::CBC . 'TargetCurrencyBaseRate' => NumberFormatter::format($this->targetCurrencyBaseRate),
             ]);
         }
 
         if ($this->calculationRate !== null) {
             $writer->write([
-                XmlSchema::CBC . 'CalculationRate' => number_format($this->calculationRate, 2, '.', ''),
+                XmlSchema::CBC . 'CalculationRate' => NumberFormatter::format($this->calculationRate),
             ]);
         }
     }
@@ -186,7 +186,7 @@ class TaxExchangeRate implements ISerializable, IValidator
 
         if ($this->sourceCurrencyBaseRate !== null) {
             $arrays['SourceCurrencyBaseRate'][] = [
-                '_' => (float)number_format($this->sourceCurrencyBaseRate, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->sourceCurrencyBaseRate),
             ];
         }
 
@@ -198,13 +198,13 @@ class TaxExchangeRate implements ISerializable, IValidator
 
         if ($this->targetCurrencyBaseRate !== null) {
             $arrays['TargetCurrencyBaseRate'][] = [
-                '_' => (float)number_format($this->targetCurrencyBaseRate, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->targetCurrencyBaseRate),
             ];
         }
 
         if ($this->calculationRate !== null) {
             $arrays['CalculationRate'][] = [
-                '_' => (float)number_format($this->calculationRate, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->calculationRate),
             ];
         }
 

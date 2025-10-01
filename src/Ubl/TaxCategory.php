@@ -189,7 +189,7 @@ class TaxCategory implements ISerializable, IValidator
 
         if ($this->percent !== null) {
             $writer->write([
-                XmlSchema::CBC . 'Percent' => number_format($this->percent, 2, '.', ''),
+                XmlSchema::CBC . 'Percent' => NumberFormatter::format($this->percent),
             ]);
         }
 
@@ -238,7 +238,7 @@ class TaxCategory implements ISerializable, IValidator
         
         if ($this->percent !== null) {
             $arrays['Percent'][] = [
-                '_' => (float)number_format($this->percent, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->percent),
             ];
         }
 

@@ -186,19 +186,19 @@ class TaxSubTotal implements ISerializable, IValidator
         $writer->write([
             [
                 'name' => XmlSchema::CBC . 'TaxableAmount',
-                'value' => number_format($this->taxableAmount, 2, '.', ''),
+                'value' => NumberFormatter::format($this->taxableAmount),
                 'attributes' => $this->taxableAmountAttributes,
             ],
             [
                 'name' => XmlSchema::CBC . 'TaxAmount',
-                'value' => number_format($this->taxAmount, 2, '.', ''),
+                'value' => NumberFormatter::format($this->taxAmount),
                 'attributes' => $this->taxAmountAttributes,
             ]
         ]);
 
         if ($this->percent !== null) {
             $writer->write([
-                XmlSchema::CBC . 'Percent' => number_format($this->percent, 2, '.', ''),
+                XmlSchema::CBC . 'Percent' => NumberFormatter::format($this->percent),
             ]);
         }
 
@@ -208,7 +208,7 @@ class TaxSubTotal implements ISerializable, IValidator
 
         if ($this->perUnitAmount !== null) {
             $writer->write([
-                XmlSchema::CBC . 'PerUnitAmount' => number_format($this->perUnitAmount, 2, '.', ''),
+                XmlSchema::CBC . 'PerUnitAmount' => NumberFormatter::format($this->perUnitAmount),
             ]);
         }
 
@@ -231,14 +231,14 @@ class TaxSubTotal implements ISerializable, IValidator
         $arrays = [];
 
         $items = [
-            '_' => (float)number_format($this->taxableAmount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->taxableAmount),
         ];
 
         $items = array_merge($items, $this->taxableAmountAttributes);
         $arrays['TaxableAmount'][] = $items;
 
         $items = [
-            '_' => (float)number_format($this->taxAmount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->taxAmount),
         ];
 
         $items = array_merge($items, $this->taxAmountAttributes);
@@ -247,7 +247,7 @@ class TaxSubTotal implements ISerializable, IValidator
 
         if ($this->percent !== null) {
             $arrays['Percent'][] = [
-                '_' => (float)number_format($this->percent, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->percent),
             ];
         }
 
@@ -255,7 +255,7 @@ class TaxSubTotal implements ISerializable, IValidator
 
         if ($this->perUnitAmount !== null) {
             $arrays['PerUnitAmount'][] = [
-                '_' => (float)number_format($this->perUnitAmount, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->perUnitAmount),
             ];
         }
 

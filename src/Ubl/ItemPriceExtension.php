@@ -84,7 +84,7 @@ class ItemPriceExtension implements ISerializable, IValidator
         $writer->write([
             [
                 'name' => XmlSchema::CBC . 'Amount',
-                'value' => number_format($this->amount, 2, '.', ''),
+                'value' => NumberFormatter::format($this->amount),
                 'attributes' => $this->amountAttributes,
             ]
         ]);
@@ -102,7 +102,7 @@ class ItemPriceExtension implements ISerializable, IValidator
         $arrays = [];
 
         $items = [
-            '_' => (float)number_format($this->amount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->amount),
         ];
 
         $items = array_merge($items, $this->amountAttributes);
