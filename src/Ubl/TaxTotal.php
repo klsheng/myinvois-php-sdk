@@ -99,7 +99,7 @@ class TaxTotal implements ISerializable, IValidator
         $writer->write([
             [
                 'name' => XmlSchema::CBC . 'TaxAmount',
-                'value' => number_format($this->taxAmount, 2, '.', ''),
+                'value' => NumberFormatter::format($this->taxAmount),
                 'attributes' => $this->taxAmountAttributes,
             ],
         ]);
@@ -121,7 +121,7 @@ class TaxTotal implements ISerializable, IValidator
         $arrays = [];
 
         $items = [
-            '_' => (float)number_format($this->taxAmount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->taxAmount),
         ];
 
         $items = array_merge($items, $this->taxAmountAttributes);

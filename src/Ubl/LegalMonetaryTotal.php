@@ -349,7 +349,7 @@ class LegalMonetaryTotal implements ISerializable, IValidator
         $writer->write([
             [
                 'name' => XmlSchema::CBC . $key,
-                'value' => number_format($amount, 2, '.', ''),
+                'value' => NumberFormatter::format($amount),
                 'attributes' => $attributes,
             ],
         ]);
@@ -358,7 +358,7 @@ class LegalMonetaryTotal implements ISerializable, IValidator
     private function getAmountArray($arrays, $key, $amount, $attributes)
     {
         $items = [
-            '_' => (float)number_format($amount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($amount),
         ];
 
         $items = array_merge($items, $attributes);

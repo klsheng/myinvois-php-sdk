@@ -124,7 +124,7 @@ class Price implements ISerializable, IValidator
         $writer->write([
             [
                 'name' => XmlSchema::CBC . 'PriceAmount',
-                'value' => number_format($this->priceAmount, 2, '.', ''),
+                'value' => NumberFormatter::format($this->priceAmount),
                 'attributes' => $this->priceAmountAttributes,
             ]
         ]);
@@ -158,7 +158,7 @@ class Price implements ISerializable, IValidator
         $arrays = [];
 
         $items = [
-            '_' => (float)number_format($this->priceAmount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->priceAmount),
         ];
 
         $items = array_merge($items, $this->priceAmountAttributes);

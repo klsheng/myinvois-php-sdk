@@ -117,7 +117,7 @@ class PrepaidPayment implements ISerializable, IValidator
             $writer->write([
                 [
                     'name' => XmlSchema::CBC . 'PaidAmount',
-                    'value' => number_format($this->paidAmount, 2, '.', ''),
+                    'value' => NumberFormatter::format($this->paidAmount),
                     'attributes' => $this->paidAmountAttributes,
                 ],
             ]);
@@ -153,7 +153,7 @@ class PrepaidPayment implements ISerializable, IValidator
 
         if ($this->paidAmount !== null) {
             $items = [
-                '_' => (float)number_format($this->paidAmount, 2, '.', ''),
+                '_' => NumberFormatter::formatAsFloat($this->paidAmount),
             ];
     
             $items = array_merge($items, $this->paidAmountAttributes);

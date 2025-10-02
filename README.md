@@ -37,6 +37,7 @@ This SDK initially require [UBL-Invoice](https://github.com/num-num/ubl-invoice)
 - [x] Search Documents
 - [x] Digital Signature
 - [x] Get Document's QR Code URL
+- [x] Number Formatter
 
 ## Installation and usage
 
@@ -340,5 +341,24 @@ $client = new MyInvoisClient('client_id', 'client_secret', $prodMode);
 $id = '0000000000000'; // Document's UUID
 $longId = '11111111111111'; // Document's Long Id
 $url = $client->generateDocumentQrCodeUrl($id, $longId);
+
+```
+
+#### Number Formatter
+In order to support different number format, a configuration is added. Please call NumberFormatConfiguration as early as possible or before build() operation.
+```php
+use Klsheng\Myinvois\Ubl\Configuration\NumberFormatConfiguration;
+
+$amount = 1436.5153;
+
+// Default number format
+// 1436.52
+
+NumberFormatConfiguration::setPrecision(3);
+// 1436.515
+
+NumberFormatConfiguration::setPrecision(3);
+NumberFormatConfiguration::setThousandsSeparator(',');
+// 1,436.515
 
 ```

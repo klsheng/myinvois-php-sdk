@@ -353,12 +353,12 @@ class InvoiceLine implements ISerializable, IValidator
         $writer->write([
             [
                 'name' => XmlSchema::CBC . $this->quantityLabel,
-                'value' => number_format($this->invoicedQuantity, 2, '.', ''),
+                'value' => NumberFormatter::format($this->invoicedQuantity),
                 'attributes' => $this->invoicedQuantityAttributes,
             ],
             [
                 'name' => XmlSchema::CBC . 'LineExtensionAmount',
-                'value' => number_format($this->lineExtensionAmount, 2, '.', ''),
+                'value' => NumberFormatter::format($this->lineExtensionAmount),
                 'attributes' => $this->lineExtensionAmountAttributes,
             ]
         ]);
@@ -436,14 +436,14 @@ class InvoiceLine implements ISerializable, IValidator
         }
 
         $items = [
-            '_' => (float)number_format($this->invoicedQuantity, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->invoicedQuantity),
         ];
 
         $items = array_merge($items, $this->invoicedQuantityAttributes);
         $arrays[$this->quantityLabel][] = $items;
 
         $items = [
-            '_' => (float)number_format($this->lineExtensionAmount, 2, '.', ''),
+            '_' => NumberFormatter::formatAsFloat($this->lineExtensionAmount),
         ];
 
         $items = array_merge($items, $this->lineExtensionAmountAttributes);
