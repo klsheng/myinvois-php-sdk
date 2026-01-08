@@ -619,7 +619,7 @@ class MSICCodes
             ],
             [
                 MSICCodes::CODE => "03113",
-                MSICCodes::DESCRIPTION => "Taking of aquatic animals => sea squirts, tunicates, sea urchins",
+                MSICCodes::DESCRIPTION => "Taking of aquatic animals: sea squirts, tunicates, sea urchins",
                 MSICCodes::CATEGORY_REF => "A"
             ],
             [
@@ -1423,13 +1423,18 @@ class MSICCodes
                 MSICCodes::CATEGORY_REF => "C"
             ],
             [
+                MSICCodes::CODE => "16100",
+                MSICCodes::DESCRIPTION => "Sawmilling and planning of wood",
+                MSICCodes::CATEGORY_REF => "C"
+            ],
+            [
                 MSICCodes::CODE => "16211",
                 MSICCodes::DESCRIPTION => "Manufacture of veneer sheets and plywood",
                 MSICCodes::CATEGORY_REF => "C"
             ],
             [
-                MSICCodes::CODE => "16221",
-                MSICCodes::DESCRIPTION => "Manufacture of builders' carpentry",
+                MSICCodes::CODE => "16212",
+                MSICCodes::DESCRIPTION => "Manufacture of particle board and fibreboard",
                 MSICCodes::CATEGORY_REF => "C"
             ],
             [
@@ -1554,7 +1559,7 @@ class MSICCodes
             ],
             [
                 MSICCodes::CODE => "20132",
-                MSICCodes::DESCRIPTION => "Manufacture of synthetic rubber in primary forms => synthetic rubber, factice",
+                MSICCodes::DESCRIPTION => "Manufacture of synthetic rubber in primary forms: synthetic rubber, factice",
                 MSICCodes::CATEGORY_REF => "C"
             ],
             [
@@ -1720,11 +1725,6 @@ class MSICCodes
             [
                 MSICCodes::CODE => "23109",
                 MSICCodes::DESCRIPTION => "Manufacture of other glass products n.e.c.",
-                MSICCodes::CATEGORY_REF => "C"
-            ],
-            [
-                MSICCodes::CODE => "",
-                MSICCodes::DESCRIPTION => "Manufacture of non-metallic mineral products n.e.c.",
                 MSICCodes::CATEGORY_REF => "C"
             ],
             [
@@ -2049,11 +2049,8 @@ class MSICCodes
             ],
             [
                 MSICCodes::CODE => "27900",
-                MSICCodes::DESCRIPTION => "\"Manufacture of miscellaneous electrical equipment other than motors, generators and transformers, batteries and accumulators, wires and wiring devices, lighting equipment or"
-            ],
-            [
-                MSICCodes::CODE => "domestic appliances\"",
-                MSICCodes::DESCRIPTION => "C"
+                MSICCodes::DESCRIPTION => "Manufacture of miscellaneous electrical equipment other than motors, generators and transformers, batteries and accumulators, wires and wiring devices, lighting equipment or domestic appliances",
+                MSICCodes::CATEGORY_REF => "C"
             ],
             [
                 MSICCodes::CODE => "28110",
@@ -3372,11 +3369,8 @@ class MSICCodes
             ],
             [
                 MSICCodes::CODE => "47217",
-                MSICCodes::DESCRIPTION => "\"Retail sale of mee, kuey teow, mee hoon, wantan skins and other food products made from flour"
-            ],
-            [
-                MSICCodes::CODE => "or soya\"",
-                MSICCodes::DESCRIPTION => "G"
+                MSICCodes::DESCRIPTION => "Retail sale of mee, kuey teow, mee hoon, wantan skins and other food products made from flour or soya",
+                MSICCodes::CATEGORY_REF => "G"
             ],
             [
                 MSICCodes::CODE => "47219",
@@ -3404,6 +3398,11 @@ class MSICCodes
                 MSICCodes::CATEGORY_REF => "G"
             ],
             [
+                MSICCodes::CODE => "47411",
+                MSICCodes::DESCRIPTION => "Retail sale of computers, computer equipment and supplies",
+                MSICCodes::CATEGORY_REF => "G"
+            ],
+            [
                 MSICCodes::CODE => "47412",
                 MSICCodes::DESCRIPTION => "Retail sale of video game consoles and non-customized software",
                 MSICCodes::CATEGORY_REF => "G"
@@ -3421,6 +3420,11 @@ class MSICCodes
             [
                 MSICCodes::CODE => "47510",
                 MSICCodes::DESCRIPTION => "Retail sale of textiles in specialized stores",
+                MSICCodes::CATEGORY_REF => "G"
+            ],
+            [
+                MSICCodes::CODE => "47520",
+                MSICCodes::DESCRIPTION => "Retail sale of construction materials, hardware, paints and glass",
                 MSICCodes::CATEGORY_REF => "G"
             ],
             [
@@ -3481,6 +3485,11 @@ class MSICCodes
             [
                 MSICCodes::CODE => "47611",
                 MSICCodes::DESCRIPTION => "Retail sale of office supplies and equipment",
+                MSICCodes::CATEGORY_REF => "G"
+            ],
+            [
+                MSICCodes::CODE => "47620",
+                MSICCodes::DESCRIPTION => "Retail sale of musical records, audio tapes, compact discs , cassettes, video tapes, VCDs and DVDs, blank tapes and discs",
                 MSICCodes::CATEGORY_REF => "G"
             ],
             [
@@ -3625,6 +3634,11 @@ class MSICCodes
             ],
             [
                 MSICCodes::CODE => "47891",
+                MSICCodes::DESCRIPTION => "Retail sale of books via stalls or markets",
+                MSICCodes::CATEGORY_REF => "G"
+            ],
+            [
+                MSICCodes::CODE => "47892",
                 MSICCodes::DESCRIPTION => "Retail sale of carpets and rugs via stalls or markets",
                 MSICCodes::CATEGORY_REF => "G"
             ],
@@ -3661,6 +3675,11 @@ class MSICCodes
             [
                 MSICCodes::CODE => "47914",
                 MSICCodes::DESCRIPTION => "Internet retail auctions",
+                MSICCodes::CATEGORY_REF => "G"
+            ],
+            [
+                MSICCodes::CODE => "47991",
+                MSICCodes::DESCRIPTION => "Retail sale of any kind of product by direct sales or door-to-door sales persons",
                 MSICCodes::CATEGORY_REF => "G"
             ],
             [
@@ -3961,6 +3980,16 @@ class MSICCodes
             [
                 MSICCodes::CODE => "55900",
                 MSICCodes::DESCRIPTION => "Other accommodation",
+                MSICCodes::CATEGORY_REF => "I"
+            ],
+            [
+                MSICCodes::CODE => "56101",
+                MSICCodes::DESCRIPTION => "Restaurants and restaurant cum night clubs",
+                MSICCodes::CATEGORY_REF => "I"
+            ],
+            [
+                MSICCodes::CODE => "56102",
+                MSICCodes::DESCRIPTION => "Cafeterias/canteens ",
                 MSICCodes::CATEGORY_REF => "I"
             ],
             [
@@ -5862,7 +5891,7 @@ class MSICCodes
                 MSICCodes::CODE => "99000",
                 MSICCodes::DESCRIPTION => "Activities of extraterritorial organization and bodies",
                 MSICCodes::CATEGORY_REF => "U"
-            ]
+            ],
         ];
     }
 
